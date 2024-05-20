@@ -7,16 +7,16 @@ import json
 
 from connect import connect_mqtt
 
-#this file is for MESCLOUD
+#this file is for GTW - this client is different from publish_subscriber_MES.py file
 client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
 broker_url = "a3sdserc3gohpq-ats.iot.eu-central-1.amazonaws.com"
-ca_cert = "AmazonRootCA1.pem"
-certfile = "323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
-keyfile = "323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
-topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
-topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
+ca_cert = "GTW_keys/AmazonRootCA1.pem"
+certfile = "GTW_keys/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-certificate.pem.crt"
+keyfile = "GTW_keys/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-private.pem.key"
+topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
+topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
 
-file = open('messages_MESCLOUD.json')
+file = open('messages_GTW.json')
 dataFile = json.load(file)
 allMessages = []
 
@@ -38,7 +38,7 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(topicReceive)
 
 def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.payload))
+    print("Message received: " + msg.topic + " " + str(msg.payload))
 
 def subscribe(client):
     client.on_connect = on_connect
@@ -55,15 +55,9 @@ def console_input(client):
             for i in allMessages:
                 if i["jsonType"] == messageInput:
                     message = i
-                    print("Message send:" + json.dumps(message))
+                    print("Message sent:" + json.dumps(message))
+                    client.publish(topicSend, json.dumps(message))
                     break
-                else:
-                    if i["jsonType"] == "Não existe esta mensagem":
-                        message = {
-                            "jsonType": "Não existe esta mensagem"
-                        }
-                        break
-            client.publish(topicSend, json.dumps(message))
 
 client = connect_mqtt(client_id, broker_url, ca_cert, certfile, keyfile)
 
