@@ -1,10 +1,9 @@
 import paho.mqtt.client as mqtt
-import ssl
 
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
 
-def connect_mqtt(client_id, broker_url, ca_cert, certfile, keyfile):
+def connect_mqtt(broker_url, ca_cert, certfile, keyfile):
     client = mqtt.Client() #if you put the cliend_id inside the mqtt.Client(client_id=client_id) only the MQTT client test from AWS will catch the message
     client.tls_set(ca_certs=ca_cert,
                    certfile=certfile,

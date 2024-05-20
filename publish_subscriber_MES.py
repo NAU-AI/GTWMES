@@ -1,4 +1,3 @@
-import datetime
 import json
 import sys
 import paho.mqtt.client as mqtt
@@ -8,7 +7,7 @@ import json
 from connect import connect_mqtt
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
-client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
+#client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
 broker_url = "a3sdserc3gohpq-ats.iot.eu-central-1.amazonaws.com"
 ca_cert = "MES_keys/AmazonRootCA1.pem"
 certfile = "MES_keys/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
@@ -59,7 +58,7 @@ def console_input(client):
                     client.publish(topicSend, json.dumps(message))
                     break
 
-client = connect_mqtt(client_id, broker_url, ca_cert, certfile, keyfile)
+client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
 
 subscribe_thread = threading.Thread(target=subscribe, args=(client,))
 subscribe_thread.start()
