@@ -1,0 +1,128 @@
+{
+    "messages": [
+        {
+            "jsonType": "ConfigurationResponse",
+            "equipmentCode":"OBO001",
+            "productionOrderCode": "PO012/23",
+            "equipmentStatus":1,
+            "activeTime":100,
+            "alarm":[
+                   "16#0000 0000 0000 0000", 
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000"
+                   ],
+            "counters":[
+               {
+                  "outputCode":"OBO1",
+                  "value":30
+               },
+               {
+                  "outputCode":"OBO2",
+                  "value":0
+               },
+               {
+                  "outputCode":3,
+                  "value":40
+               },
+               {
+                  "outputCode":"OBO4",
+                  "value":10
+               }
+            ]
+         },
+         {
+            "jsonType": "ProductionOrderResponse",
+            "equipmentCode":"OBO001",
+            "productionOrderCode": "PO012/23",
+            "equipmentStatus":1,
+            "activeTime":100,
+            "alarm":[
+                   "16#0000 0000 0000 0000", 
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000"
+                   ],
+            "counters":[
+               {
+                  "outputCode":"OBO1",
+                  "value":30
+               },
+               {
+                  "outputCode":"OBO2",
+                  "value":0
+               },
+               {
+                  "outputCode":3,
+                  "value":40
+               },
+               {
+                  "outputCode":"OBO4",
+                  "value":10
+               }
+            ]
+         },
+         {
+            "jsonType": "ProductionOrderConclusionResponse",
+            "equipmentCode":"OBO001",
+            "productionOrderCode": "PO012/23",
+            "equipmentStatus":1,
+            "activeTime":100,
+            "alarm":[
+                   "16#0000 0000 0000 0000", 
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000"
+                   ],
+            "counters":[
+               {
+                  "outputCode":"OBO1",
+                  "value":30
+               },
+               {
+                  "outputCode":"OBO2",
+                  "value":0
+               },
+               {
+                  "outputCode":3,
+                  "value":40
+               },
+               {
+                  "outputCode":"OBO4",
+                  "value":10
+               }
+            ]
+         },
+         {
+            "jsonType": "ProductionCount",
+            "equipmentCode":"OBO001",
+            "productionOrderCode": "PO012/23",
+            "equipmentStatus":1,
+            "activeTime":100,
+            "alarm":[
+                   "16#0000 0000 0000 0000", 
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000",
+                   "16#0000 0000 0000 0000"
+                   ],
+            "counters":[
+               {
+                  "outputCode":"OBO1",
+                  "value":30
+               },
+               {
+                  "outputCode":"OBO2",
+                  "value":0
+               },
+               {
+                  "outputCode":3,
+                  "value":40
+               },
+               {
+                  "outputCode":"OBO4",
+                  "value":10
+               }
+            ]
+         }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "messages": [
+        {
+            "jsonType": "Configuration",
+            "equipmentCode": "OBO001",
+            "pTimerCommunicationCycle": 60,
+            "totalOutput": 4,
+            "outputCodes": [
+                "OBO1",
+                "OBO2",
+                "OBO3",
+                "OBO4"
+            ]
+        },
+        {
+            "jsonType": "ProductionOrder",
+            "equipmentCode": "OBO001",
+            "productionOrderCode": "PO2301",
+            "targetAmount": 3000,
+            "isEquipmentEnabled": true
+        },
+        {
+            "jsonType": "ProductionOrderConclusion",
+            "equipmentCode": "OBO001",
+            "productionOrderCode": "PO2301",
+            "targetAmount": 0,
+            "isEquipmentEnabled": false
+        },
+        {
+            "jsonType": "Received",
+            "equipmentCode": "OBO001",
+            "hasReceived": true
+        }
+    ]
+}
