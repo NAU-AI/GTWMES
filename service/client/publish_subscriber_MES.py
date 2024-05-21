@@ -1,40 +1,24 @@
 import json
 import logging
+import os
 import sys
 import time
 import paho.mqtt.client as mqtt
 import threading
 import json
+from dotenv import load_dotenv
+load_dotenv() 
 
-from connect import connect_mqtt
+from connect.connect import connect_mqtt 
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
-broker_url = "a3sdserc3gohpq-ats.iot.eu-central-1.amazonaws.com"
-ca_cert = "MES_keys/AmazonRootCA1.pem"
-certfile = "MES_keys/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
-keyfile = "MES_keys/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
+broker_url = os.getenv("broker_url")
+ca_cert = "../../key/MES/AmazonRootCA1.pem"
+certfile = "../../key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
+keyfile = "../../key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
 topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
 topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
-
-FIRST_RECONNECT_DELAY = 1
-RECONNECT_RATE = 2
-MAX_RECONNECT_COUNT = 12
-MAX_RECONNECT_DELAY = 60
-
-file = open('messages_MESCLOUD.json')
-dataFile = json.load(file)
-allMessages = []
-
-for i in dataFile["messages"]:
-    if i["jsonType"]:
-        allMessages.append(i)
-    else:
-        allMessages = {
-            "jsonType": "Não tem mensagens"
-        }
-
-file.close()
 
 def on_connect(client, userdata, flags, rc):
     if rc != 0:
@@ -44,8 +28,8 @@ def on_connect(client, userdata, flags, rc):
         
 def on_disconnect(client, userdata, rc): #it is used when internet connection is bad and it auto disconnects
     logging.info("Disconnected with result code: %s", rc)
-    reconnect_count, reconnect_delay = 0, FIRST_RECONNECT_DELAY
-    while reconnect_count < MAX_RECONNECT_COUNT:
+    reconnect_count, reconnect_delay = 0, os.getenv("FIRST_RECONNECT_DELAY")
+    while reconnect_count < os.getenv("MAX_RECONNECT_COUNT"):
         logging.info("Reconnecting in %d seconds...", reconnect_delay)
         time.sleep(reconnect_delay)
 
@@ -56,8 +40,8 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
         except Exception as err:
             logging.error("%s. Reconnect failed. Retrying...", err)
 
-        reconnect_delay *= RECONNECT_RATE
-        reconnect_delay = min(reconnect_delay, MAX_RECONNECT_DELAY)
+        reconnect_delay *= os.getenv("RECONNECT_RATE")
+        reconnect_delay = min(reconnect_delay, os.getenv("MAX_RECONNECT_DELAY"))
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
@@ -76,12 +60,10 @@ def console_input(client):
             client.disconnect()
             sys.exit(0)
         else:
-            for i in allMessages:
-                if i["jsonType"] == messageInput:
-                    message = i
-                    print("Message sent:" + json.dumps(message))
-                    client.publish(topicSend, json.dumps(message))
-                    break
+            message = messageInput
+            print("Message sent:" + json.dumps(message))
+            client.publish(topicSend, json.dumps(message))
+            break
 
 client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
 client.on_disconnect = on_disconnect

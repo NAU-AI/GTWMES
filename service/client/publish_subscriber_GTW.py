@@ -1,19 +1,20 @@
 import json
 import logging
+import os
 import sys
 import time
 import paho.mqtt.client as mqtt
 import threading
 import json
 
-from connect import connect_mqtt
+from service.client.connect.connect import connect_mqtt
 
 #this file is for GTW - this client is different from publish_subscriber_MES.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
-broker_url = "a3sdserc3gohpq-ats.iot.eu-central-1.amazonaws.com"
-ca_cert = "GTW_keys/AmazonRootCA1.pem"
-certfile = "GTW_keys/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-certificate.pem.crt"
-keyfile = "GTW_keys/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-private.pem.key"
+broker_url = os.getenv("broker_url")
+ca_cert = "../../key/GTW/AmazonRootCA1.pem"
+certfile = "../../key/GTW/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-certificate.pem.crt"
+keyfile = "../../key/GTW/24cfb3755ce31e148199605aa4a12317d478532294c3d68ffe9270f39c4e51e5-private.pem.key"
 topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
 topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
 
@@ -44,8 +45,8 @@ def on_connect(client, userdata, flags, rc):
 
 def on_disconnect(client, userdata, rc): #it is used when internet connection is bad and it auto disconnects
     logging.info("Disconnected with result code: %s", rc)
-    reconnect_count, reconnect_delay = 0, FIRST_RECONNECT_DELAY
-    while reconnect_count < MAX_RECONNECT_COUNT:
+    reconnect_count, reconnect_delay = 0, os.getenv("FIRST_RECONNECT_DELAY")
+    while reconnect_count < os.getenv("MAX_RECONNECT_COUNT"):
         logging.info("Reconnecting in %d seconds...", reconnect_delay)
         time.sleep(reconnect_delay)
 
@@ -56,10 +57,11 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
         except Exception as err:
             logging.error("%s. Reconnect failed. Retrying...", err)
 
-        reconnect_delay *= RECONNECT_RATE
-        reconnect_delay = min(reconnect_delay, MAX_RECONNECT_DELAY)
+        reconnect_delay *= os.getenv("RECONNECT_RATE")
+        reconnect_delay = min(reconnect_delay, os.getenv("MAX_RECONNECT_DELAY"))
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
+
     
 def on_message(client, userdata, msg):
     print("Message received: " + msg.topic + " " + str(msg.payload))
