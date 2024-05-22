@@ -9,7 +9,7 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
-from connect.connect import connect_mqtt 
+from connect.connect import connect_mqtt
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
@@ -63,7 +63,6 @@ def console_input(client):
             message = messageInput
             print("Message sent:" + json.dumps(message))
             client.publish(topicSend, json.dumps(message))
-            break
 
 client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
 client.on_disconnect = on_disconnect
@@ -75,3 +74,4 @@ publish_thread = threading.Thread(target=console_input, args=(client,))
 publish_thread.start()
 
 client.loop_start()
+
