@@ -7,16 +7,12 @@ import paho.mqtt.client as mqtt
 import threading
 import json
 from dotenv import load_dotenv
-load_dotenv() 
 
-from connect.connect import connect_mqtt
+from service.configuration.configuration import createConfiguration
+load_dotenv() 
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
-broker_url = os.getenv("broker_url")
-ca_cert = "../../key/MES/AmazonRootCA1.pem"
-certfile = "../../key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
-keyfile = "../../key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
 topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
 topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
 
@@ -46,32 +42,44 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def on_message(client, userdata, msg):
-    print("Message received: " + msg.topic + " " + str(msg.payload))
+    message = json.loads(msg.payload)
+    match message["jsonType"]:
+        case "Configuration":
+            createConfiguration(client, topicSend, message)
+
+        case "Python":
+            print("You can become a Data Scientist")
+
+        case "PHP":
+            print("You can become a backend developer")
+    
+        case "Solidity":
+            print("You can become a Blockchain developer")
+
+        case "Java":
+            print("You can become a mobile app developer")
+        case _:
+            print("The language doesn't matter, what matters is solving problems.")
+
 
 def subscribe(client):
     client.on_connect = on_connect
     client.on_message = on_message
-    client.subscribe(topicReceive)
-
-def console_input(client):
+    client.on_disconnect = on_disconnect
+    client.subscribe(topicReceive)     
     while True:
-        messageInput = input("Enter your message: ")
-        if messageInput.lower() == 'exit':
-            client.disconnect()
-            sys.exit(0)
-        else:
-            message = messageInput
-            print("Message sent:" + json.dumps(message))
-            client.publish(topicSend, json.dumps(message))
+        client.loop_start()
+        time.sleep(1) 
+   
 
-client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
-client.on_disconnect = on_disconnect
-
-subscribe_thread = threading.Thread(target=subscribe, args=(client,))
-subscribe_thread.start()
-
-publish_thread = threading.Thread(target=console_input, args=(client,))
-publish_thread.start()
-
-client.loop_start()
+#def console_input(client):
+#    while True:
+#        messageInput = input("Enter your message: ")
+#        if messageInput.lower() == 'exit':
+#            client.disconnect()
+#            sys.exit(0)
+#        else:
+#            message = messageInput
+#            print("Message sent:" + json.dumps(message))
+#            client.publish(topicSend, json.dumps(message))
 
