@@ -8,8 +8,11 @@ import threading
 import json
 from dotenv import load_dotenv
 
-from service.configuration.configuration import createConfiguration
+from service.received.received import messageReceived
 load_dotenv() 
+
+from service.configuration.configuration import createConfiguration
+from service.production.productionOrder import productionOrderConclusion, productionOrderInit
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
@@ -47,19 +50,17 @@ def on_message(client, userdata, msg):
         case "Configuration":
             createConfiguration(client, topicSend, message)
 
-        case "Python":
-            print("You can become a Data Scientist")
+        case "ProductionOrderInit":
+            productionOrderInit(client, topicSend, message)
 
-        case "PHP":
-            print("You can become a backend developer")
-    
-        case "Solidity":
-            print("You can become a Blockchain developer")
-
-        case "Java":
-            print("You can become a mobile app developer")
+        case "ProductionOrderConclusion":
+            productionOrderConclusion(client, topicSend, message)
+        
+        case "Received":
+            messageReceived(client, topicSend, message)
+        
         case _:
-            print("The language doesn't matter, what matters is solving problems.")
+            print("This code is not prepared to resolve this request.")
 
 
 def subscribe(client):
@@ -70,16 +71,5 @@ def subscribe(client):
     while True:
         client.loop_start()
         time.sleep(1) 
-   
 
-#def console_input(client):
-#    while True:
-#        messageInput = input("Enter your message: ")
-#        if messageInput.lower() == 'exit':
-#            client.disconnect()
-#            sys.exit(0)
-#        else:
-#            message = messageInput
-#            print("Message sent:" + json.dumps(message))
-#            client.publish(topicSend, json.dumps(message))
 
