@@ -8,6 +8,8 @@ import threading
 import json
 from dotenv import load_dotenv
 
+
+from service.production.productionCount import productionCount
 from service.received.received import messageReceived
 load_dotenv() 
 
@@ -67,7 +69,11 @@ def subscribe(client):
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_disconnect = on_disconnect
-    client.subscribe(topicReceive)     
+    client.subscribe(topicReceive)   
+
+    periodically_messages_thread = threading.Thread(target=productionCount, args=(client, topicSend ))
+    periodically_messages_thread.start()  
+    
     while True:
         client.loop_start()
         time.sleep(1) 

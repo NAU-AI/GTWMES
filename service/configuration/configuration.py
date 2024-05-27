@@ -49,6 +49,15 @@ def getCountingEquipmentByCode(data, cursor):
     equipment_found = cursor.fetchall()
     return equipment_found
 
+def getCountingEquipmentAll(cursor):
+    get_all_counting_equipment_query = sql.SQL("""
+    SELECT *
+    FROM counting_equipment
+    """)
+    cursor.execute(get_all_counting_equipment_query)
+    equipment_found = cursor.fetchall()
+    return equipment_found
+
 def insertCountingEquipment(data, conn, cursor):
     new_counting_equipment_query = """
     INSERT INTO counting_equipment (code, equipment_status, p_timer_communication_cycle)

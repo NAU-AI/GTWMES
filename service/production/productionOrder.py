@@ -25,15 +25,10 @@ def productionOrderInit(client, topicSend, data):
         #create new production order
         insertProductionOrder(equipment_data[0][0], data, conn, cursor)
 
-        #setting equipment status using isEquipmentEnabled property from MQTT message
-        if data["isEquipmentEnabled"]:
-            equipment_status = 1
-        else:
-            equipment_status = 0
-
-        updated_equipment_state = setEquipmentStatus(equipment_data[0][0], equipment_status, conn, cursor)
-        #send response
-        sendProductionOrderConclusionResponse(client, topicSend, data, updated_equipment_state, cursor)
+    updated_equipment_state = setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+   
+    #send response
+    sendProductionOrderInitResponse(client, topicSend, data, updated_equipment_state, cursor)
     cursor.close()
     conn.close()
     print("ProductionInit function done")
@@ -50,7 +45,7 @@ def productionOrderConclusion(client, topicSend, data):
     #setting equipment status using isEquipmentEnabled property from MQTT message
     updated_equipment_state = setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
     #send response
-    sendProductionOrderInitResponse(client, topicSend, data, updated_equipment_state, cursor)
+    sendProductionOrderConclusionResponse(client, topicSend, data, updated_equipment_state, cursor)
     cursor.close()
     conn.close()
     print("ProductionConclusion function done")
@@ -58,8 +53,6 @@ def productionOrderConclusion(client, topicSend, data):
 
 
 def getProductionOrderByCodeAndCEquipmentId(equipment_id, data, cursor):
-    print(equipment_id)
-    print(data)
     check_if_PO_exists_query = sql.SQL("""
     SELECT *
     FROM production_order
@@ -67,6 +60,16 @@ def getProductionOrderByCodeAndCEquipmentId(equipment_id, data, cursor):
     LIMIT 1
     """)
     cursor.execute(check_if_PO_exists_query, (data["productionOrderCode"], equipment_id))
+    po_found = cursor.fetchall()
+    return po_found
+
+def getProductionOrderByCEquipmentId(equipment_id, cursor):
+    check_if_PO_exists_query = sql.SQL("""
+    SELECT *
+    FROM production_order
+    WHERE equipment_id = %s
+    """)
+    cursor.execute(check_if_PO_exists_query, (equipment_id,))
     po_found = cursor.fetchall()
     return po_found
 
