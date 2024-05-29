@@ -1,7 +1,7 @@
 import os
 import sys
 
-from service.message.message import sendResponseMessage
+from service.controller.message import sendResponseMessage
 from service.model.configuration import getCountingEquipmentByCode
 from service.model.productionOrder import getProductionOrderByCodeAndCEquipmentId, insertProductionOrder, setEquipmentStatus
 

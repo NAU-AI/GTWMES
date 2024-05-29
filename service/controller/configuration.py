@@ -1,7 +1,7 @@
 import os
 import sys
 
-from service.message.message import sendResponseMessage
+from service.controller.message import sendResponseMessage
 from service.model.configuration import deleteEquipmentOutput, getCountingEquipmentByCode, insertCountingEquipment, insertEquipmentOutput, updateCountingEquipment
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../db'))
