@@ -52,8 +52,8 @@ def getPOs(cursor):
                 final_pos.append(po)  
     return final_pos
 
-def sendProductionCount(client, topicSend, data, cursor):   
-    outputs = getEquipmentOutputByEquipmentId(data[1], cursor)
+def sendProductionCount(client, topicSend, data, cursor): 
+    outputs = getEquipmentOutputByEquipmentId(data[5], cursor)
     
     counters = []
     for output in outputs:

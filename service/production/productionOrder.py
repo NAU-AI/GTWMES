@@ -96,7 +96,7 @@ def setEquipmentStatus(equipment_id, equipment_status, conn, cursor):
     return updated_counting_equipment_id
 
 def sendProductionOrderInitResponse(client, topicSend, data, equipment_data, cursor):   
-    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][0], cursor)
+    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][1], cursor)
     
     counters = []
     for output in outputs:
@@ -121,7 +121,7 @@ def sendProductionOrderInitResponse(client, topicSend, data, equipment_data, cur
     print("ProductionOrderInitResponse sent")
 
 def sendProductionOrderConclusionResponse(client, topicSend, data, equipment_data, cursor):   
-    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][0], cursor)
+    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][1], cursor)
     
     counters = []
     for output in outputs:

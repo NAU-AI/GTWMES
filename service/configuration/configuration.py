@@ -25,11 +25,11 @@ def createConfiguration(client, topicSend, data):
 
     else: 
         #if exists, we update it
-        updated_counting_equipment_id = updateCountingEquipment(data, conn, cursor)
+        updated_counting_equipment_code = updateCountingEquipment(data, conn, cursor)
         #delete existing outputs in order to add the new ones
-        deleteEquipmentOutput(updated_counting_equipment_id, conn, cursor)
+        deleteEquipmentOutput(updated_counting_equipment_code, conn, cursor)
         #now we have to insert the outputs at equipment_output
-        insertEquipmentOutput(updated_counting_equipment_id, data, conn, cursor)
+        insertEquipmentOutput(updated_counting_equipment_code, data, conn, cursor)
     
     sendConfigurationResponse(client, topicSend, data, cursor)
     cursor.close()
@@ -76,7 +76,7 @@ def updateCountingEquipment(data, conn, cursor):
     SET equipment_status = %s,
     p_timer_communication_cycle = %s
     WHERE code = %s
-    RETURNING id
+    RETURNING code
     """)
     cursor.execute(update_counting_equipment_query, (0, data["pTimerCommunicationCycle"], data["equipmentCode"]))
     updated_counting_equipment_id = cursor.fetchone()[0]
@@ -88,34 +88,34 @@ def getEquipmentOutputByEquipmentId(data, cursor):
     get_equipment_output_query = sql.SQL("""
     SELECT *
     FROM equipment_output
-    WHERE counting_equipment_id = %s
+    WHERE equipment_code = %s
     """)
     cursor.execute(get_equipment_output_query, (data,))
     equipment_output_found = cursor.fetchall()
     return equipment_output_found
 
-def insertEquipmentOutput(inserted_ce_id, data, conn, cursor):
+def insertEquipmentOutput(inserted_ce_code, data, conn, cursor):
     new_equipment_output_query = """
-        INSERT INTO equipment_output (counting_equipment_id, code)
+        INSERT INTO equipment_output (equipment_code, code)
         VALUES (%s, %s);
         """
     for output in data["outputCodes"]:
-        cursor.execute(new_equipment_output_query, (inserted_ce_id, output))
+        cursor.execute(new_equipment_output_query, (inserted_ce_code, output))
         conn.commit()
         print("Insert equipment_output: " + output)
 
-def deleteEquipmentOutput(updated_ce_id, conn, cursor):
+def deleteEquipmentOutput(updated_ce_code, conn, cursor):
     delete_existing_outputs = sql.SQL("""
     DELETE
     FROM equipment_output
-    WHERE counting_equipment_id = %s
+    WHERE equipment_code = %s
     """)
-    cursor.execute(delete_existing_outputs, (updated_ce_id,))
+    cursor.execute(delete_existing_outputs, (updated_ce_code,))
     conn.commit()
 
 def sendConfigurationResponse(client, topicSend, data, cursor):
     equipment_found = getCountingEquipmentByCode(data, cursor)
-    outputs = getEquipmentOutputByEquipmentId(equipment_found[0][0], cursor)
+    outputs = getEquipmentOutputByEquipmentId(equipment_found[0][1], cursor)
 
     counters = []
     for output in outputs:

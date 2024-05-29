@@ -9,7 +9,7 @@ CREATE TABLE counting_equipment (
 -- Create table equipment_output
 CREATE TABLE equipment_output (
     id SERIAL PRIMARY KEY,
-    counting_equipment_id INTEGER REFERENCES counting_equipment(id),
+    equipment_code VARCHAR(20) NOT NULL,
     code VARCHAR(20) NOT NULL
 );
 
