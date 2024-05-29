@@ -1,8 +1,9 @@
 import os
 import sys
 
+from service.message.message import sendResponseMessage
 from service.model.configuration import getCountingEquipmentByCode
-from service.model.productionOrder import getProductionOrderByCodeAndCEquipmentId, insertProductionOrder, sendProductionOrderConclusionResponse, sendProductionOrderInitResponse, setEquipmentStatus
+from service.model.productionOrder import getProductionOrderByCodeAndCEquipmentId, insertProductionOrder, setEquipmentStatus
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../db'))
 import connectDB
@@ -22,10 +23,10 @@ def productionOrderInit(client, topicSend, data):
         #create new production order
         insertProductionOrder(equipment_data[0][0], data, conn, cursor)
 
-    updated_equipment_state = setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+        setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
    
     #send response
-    sendProductionOrderInitResponse(client, topicSend, data, updated_equipment_state, cursor)
+    sendResponseMessage(client, topicSend, data, "ProductionOrderResponse", cursor)
     cursor.close()
     conn.close()
     print("ProductionInit function done")
@@ -40,9 +41,9 @@ def productionOrderConclusion(client, topicSend, data):
     equipment_data = getCountingEquipmentByCode(data, cursor)
 
     #setting equipment status using isEquipmentEnabled property from MQTT message
-    updated_equipment_state = setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+    setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
     #send response
-    sendProductionOrderConclusionResponse(client, topicSend, data, updated_equipment_state, cursor)
+    sendResponseMessage(client, topicSend, data, "ProductionOrderConclusionResponse" , cursor)
     cursor.close()
     conn.close()
     print("ProductionConclusion function done")

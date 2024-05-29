@@ -1,6 +1,4 @@
-import json
-
-from service.model.configuration import getCountingEquipmentAll, getEquipmentOutputByEquipmentId
+from service.model.configuration import getCountingEquipmentAll
 from service.model.productionOrder import getProductionOrderByCEquipmentId
 
 def getPOs(cursor):
@@ -22,27 +20,3 @@ def getPOs(cursor):
                 final_pos.append(po)  
     return final_pos
 
-def sendProductionCount(client, topicSend, data, cursor): 
-    outputs = getEquipmentOutputByEquipmentId(data[5], cursor)
-    
-    counters = []
-    for output in outputs:
-        counters.append({"outputCode": output[2], "value": 0})
-
-    message = {
-    "jsonType": "ProductionCount",
-    "equipmentCode": data[5], 
-    "productionOrderCode": data[2],
-    "equipmentStatus": data[4],
-    "activeTime":0,
-    "alarm":
-    [
-          "16#0000 0000 0000 0000",
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000" 
-    ],
-    "counters": counters
-    }
-    client.publish(topicSend, json.dumps(message))
-    print("ProductionCount sent")

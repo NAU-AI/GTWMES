@@ -1,4 +1,3 @@
-import json
 import psycopg2
 from psycopg2 import sql
 
@@ -77,29 +76,3 @@ def deleteEquipmentOutput(updated_ce_code, conn, cursor):
     cursor.execute(delete_existing_outputs, (updated_ce_code,))
     conn.commit()
 
-def sendConfigurationResponse(client, topicSend, data, cursor):
-    equipment_found = getCountingEquipmentByCode(data, cursor)
-    outputs = getEquipmentOutputByEquipmentId(equipment_found[0][1], cursor)
-
-    counters = []
-    for output in outputs:
-        counters.append({"outputCode": output[2], "value": 0})
-
-    message = {
-    "jsonType": "ConfigurationResponse",
-    "equipmentCode": equipment_found[0][1], 
-    "productionOrderCode": "",
-    "equipmentStatus": equipment_found[0][2],
-    "activeTime":0,
-    "alarm":
-    [
-          "16#0000 0000 0000 0000",
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000" 
-    ],
-    "counters": counters
-    }
-
-    client.publish(topicSend, json.dumps(message))
-    print("ConfigurationResponse sent")

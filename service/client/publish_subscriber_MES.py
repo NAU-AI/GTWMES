@@ -7,10 +7,9 @@ import paho.mqtt.client as mqtt
 import threading
 import json
 from dotenv import load_dotenv
-
-from service.controller.productionOrder import productionOrderConclusion, productionOrderInit
 load_dotenv() 
 
+from service.controller.productionOrder import productionOrderConclusion, productionOrderInit
 from service.controller.productionCount import productionCount
 from service.controller.configuration import createConfiguration
 from service.received.received import messageReceived

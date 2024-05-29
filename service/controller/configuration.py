@@ -1,7 +1,8 @@
 import os
 import sys
 
-from service.model.configuration import deleteEquipmentOutput, getCountingEquipmentByCode, insertCountingEquipment, insertEquipmentOutput, sendConfigurationResponse, updateCountingEquipment
+from service.message.message import sendResponseMessage
+from service.model.configuration import deleteEquipmentOutput, getCountingEquipmentByCode, insertCountingEquipment, insertEquipmentOutput, updateCountingEquipment
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../db'))
 import connectDB
@@ -29,7 +30,7 @@ def createConfiguration(client, topicSend, data):
         #now we have to insert the outputs at equipment_output
         insertEquipmentOutput(updated_counting_equipment_code, data, conn, cursor)
     
-    sendConfigurationResponse(client, topicSend, data, cursor)
+    sendResponseMessage(client, topicSend, data, "ConfigurationResponse", cursor)
     cursor.close()
     conn.close()
     print("createConfiguration function done")

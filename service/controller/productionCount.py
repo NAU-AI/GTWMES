@@ -2,7 +2,8 @@ import os
 import sys
 import time
 
-from service.model.productionCount import getPOs, sendProductionCount
+from service.message.message import sendProductionCount
+from service.model.productionCount import getPOs
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../db'))
 import connectDB

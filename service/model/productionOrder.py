@@ -1,8 +1,5 @@
-import json
 import psycopg2
 from psycopg2 import sql
-
-from service.model.configuration import getEquipmentOutputByEquipmentId
 
 def getProductionOrderByCodeAndCEquipmentId(equipment_id, data, cursor):
     check_if_PO_exists_query = sql.SQL("""
@@ -46,53 +43,3 @@ def setEquipmentStatus(equipment_id, equipment_status, conn, cursor):
     conn.commit()
     print("Updated counting_equipment with id: " + str(equipment_id))
     return updated_counting_equipment_id
-
-def sendProductionOrderInitResponse(client, topicSend, data, equipment_data, cursor):   
-    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][1], cursor)
-    
-    counters = []
-    for output in outputs:
-        counters.append({"outputCode": output[2], "value": 0})
-
-    message = {
-    "jsonType": "ProductionOrderResponse",
-    "equipmentCode": equipment_data[0][1], 
-    "productionOrderCode": data["productionOrderCode"],
-    "equipmentStatus": equipment_data[0][2],
-    "activeTime":0,
-    "alarm":
-    [
-          "16#0000 0000 0000 0000",
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000" 
-    ],
-    "counters": counters
-    }
-    client.publish(topicSend, json.dumps(message))
-    print("ProductionOrderInitResponse sent")
-
-def sendProductionOrderConclusionResponse(client, topicSend, data, equipment_data, cursor):   
-    outputs = getEquipmentOutputByEquipmentId(equipment_data[0][1], cursor)
-    
-    counters = []
-    for output in outputs:
-        counters.append({"outputCode": output[2], "value": 0})
-
-    message = {
-    "jsonType": "ProductionOrderConclusionResponse",
-    "equipmentCode": equipment_data[0][1], 
-    "productionOrderCode": data["productionOrderCode"],
-    "equipmentStatus": equipment_data[0][2],
-    "activeTime":0,
-    "alarm":
-    [
-          "16#0000 0000 0000 0000",
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000", 
-          "16#0000 0000 0000 0000" 
-    ],
-    "counters": counters
-    }
-    client.publish(topicSend, json.dumps(message))
-    print("ProductionOrderConclusionResponse sent")
