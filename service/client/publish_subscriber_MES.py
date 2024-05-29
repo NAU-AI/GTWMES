@@ -12,7 +12,7 @@ load_dotenv()
 from service.controller.productionOrder import productionOrderConclusion, productionOrderInit
 from service.controller.productionCount import productionCount
 from service.controller.configuration import createConfiguration
-from service.received.received import messageReceived
+from service.controller.received import messageReceived
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
