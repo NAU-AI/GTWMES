@@ -27,10 +27,11 @@ def on_connect(client, userdata, flags, rc):
         
 def on_disconnect(client, userdata, rc): #it is used when internet connection is bad and it auto disconnects
     logging.info("Disconnected with result code: %s", rc)
-    reconnect_count, reconnect_delay = 0, os.getenv("FIRST_RECONNECT_DELAY")
-    while reconnect_count < os.getenv("MAX_RECONNECT_COUNT"):
+    reconnect_count, reconnect_delay = 0, int(os.getenv("FIRST_RECONNECT_DELAY"))
+
+    while reconnect_count < int(os.getenv("MAX_RECONNECT_COUNT")):
         logging.info("Reconnecting in %d seconds...", reconnect_delay)
-        time.sleep(reconnect_delay)
+        time.sleep(int(reconnect_delay))
 
         try:
             client.reconnect()
@@ -39,8 +40,8 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
         except Exception as err:
             logging.error("%s. Reconnect failed. Retrying...", err)
 
-        reconnect_delay *= os.getenv("RECONNECT_RATE")
-        reconnect_delay = min(reconnect_delay, os.getenv("MAX_RECONNECT_DELAY"))
+        reconnect_delay *= int(os.getenv("RECONNECT_RATE"))
+        reconnect_delay = min(reconnect_delay, int(os.getenv("MAX_RECONNECT_DELAY")))
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
@@ -68,7 +69,7 @@ def subscribe(client):
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_disconnect = on_disconnect
-    client.subscribe(topicReceive)   
+    client.subscribe(topicReceive, qos=1)   
 
     periodically_messages_thread = threading.Thread(target=productionCount, args=(client, topicSend ))
     periodically_messages_thread.start()  

@@ -36,7 +36,7 @@ def sendResponseMessage(client, topicSend, data, jsonType, cursor):
     "alarms": alarm,
     "counters": counters
     }
-    client.publish(topicSend, json.dumps(message))
+    client.publish(topicSend, json.dumps(message), qos=1)
     print("Response message sent")
 
 
@@ -69,5 +69,5 @@ def sendProductionCount(client, topicSend, data, cursor):
     "counters": counters
     }
 
-    client.publish(topicSend, json.dumps(message))
+    client.publish(topicSend, json.dumps(message), qos=1)
     print("ProductionCount sent")
