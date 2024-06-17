@@ -29,7 +29,7 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
     logging.info("Disconnected with result code: %s", rc)
     reconnect_count, reconnect_delay = 0, int(os.getenv("FIRST_RECONNECT_DELAY"))
 
-    while reconnect_count < int(os.getenv("MAX_RECONNECT_COUNT")):
+    while True:
         logging.info("Reconnecting in %d seconds...", reconnect_delay)
         time.sleep(int(reconnect_delay))
 
@@ -42,8 +42,6 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
 
         reconnect_delay *= int(os.getenv("RECONNECT_RATE"))
         reconnect_delay = min(reconnect_delay, int(os.getenv("MAX_RECONNECT_DELAY")))
-        reconnect_count += 1
-    logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def on_message(client, userdata, msg):
     message = json.loads(msg.payload)

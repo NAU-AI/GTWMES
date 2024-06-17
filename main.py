@@ -1,5 +1,7 @@
+import logging
 import sys
 import os
+import time
 from dotenv import load_dotenv
 load_dotenv() 
 
@@ -15,8 +17,26 @@ import publish_subscriber_MES
 def main():
 
     #MQTT client initialization
-    client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
-    publish_subscriber_MES.subscribe(client)
+    #client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
+    #publish_subscriber_MES.subscribe(client)
+
+    reconnect_count, reconnect_delay = 0, int(os.getenv("FIRST_RECONNECT_DELAY"))
+
+    while True:
+        logging.info("Connecting in %d seconds...", reconnect_delay)
+        time.sleep(int(reconnect_delay))
+
+        try:
+            client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
+            publish_subscriber_MES.subscribe(client)
+            return
+        except Exception as err:
+            logging.error("%s. Connection failed. Retrying...", err)
+
+        reconnect_delay *= int(os.getenv("RECONNECT_RATE"))
+        reconnect_delay = min(reconnect_delay, int(os.getenv("MAX_RECONNECT_DELAY")))
+        
+    
     
 
 if __name__ == '__main__':
