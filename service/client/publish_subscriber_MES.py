@@ -72,10 +72,15 @@ def subscribe(client):
     client.subscribe(topicReceive, qos=1)   
 
     periodically_messages_thread = threading.Thread(target=productionCount, args=(client, topicSend ))
+    periodically_messages_thread.daemon = True
     periodically_messages_thread.start()  
     
-    while True:
-        client.loop_start()
-        time.sleep(1) 
+    try:
+        while True:
+            client.loop_start()
+            time.sleep(1) 
+    except KeyboardInterrupt:
+        print("Ctrl+C pressed... Shutting down.")
+    return 0
 
 
