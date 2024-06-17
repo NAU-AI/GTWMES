@@ -2,6 +2,7 @@ import os
 import sys
 
 from service.controller.message import sendResponseMessage
+from service.model.activeTime import getActiveTimeByEquipmentId, insertActiveTime, setActiveTime
 from service.model.configuration import getCountingEquipmentByCode
 from service.model.productionOrder import getProductionOrderByCodeAndCEquipmentId, insertProductionOrder, setEquipmentStatus
 
@@ -24,6 +25,15 @@ def productionOrderInit(client, topicSend, data):
         insertProductionOrder(equipment_data[0][0], data, conn, cursor)
 
         setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+
+        already_exist_this_equipmentId_at_active_time = getActiveTimeByEquipmentId(equipment_data[0][0], cursor)
+
+        if len(already_exist_this_equipmentId_at_active_time) != 0:
+            #if exists, set equipment active time to zero
+            setActiveTime(equipment_data[0][0], 0, conn, cursor)
+        else:
+            #if not, create active time for this equipment 
+            insertActiveTime(equipment_data[0][0], 0, conn, cursor)
    
     #send response
     sendResponseMessage(client, topicSend, data, "ProductionOrderResponse", cursor)
@@ -42,6 +52,10 @@ def productionOrderConclusion(client, topicSend, data):
 
     #setting equipment status using isEquipmentEnabled property from MQTT message
     setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+
+    #setting equipment active time to zero
+    setActiveTime(equipment_data[0][0], 0, conn, cursor)
+
     #send response
     sendResponseMessage(client, topicSend, data, "ProductionOrderConclusionResponse" , cursor)
     cursor.close()

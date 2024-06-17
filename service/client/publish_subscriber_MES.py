@@ -16,8 +16,8 @@ from service.controller.received import messageReceived
 
 #this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
 #client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
-topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/GTW"
-topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
+topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/PLC"
+topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
 
 def on_connect(client, userdata, flags, rc):
     if rc != 0:
@@ -46,11 +46,12 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
 
 def on_message(client, userdata, msg):
     message = json.loads(msg.payload)
+    print(message)
     match message["jsonType"]:
         case "Configuration":
             createConfiguration(client, topicSend, message)
 
-        case "ProductionOrderInit":
+        case "ProductionOrder":
             productionOrderInit(client, topicSend, message)
 
         case "ProductionOrderConclusion":
