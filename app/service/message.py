@@ -2,9 +2,10 @@ import json
 from random import randint
 
 class MessageService:
-    def __init__(self, configuration_dao, active_time_dao):
+    def __init__(self, configuration_dao, active_time_dao, counter_record_dao):
         self.configuration_dao = configuration_dao
         self.active_time_dao = active_time_dao
+        self.counter_record_dao = counter_record_dao
 
     def sendResponseMessage(self, client, topicSend, data, jsonType): 
         configuration_dao = self.configuration_dao
@@ -49,6 +50,7 @@ class MessageService:
     def sendProductionCount(self, client, topicSend, data): 
         configuration_dao = self.configuration_dao
         active_time_dao = self.active_time_dao
+        counter_record_dao = self.counter_record_dao
 
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
         active_time_data = active_time_dao.getActiveTimeByEquipmentId(data['equipment_id'])
@@ -60,8 +62,15 @@ class MessageService:
 
         counters = []
         for output in outputs:
-            #counters.append({"outputCode": output[2], "value": 0})
-            counters.append({"outputCode": output['code'], "value": randint(1, 100)})
+            outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+
+            if(outputTotal == None):
+                outputTotal = 0
+            else:
+                outputTotal = outputTotal["totalvalue"]
+            
+            counters.append({"outputCode": output['code'], "value": outputTotal})
+            #counters.append({"outputCode": output['code'], "value": randint(1, 100)})
 
 
         alarm = [0, 0, 0, 0]

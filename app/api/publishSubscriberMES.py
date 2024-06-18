@@ -11,6 +11,9 @@ load_dotenv()
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
 
+
+from dao.counterRecord import CounterRecordDAO
+from service.counterRecord2 import counterRecordsForThreadTests
 import connectDB
 from config import load_config
 from service.message import MessageService
@@ -59,11 +62,12 @@ def on_message(client, userdata, msg):
                 conn = connectDB.connect(config)
                 active_time_dao = ActiveTimeDAO(conn)
                 configuration_dao = ConfigurationDAO(conn)
+                counter_record_dao = CounterRecordDAO(conn)
                 configuration_service = ConfigurationService(configuration_dao)
                 configuration_service.createConfiguration(message)
 
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ConfigurationResponse")   
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")             
@@ -75,11 +79,12 @@ def on_message(client, userdata, msg):
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
+                counter_record_dao = CounterRecordDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderInit(message)
             
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderResponse")
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
@@ -91,11 +96,12 @@ def on_message(client, userdata, msg):
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
+                counter_record_dao = CounterRecordDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderConclusion(message)
                     
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse")
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
@@ -116,6 +122,10 @@ def subscribe(client):
     periodically_messages_thread = threading.Thread(target=productionCount, args=(client, topicSend ))
     periodically_messages_thread.daemon = True
     periodically_messages_thread.start()  
+
+    periodically_counterRecord_thread = threading.Thread(target=counterRecordsForThreadTests, args=(client, topicSend ))
+    periodically_counterRecord_thread.daemon = True
+    periodically_counterRecord_thread.start()  
     
     try:
         while True:

@@ -2,6 +2,7 @@ import os
 import sys
 import time
 
+from dao.counterRecord import CounterRecordDAO
 from service.message import MessageService
 from dao.activeTime import ActiveTimeDAO 
 from dao.configuration import ConfigurationDAO
@@ -21,6 +22,7 @@ def productionCount(client, topicSend):
     configuration_dao = ConfigurationDAO(conn)
     active_time_dao = ActiveTimeDAO(conn)
     production_count_dao = ProductionCountDAO(conn)
+    counter_record_dao = CounterRecordDAO(conn)
 
     final_pos = production_count_dao.getPOs()
 
@@ -38,7 +40,7 @@ def productionCount(client, topicSend):
                     #if not, create active time for this equipment 
                     active_time_dao.insertActiveTime(po['equipment_id'], round(length))
                 
-                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendProductionCount(client, topicSend, po)
 
         final_pos = production_count_dao.getPOs()
