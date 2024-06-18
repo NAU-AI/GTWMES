@@ -1,17 +1,21 @@
 import json
 from random import randint
-from service.model.activeTime import getActiveTimeByEquipmentId
-from service.model.configuration import getCountingEquipmentByCode, getEquipmentOutputByEquipmentId
 
-def sendResponseMessage(client, topicSend, data, jsonType, cursor): 
- 
-    equipment_found = getCountingEquipmentByCode(data, cursor)  
-    outputs = getEquipmentOutputByEquipmentId(equipment_found[0][1], cursor)
+from database.dao.activeTime import ActiveTimeDAO
+from database.dao.configuration import ConfigurationDAO
 
-    active_time_data = getActiveTimeByEquipmentId(equipment_found[0][0], cursor)
+
+def sendResponseMessage(client, topicSend, data, jsonType, cursor, conn): 
+    configuration_dao = ConfigurationDAO(conn)
+    
+    equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
+    outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found[0][1])
+
+    active_time_dao = ActiveTimeDAO(conn)
+    active_time_data = active_time_dao.getActiveTimeByEquipmentId(equipment_found[0][0])
 
     if(len(active_time_data)) != 0:
-        time = active_time_data[0][2]
+        time = active_time_data["active_time"]
     else:
         time = 0
         
@@ -47,13 +51,16 @@ def sendResponseMessage(client, topicSend, data, jsonType, cursor):
 
 
 
-def sendProductionCount(client, topicSend, data, cursor): 
-    outputs = getEquipmentOutputByEquipmentId(data[5], cursor)
+def sendProductionCount(client, topicSend, data, cursor, conn): 
+    configuration_dao = ConfigurationDAO(conn)
+    
+    outputs = configuration_dao.getEquipmentOutputByEquipmentId(data[5], cursor)
 
-    active_time_data = getActiveTimeByEquipmentId(data[1], cursor)
+    active_time_dao = ActiveTimeDAO(conn)
+    active_time_data = active_time_dao.getActiveTimeByEquipmentId(data[1])
     
     if(len(active_time_data)) != 0:
-        time = active_time_data[0][2]
+        time = active_time_data["active_time"]
     else:
         time = 0
 

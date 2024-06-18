@@ -1,5 +1,6 @@
-from service.model.configuration import getCountingEquipmentAll
-from service.model.productionOrder import getProductionOrderByCEquipmentId
+from database.dao.configuration import getCountingEquipmentAll
+from database.dao.productionOrder import getProductionOrderByCEquipmentId
+
 
 def getPOs(cursor):
     counting_equipment = getCountingEquipmentAll(cursor)

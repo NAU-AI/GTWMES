@@ -9,13 +9,11 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
-from service.controller.productionOrder import productionOrderConclusion, productionOrderInit
-from service.controller.productionCount import productionCount
-from service.controller.configuration import createConfiguration
-from service.controller.received import messageReceived
+from service.productionOrder import productionOrderConclusion, productionOrderInit
+from service.productionCount import productionCount
+from service.configuration import createConfiguration
+from service.received import messageReceived
 
-#this file is for MESCLOUD - this client is different from publish_subscriber_GTW.py file
-#client_id = "iotconsole-d0d0f57f-f94b-4c46-95d5-a84bb43660cc"
 topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/PLC"
 topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
 
