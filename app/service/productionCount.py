@@ -4,7 +4,7 @@ import time
 
 from service.message import sendProductionCount
 from dao.activeTime import ActiveTimeDAO 
-from dao.productionCount import getPOs
+from dao.productionCount import ProductionCountDAO
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
@@ -16,9 +16,12 @@ def productionCount(client, topicSend):
     conn = connectDB.connect(config)
     cursor = conn.cursor()
     start = time.time()            
-    final_pos = getPOs(conn)
+    
 
     active_time_dao = ActiveTimeDAO(conn)
+    production_count_dao = ProductionCountDAO(conn)
+
+    final_pos = production_count_dao.getPOs()
 
     while True:
         end = time.time()
@@ -36,6 +39,6 @@ def productionCount(client, topicSend):
                 
                 sendProductionCount(client, topicSend, po, cursor, conn)
 
-        final_pos = getPOs(conn)
+        final_pos = production_count_dao.getPOs()
         
         time.sleep(1)
