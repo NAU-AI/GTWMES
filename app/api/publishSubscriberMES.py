@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
 
 import connectDB
 from config import load_config
-from service.message import sendResponseMessage
+from service.message import MessageService
 from service.configuration import ConfigurationService
 from dao.activeTime import ActiveTimeDAO
 from dao.productionOrder import ProductionOrderDAO
@@ -57,12 +57,14 @@ def on_message(client, userdata, msg):
             try:
                 config = load_config()
                 conn = connectDB.connect(config)
+                active_time_dao = ActiveTimeDAO(conn)
                 configuration_dao = ConfigurationDAO(conn)
                 configuration_service = ConfigurationService(configuration_dao)
                 configuration_service.createConfiguration(message)
 
             finally:
-                sendResponseMessage(client, topicSend, message, "ConfigurationResponse", conn)   
+                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service.sendResponseMessage(client, topicSend, message, "ConfigurationResponse")   
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")             
 
@@ -77,7 +79,8 @@ def on_message(client, userdata, msg):
                 production_order_service.productionOrderInit(message)
             
             finally:
-                sendResponseMessage(client, topicSend, message, "ProductionOrderResponse", conn)
+                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderResponse")
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
 
@@ -92,8 +95,8 @@ def on_message(client, userdata, msg):
                 production_order_service.productionOrderConclusion(message)
                     
             finally:
-                #send response
-                sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse", conn)
+                message_service = MessageService(configuration_dao, active_time_dao)
+                message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse")
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
         
