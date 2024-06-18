@@ -18,7 +18,7 @@ def createConfiguration(client, topicSend, data):
     #check if exists some counting_equipment with this code
     equipment_found = configuration_dao.getCountingEquipmentByCode(data)
 
-    if len(equipment_found) == 0:
+    if equipment_found != None:
         #if it doesn't exists, create a new one and the outputs
         inserted_counting_equipment_id = configuration_dao.insertCountingEquipment(data)
         #like this counting equipment didn't exist, we have to insert the outputs at equipment_output

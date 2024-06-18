@@ -17,7 +17,6 @@ def getPOs(conn):
     for po in pos:
         for ce in counting_equipment:
             if ce['id'] == po['equipment_id']:
-                #print(json.dumps(po, indent = 4))
                 temp_list = json.dumps(po, indent = 4)
                 temp_list = json.loads(temp_list)
                 temp_list.update({"p_timer_communication_cycle": ce['p_timer_communication_cycle']})

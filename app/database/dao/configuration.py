@@ -36,10 +36,11 @@ class ConfigurationDAO:
             RETURNING id;
             """
             cursor.execute(new_counting_equipment_query, (data["equipmentCode"], 0, data["pTimerCommunicationCycle"]))
-            inserted_counting_equipment_id = cursor.fetchone()[0]
+            inserted_counting_equipment_id = cursor.fetchone()
+            print(inserted_counting_equipment_id)
             self.connection.commit()
             print("Insert counting_equipment: " + data["equipmentCode"])
-            return inserted_counting_equipment_id
+            return inserted_counting_equipment_id['id']
 
     def updateCountingEquipment(self, data):
         with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
@@ -51,10 +52,11 @@ class ConfigurationDAO:
             RETURNING code
             """)
             cursor.execute(update_counting_equipment_query, (0, data["pTimerCommunicationCycle"], data["equipmentCode"]))
-            updated_counting_equipment_id = cursor.fetchone()[0]
+            
+            updated_counting_equipment_id = cursor.fetchone()
             self.connection.commit()
             print("Updated counting_equipment: " + data["equipmentCode"])
-            return updated_counting_equipment_id
+            return updated_counting_equipment_id['code']
 
     def getEquipmentOutputByEquipmentId(self, data):
         with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
