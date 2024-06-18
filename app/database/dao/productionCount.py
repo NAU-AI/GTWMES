@@ -1,23 +1,28 @@
-from database.dao.configuration import getCountingEquipmentAll
-from database.dao.productionOrder import getProductionOrderByCEquipmentId
+import json
+from database.dao.configuration import ConfigurationDAO  
+from database.dao.productionOrder import ProductionOrderDAO 
 
 
-def getPOs(cursor):
-    counting_equipment = getCountingEquipmentAll(cursor)
+def getPOs(conn):
+    configuration_dao = ConfigurationDAO(conn)
+    production_order_dao = ProductionOrderDAO(conn)
+
+    counting_equipment = configuration_dao.getCountingEquipmentAll()
 
     pos = []
     for ce in counting_equipment:
-        pos = pos + getProductionOrderByCEquipmentId(ce[0], cursor)
+        pos = pos + production_order_dao.getProductionOrderByCEquipmentId(ce['id'])
         
     final_pos = []
     for po in pos:
         for ce in counting_equipment:
-            if ce[0] == po[1]:
-                temp_list = list(po)
-                temp_list.append(ce[3])
-                temp_list.append(ce[2])
-                temp_list.append(ce[1])
-                po = tuple(temp_list)
-                final_pos.append(po)  
+            if ce['id'] == po['equipment_id']:
+                #print(json.dumps(po, indent = 4))
+                temp_list = json.dumps(po, indent = 4)
+                temp_list = json.loads(temp_list)
+                temp_list.update({"p_timer_communication_cycle": ce['p_timer_communication_cycle']})
+                temp_list.update({"equipment_status": ce['equipment_status']})
+                temp_list.update({"equipment_code": ce['code']})
+                final_pos.append(temp_list)
     return final_pos
 

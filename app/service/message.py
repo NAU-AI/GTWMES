@@ -54,10 +54,10 @@ def sendResponseMessage(client, topicSend, data, jsonType, cursor, conn):
 def sendProductionCount(client, topicSend, data, cursor, conn): 
     configuration_dao = ConfigurationDAO(conn)
     
-    outputs = configuration_dao.getEquipmentOutputByEquipmentId(data[5], cursor)
+    outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
 
     active_time_dao = ActiveTimeDAO(conn)
-    active_time_data = active_time_dao.getActiveTimeByEquipmentId(data[1])
+    active_time_data = active_time_dao.getActiveTimeByEquipmentId(data['equipment_id'])
     
     if(len(active_time_data)) != 0:
         time = active_time_data["active_time"]
@@ -67,7 +67,7 @@ def sendProductionCount(client, topicSend, data, cursor, conn):
     counters = []
     for output in outputs:
         #counters.append({"outputCode": output[2], "value": 0})
-        counters.append({"outputCode": output[2], "value": randint(1, 100)})
+        counters.append({"outputCode": output['code'], "value": randint(1, 100)})
 
 
     alarm = [
@@ -79,9 +79,9 @@ def sendProductionCount(client, topicSend, data, cursor, conn):
 
     message = {
     "jsonType": "ProductionCount",
-    "equipmentCode": data[5], 
-    "productionOrderCode": data[2],
-    "equipmentStatus": data[4],
+    "equipmentCode": data['equipment_code'], 
+    "productionOrderCode": data['code'],
+    "equipmentStatus": data['equipment_status'],
     "activeTime":time,
     "alarms": alarm,
     "counters": counters

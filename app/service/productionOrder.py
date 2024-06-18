@@ -3,7 +3,7 @@ import sys
 
 from database.dao.activeTime import ActiveTimeDAO
 from database.dao.configuration import ConfigurationDAO
-from database.dao.productionOrder import getProductionOrderByCodeAndCEquipmentId, insertProductionOrder, setEquipmentStatus
+from database.dao.productionOrder import ProductionOrderDAO  
 from service.message import sendResponseMessage
 
 
@@ -17,19 +17,20 @@ def productionOrderInit(client, topicSend, data):
     cursor = conn.cursor()
 
     configuration_dao = ConfigurationDAO(conn)
+    production_order_dao = ProductionOrderDAO(conn)
 
     #check if exists some counting_equipment with this code and get this id
     equipment_data = configuration_dao.getCountingEquipmentByCode(data)
 
-    already_exist_this_production_order = getProductionOrderByCodeAndCEquipmentId(equipment_data[0][0], data, cursor)
+    already_exist_this_production_order = production_order_dao.getProductionOrderByCodeAndCEquipmentId(equipment_data[0][0])
 
     active_time_dao = ActiveTimeDAO(conn)
     
     if len(already_exist_this_production_order) == 0:
         #create new production order
-        insertProductionOrder(equipment_data[0][0], data, conn, cursor)
+        production_order_dao.insertProductionOrder(equipment_data[0][0], data)
 
-        setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+        production_order_dao.setEquipmentStatus(equipment_data[0][0], 0)
 
         already_exist_this_equipmentId_at_active_time = active_time_dao.getActiveTimeByEquipmentId(equipment_data[0][0])
 
@@ -53,11 +54,13 @@ def productionOrderConclusion(client, topicSend, data):
     cursor = conn.cursor()
 
     configuration_dao = ConfigurationDAO(conn)
+    production_order_dao = ProductionOrderDAO(conn)
+
     #check if exists some counting_equipment with this code and get this id
     equipment_data = configuration_dao.getCountingEquipmentByCode(data)
 
     #setting equipment status using isEquipmentEnabled property from MQTT message
-    setEquipmentStatus(equipment_data[0][0], 0, conn, cursor)
+    production_order_dao.setEquipmentStatus(equipment_data[0][0], 0)
 
     #setting equipment active time to zero
     active_time_dao = ActiveTimeDAO(conn)
