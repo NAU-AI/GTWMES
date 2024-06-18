@@ -5,7 +5,7 @@ from database.dao.activeTime import ActiveTimeDAO
 from database.dao.configuration import ConfigurationDAO
 
 
-def sendResponseMessage(client, topicSend, data, jsonType, cursor, conn): 
+def sendResponseMessage(client, topicSend, data, jsonType, conn): 
     configuration_dao = ConfigurationDAO(conn)
     
     equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
@@ -53,10 +53,9 @@ def sendResponseMessage(client, topicSend, data, jsonType, cursor, conn):
 
 def sendProductionCount(client, topicSend, data, cursor, conn): 
     configuration_dao = ConfigurationDAO(conn)
-    
-    outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
-
     active_time_dao = ActiveTimeDAO(conn)
+
+    outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
     active_time_data = active_time_dao.getActiveTimeByEquipmentId(data['equipment_id'])
     
     if active_time_data != None:

@@ -33,14 +33,14 @@ class ConfigurationDAO:
             new_counting_equipment_query = """
             INSERT INTO counting_equipment (code, equipment_status, p_timer_communication_cycle)
             VALUES (%s, %s, %s)
-            RETURNING id;
+            RETURNING code;
             """
             cursor.execute(new_counting_equipment_query, (data["equipmentCode"], 0, data["pTimerCommunicationCycle"]))
             inserted_counting_equipment_id = cursor.fetchone()
             print(inserted_counting_equipment_id)
             self.connection.commit()
             print("Insert counting_equipment: " + data["equipmentCode"])
-            return inserted_counting_equipment_id['id']
+            return inserted_counting_equipment_id['code']
 
     def updateCountingEquipment(self, data):
         with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:

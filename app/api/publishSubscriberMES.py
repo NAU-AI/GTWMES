@@ -9,9 +9,17 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
-from service.productionOrder import productionOrderConclusion, productionOrderInit
+sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
+
+import connectDB
+from config import load_config
+from service.message import sendResponseMessage
+from service.configuration import ConfigurationService
+from dao.activeTime import ActiveTimeDAO
+from dao.productionOrder import ProductionOrderDAO
+from dao.configuration import ConfigurationDAO
+from service.productionOrder import ProductionOrderService
 from service.productionCount import productionCount
-from service.configuration import createConfiguration
 from service.received import messageReceived
 
 topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/PLC"
@@ -43,16 +51,51 @@ def on_disconnect(client, userdata, rc): #it is used when internet connection is
 
 def on_message(client, userdata, msg):
     message = json.loads(msg.payload)
-    print(message)
+
     match message["jsonType"]:
         case "Configuration":
-            createConfiguration(client, topicSend, message)
+            try:
+                config = load_config()
+                conn = connectDB.connect(config)
+                configuration_dao = ConfigurationDAO(conn)
+                configuration_service = ConfigurationService(configuration_dao)
+                configuration_service.createConfiguration(message)
+
+            finally:
+                sendResponseMessage(client, topicSend, message, "ConfigurationResponse", conn)   
+                conn.close()
+                print("Connection to the PostgreSQL server was closed")             
 
         case "ProductionOrder":
-            productionOrderInit(client, topicSend, message)
+            try:
+                config = load_config()
+                conn = connectDB.connect(config)
+                configuration_dao = ConfigurationDAO(conn)
+                production_order_dao = ProductionOrderDAO(conn)
+                active_time_dao = ActiveTimeDAO(conn)
+                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
+                production_order_service.productionOrderInit(message)
+            
+            finally:
+                sendResponseMessage(client, topicSend, message, "ProductionOrderResponse", conn)
+                conn.close()
+                print("Connection to the PostgreSQL server was closed")
 
         case "ProductionOrderConclusion":
-            productionOrderConclusion(client, topicSend, message)
+            try:
+                config = load_config()
+                conn = connectDB.connect(config)
+                configuration_dao = ConfigurationDAO(conn)
+                production_order_dao = ProductionOrderDAO(conn)
+                active_time_dao = ActiveTimeDAO(conn)
+                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
+                production_order_service.productionOrderConclusion(message)
+                    
+            finally:
+                #send response
+                sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse", conn)
+                conn.close()
+                print("Connection to the PostgreSQL server was closed")
         
         case "Received":
             messageReceived(client, topicSend, message)
