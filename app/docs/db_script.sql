@@ -10,14 +10,15 @@ CREATE TABLE counting_equipment (
 CREATE TABLE equipment_output (
     id SERIAL PRIMARY KEY,
     equipment_code VARCHAR(20) NOT NULL,
-    code VARCHAR(20) NOT NULL
+    code VARCHAR(20) NOT NULL,
+    disable INTEGER NOT NULL
 );
 
 -- Create table production_order
 CREATE TABLE production_order (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
-    code VARCHAR(20) NOT NULL
+    code VARCHAR(20) NOT NULL,
     finished INTEGER NOT NULL
 );
 

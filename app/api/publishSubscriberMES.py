@@ -66,6 +66,9 @@ def on_message(client, userdata, msg):
                 configuration_service = ConfigurationService(configuration_dao)
                 configuration_service.createConfiguration(message)
 
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
             finally:
                 message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ConfigurationResponse")   
@@ -82,7 +85,10 @@ def on_message(client, userdata, msg):
                 counter_record_dao = CounterRecordDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderInit(message)
-            
+                            
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
             finally:
                 message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderResponse")
@@ -99,7 +105,10 @@ def on_message(client, userdata, msg):
                 counter_record_dao = CounterRecordDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderConclusion(message)
-                    
+                                    
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
             finally:
                 message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse")
