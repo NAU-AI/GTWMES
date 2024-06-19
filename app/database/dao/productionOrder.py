@@ -52,3 +52,14 @@ class ProductionOrderDAO:
             self.connection.commit()
             print("Updated counting_equipment with id: " + str(equipment_id))
             return updated_counting_equipment_id
+        
+    def setPOFinished(self, equipment_id):
+        with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            set_po_finished_query = sql.SQL("""
+            UPDATE production_order
+            SET finished = %s
+            WHERE equipment_id = %s
+            """)
+            cursor.execute(set_po_finished_query, (1, equipment_id))
+            self.connection.commit()
+            print("PO finished for equipment_id: " + str(equipment_id))

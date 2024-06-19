@@ -18,6 +18,7 @@ CREATE TABLE production_order (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
     code VARCHAR(20) NOT NULL
+    finished INTEGER NOT NULL
 );
 
 -- Create table active_time

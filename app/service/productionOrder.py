@@ -40,6 +40,9 @@ class ProductionOrderService:
         #check if exists some counting_equipment with this code and get this id
         equipment_data = configuration_dao.getCountingEquipmentByCode(data)
 
+        #setting po as finished
+        production_order_dao.setPOFinished(equipment_data['id'])
+
         #setting equipment status using isEquipmentEnabled property from MQTT message
         production_order_dao.setEquipmentStatus(equipment_data['id'], 0)
 
