@@ -62,9 +62,20 @@ class ConfigurationDAO:
             get_equipment_output_query = sql.SQL("""
             SELECT *
             FROM equipment_output
-            WHERE equipment_code = %s
+            WHERE equipment_code = %s AND disable = %s
             """)
-            cursor.execute(get_equipment_output_query, (data,))
+            cursor.execute(get_equipment_output_query, (data, 0))
+            equipment_output_found = cursor.fetchall()
+            return equipment_output_found
+
+    def getEquipmentOutputByEquipmentIdAndCode(self, data, code):
+        with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            get_equipment_output_query = sql.SQL("""
+            SELECT *
+            FROM equipment_output
+            WHERE equipment_code = %s AND disable = %s AND code = %s
+            """)
+            cursor.execute(get_equipment_output_query, (data, 0, code))
             equipment_output_found = cursor.fetchall()
             return equipment_output_found
         
@@ -99,3 +110,13 @@ class ConfigurationDAO:
             cursor.execute(delete_existing_outputs, (updated_ce_code,))
             self.connection.commit()
 
+    def updateEquipmentOutputDisable(self, equipment_code, code, disable):
+        with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            update_disable_output_query = sql.SQL("""
+            UPDATE equipment_output
+            SET disable = %s
+            WHERE code = %s AND equipment_code = %s
+            """)
+            cursor.execute(update_disable_output_query, (disable, code, equipment_code))
+            self.connection.commit()
+            print("Updated output")

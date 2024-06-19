@@ -7,6 +7,7 @@ class ConfigurationService:
 
         #check if exists some counting_equipment with this code
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)
+        print(equipment_found)
 
         if equipment_found == None:
             #if it doesn't exists, create a new one and the outputs
@@ -17,9 +18,16 @@ class ConfigurationService:
         else: 
             #if exists, we update it
             updated_counting_equipment_code = configuration_dao.updateCountingEquipment(data)
-            #delete existing outputs in order to add the new ones
-            configuration_dao.deleteEquipmentOutput(updated_counting_equipment_code)
-            #now we have to insert the outputs at equipment_output
+            currentOutputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['code'])
+
+            for output in currentOutputs:
+                configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_code, output['code'], 1)
+                
+                for newOutput in data['outputCodes']:
+                    if output['code'] == newOutput:
+                        configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_code, newOutput, 0)
+                        data['outputCodes'].remove(newOutput)
+
             configuration_dao.insertEquipmentOutput(updated_counting_equipment_code, data)
         
         print("createConfiguration function done")

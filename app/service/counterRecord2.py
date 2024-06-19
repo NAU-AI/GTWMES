@@ -25,7 +25,10 @@ def counterRecordsForThreadTests():
         outputs = configuration_dao.getEquipmentOutput()
         
         for output in outputs:
-            counter_record_dao.insertCounterRecord(output["id"], random.randint(1, 100))
+            if output['code'] == "CRK001-001":
+                counter_record_dao.insertCounterRecord(output["id"], random.randint(100, 1000))
+            else:
+                counter_record_dao.insertCounterRecord(output["id"], random.randint(1, 100))
 
         
         print("Counter records inserted")
