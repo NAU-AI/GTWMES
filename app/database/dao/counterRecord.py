@@ -24,11 +24,13 @@ class CounterRecordDAO:
     def getCounterRecordTotalValueByEquipmentOutputId(self, data):
         with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
             check_counter_record_total_value_query = sql.SQL("""
-            SELECT equipment_output_id, SUM(real_value) as totalValue
-            FROM counter_record
-            WHERE equipment_output_id = %s AND disable = %s
-            GROUP BY equipment_output_id
+            SELECT cr.equipment_output_id, SUM(cr.real_value) AS totalValue
+            FROM counter_record cr
+            JOIN equipment_output eo ON cr.equipment_output_id = eo.id
+            WHERE cr.equipment_output_id = %s AND eo.disable = %s
+            GROUP BY cr.equipment_output_id
             """)
+            
             cursor.execute(check_counter_record_total_value_query, (data, 0))
             equipment_found = cursor.fetchone()
             return equipment_found
