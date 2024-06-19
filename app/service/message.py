@@ -10,6 +10,7 @@ class MessageService:
     def sendResponseMessage(self, client, topicSend, data, jsonType): 
         configuration_dao = self.configuration_dao
         active_time_dao = self.active_time_dao
+        counter_record_dao = self.counter_record_dao
 
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['code'])
@@ -22,8 +23,12 @@ class MessageService:
             
         counters = []
         for output in outputs:
-            #counters.append({"outputCode": output[2], "value": 0})
-            counters.append({"outputCode": output['code'], "value": randint(1, 100)})
+            outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+            if(outputTotal == None):
+                outputTotal = 0
+            else:
+                outputTotal = outputTotal["totalvalue"]
+            counters.append({"outputCode": output['code'], "value": outputTotal})
 
         if "productionOrderCode" in data:
             productionOrderCode = data["productionOrderCode"]
@@ -63,14 +68,11 @@ class MessageService:
         counters = []
         for output in outputs:
             outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
-
             if(outputTotal == None):
                 outputTotal = 0
             else:
                 outputTotal = outputTotal["totalvalue"]
-            
             counters.append({"outputCode": output['code'], "value": outputTotal})
-            #counters.append({"outputCode": output['code'], "value": randint(1, 100)})
 
 
         alarm = [0, 0, 0, 0]

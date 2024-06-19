@@ -15,7 +15,6 @@ class CounterRecordDAO:
             new_counter_record_query = """
             INSERT INTO counter_record (equipment_output_id, real_value, registered_at)
             VALUES (%s, %s, %s)
-            RETURNING equipment_output_id;
             """
             cursor.execute(new_counter_record_query, (id, value, ct))
             self.connection.commit()

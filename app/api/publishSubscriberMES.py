@@ -123,7 +123,7 @@ def subscribe(client):
     periodically_messages_thread.daemon = True
     periodically_messages_thread.start()  
 
-    periodically_counterRecord_thread = threading.Thread(target=counterRecordsForThreadTests, args=(client, topicSend ))
+    periodically_counterRecord_thread = threading.Thread(target=counterRecordsForThreadTests)
     periodically_counterRecord_thread.daemon = True
     periodically_counterRecord_thread.start()  
     
