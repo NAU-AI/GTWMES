@@ -12,7 +12,6 @@ class ProductionOrderDAO:
             SELECT *
             FROM production_order
             WHERE code = %s AND equipment_id = %s
-            LIMIT 1
             """)
             cursor.execute(check_if_PO_exists_query, (data["productionOrderCode"], equipment_id))
             po_found = cursor.fetchone()
