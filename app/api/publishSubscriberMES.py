@@ -112,6 +112,7 @@ def on_message(client, userdata, msg):
             finally:
                 message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse")
+                
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
         

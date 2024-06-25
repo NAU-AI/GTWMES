@@ -47,9 +47,5 @@ class ProductionOrderService:
         #setting equipment status using isEquipmentEnabled property from MQTT message
         production_order_dao.setEquipmentStatus(equipment_data['id'], 0)
 
-        #setting equipment active time to zero
-        active_time_dao = self.active_time_dao
-        active_time_dao.setActiveTime(equipment_data['id'], 0)
-
         print("ProductionConclusion function done")
         
