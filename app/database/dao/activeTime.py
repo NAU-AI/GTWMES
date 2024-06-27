@@ -40,22 +40,20 @@ class ActiveTimeDAO:
         except Exception as err:
             logging.error("%s. insertActiveTime failed", err)
 
-    def setActiveTime(self, equipment_id, active_time):
+    #get active_time by equipment_id
+    def getActiveTimeTotalValueByEquipmentId(self, data):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
-                ct = datetime.datetime.now()
-
-                set_equipment_active_time_query = sql.SQL("""
-                UPDATE active_time
-                SET active_time = %s, registered_at = %s
-                WHERE equipment_id = %s
-                RETURNING id, equipment_id, active_time, registered_at
+                check_active_time_total_value_query = sql.SQL("""
+                SELECT at.equipment_id, SUM(at.active_time) AS totalActiveValue
+                FROM active_time at
+                JOIN counting_equipment ce ON at.equipment_id = ce.id
+                GROUP BY at.equipment_id
                 """)
-                cursor.execute(set_equipment_active_time_query, (active_time, ct, equipment_id))
-                updated_at_equipment_id = cursor.fetchone()
-                self.connection.commit()
-                print("Updated active_time with equipment_id: " + str(equipment_id))
-                return updated_at_equipment_id
+                
+                cursor.execute(check_active_time_total_value_query, (data, 0))
+                equipment_found = cursor.fetchone()
+                return equipment_found
             
         except Exception as err:
-            logging.error("%s. setActiveTime failed", err)
+            logging.error("%s. getCounterRecordTotalValueByEquipmentOutputId failed", err)

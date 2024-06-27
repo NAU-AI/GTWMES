@@ -31,14 +31,9 @@ def productionCount(client, topicSend):
         length = end - start
         for po in final_pos:
             if(round(round(length) % po['p_timer_communication_cycle']) == 0 and round(length) != 0 and po['finished'] != 1):
-                already_exist_this_equipmentId_at_active_time = active_time_dao.getActiveTimeByEquipmentId(po['equipment_id'])
-        
-                if already_exist_this_equipmentId_at_active_time != None:
-                    #if exists, set equipment active time
-                    active_time_dao.setActiveTime(po['equipment_id'], int(already_exist_this_equipmentId_at_active_time['active_time']) + po['p_timer_communication_cycle'])
-                else:
-                    #if not, create active time for this equipment 
-                    active_time_dao.insertActiveTime(po['equipment_id'], round(length))
+               
+                #if not, create active time for this equipment 
+                active_time_dao.insertActiveTime(po['equipment_id'], po['p_timer_communication_cycle'])
                 
                 message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                 message_service.sendProductionCount(client, topicSend, po)
