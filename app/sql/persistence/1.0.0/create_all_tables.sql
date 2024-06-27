@@ -1,3 +1,12 @@
+-- Drop tables
+DROP TABLE IF EXISTS counting_equipment;
+DROP TABLE IF EXISTS equipment_output;
+DROP TABLE IF EXISTS production_order;
+DROP TABLE IF EXISTS active_time;
+DROP TABLE IF EXISTS alarm;
+DROP TABLE IF EXISTS counter_record;
+DROP TABLE IF EXISTS audit_script;
+
 -- Create table counting_equipment
 CREATE TABLE counting_equipment (
     id SERIAL PRIMARY KEY,
@@ -47,4 +56,13 @@ CREATE TABLE counter_record (
     equipment_output_id INTEGER REFERENCES equipment_output(id),
     real_value INTEGER,
     registered_at TIMESTAMP
+);
+
+-- Create table audit_script
+CREATE TABLE audit_script (
+    id SERIAL PRIMARY KEY,
+    run_date DATE NOT NULL,
+    process VARCHAR(50) NOT NULL,
+    version VARCHAR(10) NOT NULL,
+    schema VARCHAR(50) NOT NULL
 );
