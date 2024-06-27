@@ -25,8 +25,8 @@ from service.productionOrder import ProductionOrderService
 from service.productionCount import productionCount
 from service.received import messageReceived
 
-topicReceive = "MASILVA/CRK/PROTOCOL_COUNT_V0/PLC"
-topicSend = "MASILVA/CRK/PROTOCOL_COUNT_V0/BE"
+topicReceive = os.getenv("topicReceive")
+topicSend = os.getenv("topicSend")
 
 def on_connect(client, userdata, flags, rc):
     if rc != 0:
