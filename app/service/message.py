@@ -14,7 +14,7 @@ class MessageService:
 
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['code'])
-        totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
+        totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment_found['id'])
         
         time = 0
         if(totalActiveTimeEquipment != None):
