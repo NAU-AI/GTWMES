@@ -13,7 +13,7 @@ class MessageService:
         counter_record_dao = self.counter_record_dao
 
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
-        outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['code'])
+        outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
         totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment_found['id'])
         
         time = 0
@@ -56,7 +56,7 @@ class MessageService:
         active_time_dao = self.active_time_dao
         counter_record_dao = self.counter_record_dao
 
-        outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
+        outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['id'])
         totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
 
         time = 0

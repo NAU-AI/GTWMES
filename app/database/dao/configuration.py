@@ -43,13 +43,13 @@ class ConfigurationDAO:
                 new_counting_equipment_query = """
                 INSERT INTO counting_equipment (code, equipment_status, p_timer_communication_cycle)
                 VALUES (%s, %s, %s)
-                RETURNING code;
+                RETURNING id;
                 """
                 cursor.execute(new_counting_equipment_query, (data["equipmentCode"], 0, data["pTimerCommunicationCycle"]))
                 inserted_counting_equipment_id = cursor.fetchone()
                 self.connection.commit()
                 print("Insert counting_equipment: " + data["equipmentCode"])
-                return inserted_counting_equipment_id['code']
+                return inserted_counting_equipment_id['id']
             
         except Exception as err:
             logging.error("%s. insertCountingEquipment failed", err)
@@ -62,14 +62,14 @@ class ConfigurationDAO:
                 SET equipment_status = %s,
                 p_timer_communication_cycle = %s
                 WHERE code = %s
-                RETURNING code
+                RETURNING id
                 """)
                 cursor.execute(update_counting_equipment_query, (0, data["pTimerCommunicationCycle"], data["equipmentCode"]))
                 
                 updated_counting_equipment_id = cursor.fetchone()
                 self.connection.commit()
                 print("Updated counting_equipment: " + data["equipmentCode"])
-                return updated_counting_equipment_id['code']
+                return updated_counting_equipment_id['id']
         
         except Exception as err:
             logging.error("%s. updateCountingEquipment failed", err)
@@ -80,7 +80,7 @@ class ConfigurationDAO:
                 get_equipment_output_query = sql.SQL("""
                 SELECT *
                 FROM equipment_output
-                WHERE equipment_code = %s AND disable = %s
+                WHERE equipment_id = %s AND disable = %s
                 """)
                 cursor.execute(get_equipment_output_query, (data, 0))
                 equipment_output_found = cursor.fetchall()
@@ -95,7 +95,7 @@ class ConfigurationDAO:
                 get_equipment_output_query = sql.SQL("""
                 SELECT *
                 FROM equipment_output
-                WHERE equipment_code = %s AND disable = %s AND code = %s
+                WHERE equipment_id = %s AND disable = %s AND code = %s
                 """)
                 cursor.execute(get_equipment_output_query, (data, 0, code))
                 equipment_output_found = cursor.fetchall()
@@ -118,44 +118,44 @@ class ConfigurationDAO:
         except Exception as err:
             logging.error("%s. getEquipmentOutput failed", err)
 
-    def insertEquipmentOutput(self, inserted_ce_code, data):
+    def insertEquipmentOutput(self, inserted_ce_id, data):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
                 new_equipment_output_query = """
-                    INSERT INTO equipment_output (equipment_code, code)
+                    INSERT INTO equipment_output (equipment_id, code)
                     VALUES (%s, %s);
                     """
                 for output in data["outputCodes"]:
-                    cursor.execute(new_equipment_output_query, (inserted_ce_code, output))
+                    cursor.execute(new_equipment_output_query, (inserted_ce_id, output))
                     self.connection.commit()
                     print("Insert equipment_output: " + output)
 
         except Exception as err:
             logging.error("%s. insertEquipmentOutput failed", err)
 
-    def deleteEquipmentOutput(self, updated_ce_code):
+    def deleteEquipmentOutput(self, updated_ce_id):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
                 delete_existing_outputs = sql.SQL("""
                 DELETE
                 FROM equipment_output
-                WHERE equipment_code = %s
+                WHERE equipment_id = %s
                 """)
-                cursor.execute(delete_existing_outputs, (updated_ce_code,))
+                cursor.execute(delete_existing_outputs, (updated_ce_id,))
                 self.connection.commit()
 
         except Exception as err:
             logging.error("%s. deleteEquipmentOutput failed", err)
 
-    def updateEquipmentOutputDisable(self, equipment_code, code, disable):
+    def updateEquipmentOutputDisable(self, equipment_id, code, disable):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
                 update_disable_output_query = sql.SQL("""
                 UPDATE equipment_output
                 SET disable = %s
-                WHERE code = %s AND equipment_code = %s
+                WHERE code = %s AND equipment_id = %s
                 """)
-                cursor.execute(update_disable_output_query, (disable, code, equipment_code))
+                cursor.execute(update_disable_output_query, (disable, code, equipment_id))
                 self.connection.commit()
                 print("Updated output")
 
