@@ -18,7 +18,7 @@ class MessageService:
         
         time = 0
         if(totalActiveTimeEquipment != None):
-            time = totalActiveTimeEquipment
+            time = totalActiveTimeEquipment["totalactivevalue"]
             
         counters = []
         for output in outputs:
@@ -58,10 +58,10 @@ class MessageService:
 
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_code'])
         totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
-        
+
         time = 0
         if(totalActiveTimeEquipment != None):
-            time = totalActiveTimeEquipment
+            time = totalActiveTimeEquipment["totalactivevalue"]
 
         counters = []
         for output in outputs:
