@@ -23,14 +23,6 @@ class ProductionOrderService:
 
                 production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
 
-                already_exist_this_equipmentId_at_active_time = active_time_dao.getActiveTimeByEquipmentId(equipment_data['id'])
-
-                if already_exist_this_equipmentId_at_active_time != None:
-                    #if exists, set equipment active time to zero
-                    active_time_dao.setActiveTime(equipment_data['id'], 0)
-                else:
-                    #if not, create active time for this equipment 
-                    active_time_dao.insertActiveTime(equipment_data['id'], 0)
         
             print("ProductionInit function done")
 
