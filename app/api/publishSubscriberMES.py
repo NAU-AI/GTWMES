@@ -9,8 +9,6 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
-
 from service.counterRecord2 import counterRecordsForThreadTests
 from database.dao.counterRecord import CounterRecordDAO
 import database.connectDB
