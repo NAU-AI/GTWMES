@@ -14,8 +14,6 @@ class ProductionOrderService:
             equipment_data = configuration_dao.getCountingEquipmentByCode(data)
             
             already_exist_this_production_order = production_order_dao.getProductionOrderByCodeAndCEquipmentId(equipment_data['id'], data)
-
-            active_time_dao = self.active_time_dao
             
             if already_exist_this_production_order == None:
                 #create new production order

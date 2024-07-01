@@ -17,17 +17,17 @@ class ConfigurationService:
 
         else: 
             #if exists, we update it
-            updated_counting_equipment_code = configuration_dao.updateCountingEquipment(data)
-            currentOutputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['code'])
+            updated_counting_equipment_id = configuration_dao.updateCountingEquipment(data)
+            currentOutputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
 
             for output in currentOutputs:
-                configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_code, output['code'], 1)
+                configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_id, output['code'], 1)
                 
                 for newOutput in data['outputCodes']:
                     if output['code'] == newOutput:
-                        configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_code, newOutput, 0)
+                        configuration_dao.updateEquipmentOutputDisable(updated_counting_equipment_id, newOutput, 0)
                         data['outputCodes'].remove(newOutput)
 
-            configuration_dao.insertEquipmentOutput(updated_counting_equipment_code, data)
+            configuration_dao.insertEquipmentOutput(updated_counting_equipment_id, data)
         
         print("createConfiguration function done")
