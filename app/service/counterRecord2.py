@@ -3,17 +3,17 @@ import random
 import sys
 import time
 
-from dao.counterRecord import CounterRecordDAO
-from dao.configuration import ConfigurationDAO
+from database.dao.counterRecord import CounterRecordDAO
+from database.dao.configuration import ConfigurationDAO
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
-import connectDB
-from config import load_config
+import database.connectDB
+from database.config import load_config
 
 def counterRecordsForThreadTests():
     config = load_config()
-    conn = connectDB.connect(config)
+    conn = database.connectDB.connect(config)
           
     configuration_dao = ConfigurationDAO(conn)
     counter_record_dao = CounterRecordDAO(conn)

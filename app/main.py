@@ -11,8 +11,7 @@ ca_cert = "./key/MES/AmazonRootCA1.pem"
 certfile = "./key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
 keyfile = "./key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'api'))
-import publishSubscriberMES
+import api.publishSubscriberMES
 
 def main():
 
@@ -25,7 +24,7 @@ def main():
 
         try:
             client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
-            publishSubscriberMES.subscribe(client)
+            api.publishSubscriberMES.subscribe(client)
             return
         except Exception as err:
             logging.error("%s. Connection failed. Retrying...", err)

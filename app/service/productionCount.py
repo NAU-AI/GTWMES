@@ -2,20 +2,20 @@ import os
 import sys
 import time
 
-from dao.counterRecord import CounterRecordDAO
+from database.dao.counterRecord import CounterRecordDAO
 from service.message import MessageService
-from dao.activeTime import ActiveTimeDAO 
-from dao.configuration import ConfigurationDAO
-from dao.productionCount import ProductionCountDAO
+from database.dao.activeTime import ActiveTimeDAO 
+from database.dao.configuration import ConfigurationDAO
+from database.dao.productionCount import ProductionCountDAO
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
-import connectDB
-from config import load_config
+import database.connectDB
+from database.config import load_config
 
 def productionCount(client, topicSend):
     config = load_config()
-    conn = connectDB.connect(config)
+    conn = database.connectDB.connect(config)
     start = time.time()            
     
 

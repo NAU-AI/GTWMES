@@ -11,16 +11,15 @@ load_dotenv()
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
 
-
-from dao.counterRecord import CounterRecordDAO
 from service.counterRecord2 import counterRecordsForThreadTests
-import connectDB
-from config import load_config
+from database.dao.counterRecord import CounterRecordDAO
+import database.connectDB
+from database.config import load_config
 from service.message import MessageService
 from service.configuration import ConfigurationService
-from dao.activeTime import ActiveTimeDAO
-from dao.productionOrder import ProductionOrderDAO
-from dao.configuration import ConfigurationDAO
+from database.dao.activeTime import ActiveTimeDAO
+from database.dao.productionOrder import ProductionOrderDAO
+from database.dao.configuration import ConfigurationDAO
 from service.productionOrder import ProductionOrderService
 from service.productionCount import productionCount
 from service.received import messageReceived
@@ -59,7 +58,7 @@ def on_message(client, userdata, msg):
         case "Configuration":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 active_time_dao = ActiveTimeDAO(conn)
                 configuration_dao = ConfigurationDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
@@ -78,7 +77,7 @@ def on_message(client, userdata, msg):
         case "ProductionOrder":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
@@ -98,7 +97,7 @@ def on_message(client, userdata, msg):
         case "ProductionOrderConclusion":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
