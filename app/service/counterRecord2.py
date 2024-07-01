@@ -6,8 +6,6 @@ import time
 from database.dao.counterRecord import CounterRecordDAO
 from database.dao.configuration import ConfigurationDAO
 
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
 import database.connectDB
 from database.config import load_config
 

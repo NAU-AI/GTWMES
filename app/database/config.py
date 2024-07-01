@@ -1,6 +1,11 @@
 from configparser import ConfigParser
+import os
+from dotenv import load_dotenv
+load_dotenv() 
 
-def load_config(filename='./database.ini', section='postgresql'):
+databaseIni = os.getenv("databaseIni")
+
+def load_config(filename=databaseIni, section='postgresql'):
     parser = ConfigParser()
     parser.read(filename)
 

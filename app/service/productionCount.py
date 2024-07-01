@@ -8,8 +8,6 @@ from database.dao.activeTime import ActiveTimeDAO
 from database.dao.configuration import ConfigurationDAO
 from database.dao.productionCount import ProductionCountDAO
 
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
 import database.connectDB
 from database.config import load_config
 
