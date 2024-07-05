@@ -22,29 +22,25 @@ pg_user=$PG_USER
 pg_password=$PG_PASSWORD
 db_name=$DB_NAME
 
-# Install Pip
-python -m pip install --upgrade pip
-echo "Pip installed"
-
 # Install PostgreSQL
 sudo apt install postgresql libpq-dev postgresql-client postgresql-client-common -y
 echo "PostgreSQL installed with success!"
 
 # Create DB user
-sudo -u postgres psql -c "CREATE USER $pg_user WITH PASSWORD $pg_password;"
-echo "$pg_user created with success!"
+sudo -u postgres psql -c "CREATE USER "$pg_user" WITH PASSWORD "$pg_password";"
+echo ""$pg_user" created with success!"
 
 # Create database
-sudo -u postgres psql -c "CREATE DATABASE $db_name OWNER $pg_user;"
-echo "Database $db_name created with success!"
+sudo -u postgres psql -c "CREATE DATABASE "$db_name" OWNER "$pg_user";"
+echo "Database "$db_name" created with success!"
 
 # Retrieve version from environment variables
 db_version=$DB_VERSION
 
 # Create tables - para o create_all_tables
-$sql_file = "./db/persistence/$db_version/create_all_tables.sql"
+$sql_file = "./db/persistence/"$db_version"/create_all_tables.sql"
 if [[ -f "$sql_file" ]]; then
-    sudo -u postgres psql -d GTW -f "$sql_file"
+    sudo -u postgres psql -d "$db_name" -f "$sql_file"
     echo "Tables created with success!"
 else
     echo "SQL file not found!"
@@ -71,6 +67,10 @@ echo "Virtual environment created successfully"
 # Activate the virtual environment
 source /home/admin/pgadmin4/bin/activate
 echo "Virtual environment activated"
+
+# Install Pip
+python -m pip install --upgrade pip
+echo "Pip installed"
 
 # Install PGadmin4
 pip install pgadmin4
