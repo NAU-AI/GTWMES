@@ -83,3 +83,18 @@ class ProductionOrderDAO:
         
         except Exception as err:
             logging.error("%s. setPOFinished failed", err)
+
+    def updatePOcode(self, equipment_id, code):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                update_po_code_query = sql.SQL("""
+                UPDATE production_order
+                SET code = %s
+                WHERE equipment_id = %s
+                """)
+                cursor.execute(update_po_code_query, (code, equipment_id))
+                self.connection.commit()
+                print("PO edited for equipment_id: " + str(equipment_id))
+        
+        except Exception as err:
+            logging.error("%s. setPOFinished failed", err)
