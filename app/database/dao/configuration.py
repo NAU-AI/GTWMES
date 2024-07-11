@@ -23,6 +23,22 @@ class ConfigurationDAO:
         except Exception as err:
             logging.error("%s. getCountingEquipmentByCode failed", err)
 
+    def getCountingEquipmentById(self, id):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                check_if_counting_equipment_exists_query = sql.SQL("""
+                SELECT *
+                FROM counting_equipment
+                WHERE id = %s
+                LIMIT 1
+                """)
+                cursor.execute(check_if_counting_equipment_exists_query, (id,))
+                equipment_found = cursor.fetchone()
+                return equipment_found
+            
+        except Exception as err:
+            logging.error("%s. getCountingEquipmentByCode failed", err)
+
     def getCountingEquipmentAll(self):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:

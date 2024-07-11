@@ -37,6 +37,21 @@ class ProductionOrderDAO:
         except Exception as err:
             logging.error("%s. getProductionOrderByCEquipmentId failed", err)
 
+    def getProductionOrderByCEquipmentIdIfNotFinished(self, equipment_id):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                check_if_PO_exists_query = sql.SQL("""
+                SELECT *
+                FROM production_order
+                WHERE equipment_id = %s AND finished = %s
+                """)
+                cursor.execute(check_if_PO_exists_query, (equipment_id,0))
+                po_found = cursor.fetchall()
+                return po_found
+            
+        except Exception as err:
+            logging.error("%s. getProductionOrderByCEquipmentId failed", err)
+
     def insertProductionOrder(self, equipment_id, data):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
