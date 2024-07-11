@@ -21,30 +21,19 @@ def productionCount(client, topicSend):
 
     configuration_dao = ConfigurationDAO(conn)
     active_time_dao = ActiveTimeDAO(conn)
-    production_count_dao = ProductionCountDAO(conn)
     production_order_dao = ProductionOrderDAO(conn)
     counter_record_dao = CounterRecordDAO(conn)
 
     equipments = configuration_dao.getCountingEquipmentAll()
-    final_pos = production_count_dao.getPOs()
 
     while True:
         end = time.time()
         length = end - start
-        for po in final_pos:
-            if(round(round(length) % po['p_timer_communication_cycle']) == 0 and round(length) != 0 and po['finished'] != 1):
-                #if not, create active time for this equipment 
-                active_time_dao.insertActiveTime(po['equipment_id'], po['p_timer_communication_cycle'])
-                
-                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
-                message_service.sendProductionCount(client, topicSend, po)
 
         for equipment in equipments:
-            if equipment['equipment_status'] == 1:
+            if(round(round(length) % equipment['p_timer_communication_cycle']) == 0 and round(length) != 0):
                 existPO = production_order_dao.getProductionOrderByCEquipmentIdIfNotFinished(equipment['id'])
                 if not existPO:
-                    final_pos = []
-
                     temp_list = json.dumps({}, indent = 4)
                     temp_list = json.loads(temp_list)
                     temp_list.update({"code": ""})
@@ -54,8 +43,15 @@ def productionCount(client, topicSend):
                     
                     message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
                     message_service.sendProductionCount(client, topicSend, temp_list)
-
-
-        final_pos = production_count_dao.getPOs()
-        
+                else:
+                    temp_list = json.dumps(existPO, indent = 4)
+                    temp_list = json.loads(temp_list)
+                    temp_list.update({"p_timer_communication_cycle": equipment['p_timer_communication_cycle']})
+                    temp_list.update({"equipment_code": equipment['code']})
+                    temp_list.update({"equipment_id": equipment['id']})
+                    temp_list.update({"equipment_status": equipment['equipment_status']})
+                    
+                    message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
+                    message_service.sendProductionCount(client, topicSend, temp_list)
+                    
         time.sleep(1)
