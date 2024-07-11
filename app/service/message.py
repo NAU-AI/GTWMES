@@ -91,6 +91,6 @@ class MessageService:
         message.update({"activeTime":time})
         message.update({"alarms":alarm})
         message.update({"counters": counters})
-
+  
         client.publish(topicSend, json.dumps(message), qos=1)
         print("ProductionCount sent")

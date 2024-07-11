@@ -113,24 +113,6 @@ def on_message(client, userdata, msg):
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
         
-        case "ProductionCount":
-            try:
-                config = load_config()
-                conn = database.connectDB.connect(config)
-                configuration_dao = ConfigurationDAO(conn)
-                production_order_dao = ProductionOrderDAO(conn)
-                active_time_dao = ActiveTimeDAO(conn)
-                counter_record_dao = CounterRecordDAO(conn)
-                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
-                production_order_service.productionOrderMachineInit(message)
-                                    
-            except Exception as e:
-                print(f"An error occurred: {e}")
-
-            finally:
-                client.publish(topicSend, json.dumps(message), qos=1) 
-                conn.close()
-                print("Connection to the PostgreSQL server was closed")
         
         case "Received":
             messageReceived(client, topicSend, message)
