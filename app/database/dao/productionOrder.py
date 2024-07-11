@@ -46,7 +46,7 @@ class ProductionOrderDAO:
                 WHERE equipment_id = %s AND finished = %s
                 """)
                 cursor.execute(check_if_PO_exists_query, (equipment_id,0))
-                po_found = cursor.fetchall()
+                po_found = cursor.fetchone()
                 return po_found
             
         except Exception as err:
