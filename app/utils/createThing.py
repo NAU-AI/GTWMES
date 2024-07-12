@@ -10,7 +10,7 @@ import string
 
 thingArn = ''
 thingId = ''
-thingName = 'teste' #''.join([random.choice(string.ascii_letters + string.digits) for n in range(15)])
+thingName = os.getenv("clientId").strip()
 defaultPolicyName = 'ALL2' #I can create policies with python too, if needed. But I think that all devices will have the same permissions.
 
 def createThing():
