@@ -5,15 +5,14 @@ class ProductionOrderService:
         self.active_time_dao = active_time_dao
 
     def productionOrderInit(self, data):
-
         configuration_dao = self.configuration_dao
         production_order_dao = self.production_order_dao
 
         if data['productionOrderCode'] != "":
             #check if exists some counting_equipment with this code and get this id
             equipment_data = configuration_dao.getCountingEquipmentByCode(data)
-
-            if data['equipmentStatus'] == 1:
+            
+            if equipment_data['equipment_status'] == 1:
                 #update production order code
                 production_order_dao.updatePOcode(equipment_data['id'], data['productionOrderCode'])
             else:
