@@ -36,7 +36,7 @@ class MessageService:
         else:
             productionOrderCode = ""
 
-        alarms = alarm_dao.getAlarmsByEquipmentId(data['equipment_id'])
+        alarms = alarm_dao.getAlarmsByEquipmentId(equipment_found['id'])
         if alarms != None:
             alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
         else:
