@@ -10,7 +10,7 @@ import string
 
 thingArn = ''
 thingId = ''
-thingName = 'teste' #''.join([random.choice(string.ascii_letters + string.digits) for n in range(15)])
+thingName = os.getenv("clientId").strip()
 defaultPolicyName = 'ALL2' #I can create policies with python too, if needed. But I think that all devices will have the same permissions.
 
 def createThing():
@@ -61,8 +61,8 @@ def createCertificate():
 
 thingClient = boto3.client(
 	'iot', 
-	aws_access_key_id=os.getenv("aws_access_key_id"),
-    aws_secret_access_key=os.getenv("aws_secret_access_key"),
-	region_name=os.getenv("region_name"))
+	aws_access_key_id=os.environ.get("aws_access_key_id"),
+    aws_secret_access_key=os.environ.get("aws_secret_access_key"),
+	region_name=os.environ.get("region_name"))
 
 createThing()

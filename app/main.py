@@ -7,15 +7,13 @@ load_dotenv()
 
 from api.connect import connect_mqtt
 broker_url = os.getenv("broker_url")
-ca_cert = "./key/MES/AmazonRootCA1.pem"
-certfile = "./key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-certificate.pem.crt"
-keyfile = "./key/MES/323d7c3fe3ed141225b1846da88ba2b9d587165ab60ac6965ff316d4203f0140-private.pem.key"
+ca_cert = os.getenv("ca_cert")
+certfile = os.getenv("certfile")
+keyfile = os.getenv("keyfile")
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'api'))
-import publishSubscriberMES
+import api.publishSubscriberMES
 
 def main():
-
     #MQTT client initialization
     reconnect_count, reconnect_delay = 0, int(os.getenv("FIRST_RECONNECT_DELAY"))
 
@@ -25,7 +23,7 @@ def main():
 
         try:
             client = connect_mqtt(broker_url, ca_cert, certfile, keyfile)
-            publishSubscriberMES.subscribe(client)
+            api.publishSubscriberMES.subscribe(client)
             return
         except Exception as err:
             logging.error("%s. Connection failed. Retrying...", err)
@@ -33,8 +31,6 @@ def main():
         reconnect_delay *= int(os.getenv("RECONNECT_RATE"))
         reconnect_delay = min(reconnect_delay, int(os.getenv("MAX_RECONNECT_DELAY")))
         
-    
-    
 
 if __name__ == '__main__':
     main()

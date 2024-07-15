@@ -1,4 +1,5 @@
 .env
+.envTeste
 database.ini
 key/
 
@@ -7,3 +8,6 @@ api/__pycache__/
 database/__pycache__/
 database/dao/__pycache__/
 service/__pycache__/
+
+#ignore build items
+build

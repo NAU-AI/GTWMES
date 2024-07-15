@@ -1,11 +1,11 @@
 -- Drop tables
-DROP TABLE IF EXISTS counting_equipment;
-DROP TABLE IF EXISTS equipment_output;
-DROP TABLE IF EXISTS production_order;
-DROP TABLE IF EXISTS active_time;
-DROP TABLE IF EXISTS alarm;
-DROP TABLE IF EXISTS counter_record;
-DROP TABLE IF EXISTS audit_script;
+DROP TABLE IF EXISTS counting_equipment CASCADE;
+DROP TABLE IF EXISTS equipment_output CASCADE;
+DROP TABLE IF EXISTS production_order CASCADE;
+DROP TABLE IF EXISTS active_time CASCADE;
+DROP TABLE IF EXISTS alarm CASCADE;
+DROP TABLE IF EXISTS counter_record CASCADE;
+DROP TABLE IF EXISTS audit_script CASCADE;
 
 -- Create table counting_equipment
 CREATE TABLE counting_equipment (
@@ -20,14 +20,14 @@ CREATE TABLE equipment_output (
     id SERIAL PRIMARY KEY,
     equipment_code VARCHAR(20) NOT NULL,
     code VARCHAR(20) NOT NULL,
-    disable INTEGER NOT NULL
+    disable INTEGER NOT NULL DEFAULT 0
 );
 
 -- Create table production_order
 CREATE TABLE production_order (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
-    code VARCHAR(20) NOT NULL,
+    code VARCHAR(20),
     finished INTEGER NOT NULL DEFAULT 0
 );
 

@@ -9,18 +9,16 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
-
-
-from dao.counterRecord import CounterRecordDAO
+from database.dao.alarm import AlarmDAO
 from service.counterRecord2 import counterRecordsForThreadTests
-import connectDB
-from config import load_config
+from database.dao.counterRecord import CounterRecordDAO
+import database.connectDB
+from database.config import load_config
 from service.message import MessageService
 from service.configuration import ConfigurationService
-from dao.activeTime import ActiveTimeDAO
-from dao.productionOrder import ProductionOrderDAO
-from dao.configuration import ConfigurationDAO
+from database.dao.activeTime import ActiveTimeDAO
+from database.dao.productionOrder import ProductionOrderDAO
+from database.dao.configuration import ConfigurationDAO
 from service.productionOrder import ProductionOrderService
 from service.productionCount import productionCount
 from service.received import messageReceived
@@ -59,10 +57,11 @@ def on_message(client, userdata, msg):
         case "Configuration":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 active_time_dao = ActiveTimeDAO(conn)
                 configuration_dao = ConfigurationDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
+                alarm_dao = AlarmDAO(conn)
                 configuration_service = ConfigurationService(configuration_dao)
                 configuration_service.createConfiguration(message)
 
@@ -70,7 +69,7 @@ def on_message(client, userdata, msg):
                 print(f"An error occurred: {e}")
 
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ConfigurationResponse")   
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")             
@@ -78,11 +77,12 @@ def on_message(client, userdata, msg):
         case "ProductionOrder":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
+                alarm_dao = AlarmDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderInit(message)
                             
@@ -90,7 +90,7 @@ def on_message(client, userdata, msg):
                 print(f"An error occurred: {e}")
 
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderResponse")
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
@@ -98,11 +98,12 @@ def on_message(client, userdata, msg):
         case "ProductionOrderConclusion":
             try:
                 config = load_config()
-                conn = connectDB.connect(config)
+                conn = database.connectDB.connect(config)
                 configuration_dao = ConfigurationDAO(conn)
                 production_order_dao = ProductionOrderDAO(conn)
                 active_time_dao = ActiveTimeDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
+                alarm_dao = AlarmDAO(conn)
                 production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
                 production_order_service.productionOrderConclusion(message)
                                     
@@ -110,11 +111,12 @@ def on_message(client, userdata, msg):
                 print(f"An error occurred: {e}")
 
             finally:
-                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
+                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
                 message_service.sendResponseMessage(client, topicSend, message, "ProductionOrderConclusionResponse")
                 
                 conn.close()
                 print("Connection to the PostgreSQL server was closed")
+        
         
         case "Received":
             messageReceived(client, topicSend, message)

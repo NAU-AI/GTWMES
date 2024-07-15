@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "./db",
-        "./service/client"
+        "./app/database",
+        "./app/api",
+        "./app/service"
     ]
 }

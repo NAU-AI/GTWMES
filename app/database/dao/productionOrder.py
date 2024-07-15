@@ -37,6 +37,21 @@ class ProductionOrderDAO:
         except Exception as err:
             logging.error("%s. getProductionOrderByCEquipmentId failed", err)
 
+    def getProductionOrderByCEquipmentIdIfNotFinished(self, equipment_id):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                check_if_PO_exists_query = sql.SQL("""
+                SELECT *
+                FROM production_order
+                WHERE equipment_id = %s AND finished = %s
+                """)
+                cursor.execute(check_if_PO_exists_query, (equipment_id,0))
+                po_found = cursor.fetchone()
+                return po_found
+            
+        except Exception as err:
+            logging.error("%s. getProductionOrderByCEquipmentId failed", err)
+
     def insertProductionOrder(self, equipment_id, data):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
@@ -80,6 +95,21 @@ class ProductionOrderDAO:
                 cursor.execute(set_po_finished_query, (1, equipment_id))
                 self.connection.commit()
                 print("PO finished for equipment_id: " + str(equipment_id))
+        
+        except Exception as err:
+            logging.error("%s. setPOFinished failed", err)
+
+    def updatePOcode(self, equipment_id, code):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                update_po_code_query = sql.SQL("""
+                UPDATE production_order
+                SET code = %s
+                WHERE equipment_id = %s
+                """)
+                cursor.execute(update_po_code_query, (code, equipment_id))
+                self.connection.commit()
+                print("PO edited for equipment_id: " + str(equipment_id))
         
         except Exception as err:
             logging.error("%s. setPOFinished failed", err)

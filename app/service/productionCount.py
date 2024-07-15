@@ -1,43 +1,57 @@
+import json
 import os
 import sys
 import time
 
-from dao.counterRecord import CounterRecordDAO
+from database.dao.counterRecord import CounterRecordDAO
 from service.message import MessageService
-from dao.activeTime import ActiveTimeDAO 
-from dao.configuration import ConfigurationDAO
-from dao.productionCount import ProductionCountDAO
+from database.dao.activeTime import ActiveTimeDAO 
+from database.dao.configuration import ConfigurationDAO
+from database.dao.alarm import AlarmDAO
+from database.dao.productionCount import ProductionCountDAO
+from database.dao.productionOrder import ProductionOrderDAO
 
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../database'))
-import connectDB
-from config import load_config
+import database.connectDB
+from database.config import load_config
 
 def productionCount(client, topicSend):
     config = load_config()
-    conn = connectDB.connect(config)
+    conn = database.connectDB.connect(config)
     start = time.time()            
     
 
     configuration_dao = ConfigurationDAO(conn)
     active_time_dao = ActiveTimeDAO(conn)
-    production_count_dao = ProductionCountDAO(conn)
+    production_order_dao = ProductionOrderDAO(conn)
     counter_record_dao = CounterRecordDAO(conn)
-
-    final_pos = production_count_dao.getPOs()
+    alarm_dao = AlarmDAO(conn)
 
     while True:
         end = time.time()
         length = end - start
-        for po in final_pos:
-            if(round(round(length) % po['p_timer_communication_cycle']) == 0 and round(length) != 0 and po['finished'] != 1):
-               
-                #if not, create active time for this equipment 
-                active_time_dao.insertActiveTime(po['equipment_id'], po['p_timer_communication_cycle'])
-                
-                message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao)
-                message_service.sendProductionCount(client, topicSend, po)
-
-        final_pos = production_count_dao.getPOs()
-        
+        equipments = configuration_dao.getCountingEquipmentAll()
+        for equipment in equipments:
+            if(round(round(length) % equipment['p_timer_communication_cycle']) == 0 and round(length) != 0):
+                existPO = production_order_dao.getProductionOrderByCEquipmentIdIfNotFinished(equipment['id'])
+                if not existPO:
+                    temp_list = json.dumps({}, indent = 4)
+                    temp_list = json.loads(temp_list)
+                    temp_list.update({"code": ""})
+                    temp_list.update({"equipment_code": equipment['code']})
+                    temp_list.update({"equipment_id": equipment['id']})
+                    temp_list.update({"equipment_status": equipment['equipment_status']})
+                    
+                    message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
+                    message_service.sendProductionCount(client, topicSend, temp_list)
+                else:
+                    temp_list = json.dumps(existPO, indent = 4)
+                    temp_list = json.loads(temp_list)
+                    temp_list.update({"p_timer_communication_cycle": equipment['p_timer_communication_cycle']})
+                    temp_list.update({"equipment_code": equipment['code']})
+                    temp_list.update({"equipment_id": equipment['id']})
+                    temp_list.update({"equipment_status": equipment['equipment_status']})
+                    
+                    message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
+                    message_service.sendProductionCount(client, topicSend, temp_list)
+                    
         time.sleep(1)
