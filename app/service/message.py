@@ -2,15 +2,17 @@ import json
 from random import randint
 
 class MessageService:
-    def __init__(self, configuration_dao, active_time_dao, counter_record_dao):
+    def __init__(self, configuration_dao, active_time_dao, counter_record_dao, alarm_dao):
         self.configuration_dao = configuration_dao
         self.active_time_dao = active_time_dao
         self.counter_record_dao = counter_record_dao
+        self.alarm_dao = alarm_dao
 
     def sendResponseMessage(self, client, topicSend, data, jsonType): 
         configuration_dao = self.configuration_dao
         active_time_dao = self.active_time_dao
         counter_record_dao = self.counter_record_dao
+        alarm_dao = self.alarm_dao
 
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
@@ -34,7 +36,11 @@ class MessageService:
         else:
             productionOrderCode = ""
 
-        alarm = [0, 0, 0, 0]
+        alarms = alarm_dao.getAlarmsByEquipmentId(data['equipment_id'])
+        if alarms != None:
+            alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+        else:
+            alarm = [0, 0, 0, 0]
 
         message = {}
 
@@ -55,6 +61,7 @@ class MessageService:
         configuration_dao = self.configuration_dao
         active_time_dao = self.active_time_dao
         counter_record_dao = self.counter_record_dao 
+        alarm_dao = self.alarm_dao
 
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_id'])
         totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
@@ -73,7 +80,11 @@ class MessageService:
             counters.append({"outputCode": output['code'], "value": outputTotal})
 
 
-        alarm = [0, 0, 0, 0]
+        alarms = alarm_dao.getAlarmsByEquipmentId(data['equipment_id'])
+        if alarms != None:
+            alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+        else:
+            alarm = [0, 0, 0, 0]
 
         message = {
         "jsonType": "ProductionCount",
