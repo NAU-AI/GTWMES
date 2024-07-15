@@ -2,6 +2,7 @@
 .envTeste
 database.ini
 key/
+variables.py
 
 #ignore pycache's
 api/__pycache__/
