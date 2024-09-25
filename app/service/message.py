@@ -15,45 +15,46 @@ class MessageService:
         alarm_dao = self.alarm_dao
 
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
-        outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
-        totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment_found['id'])
+        if equipment_found:
+            outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
+            totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment_found['id'])
         
-        time = 0
-        if(totalActiveTimeEquipment != None):
-            time = totalActiveTimeEquipment["totalactivevalue"]
+            time = 0
+            if(totalActiveTimeEquipment != None):
+                time = totalActiveTimeEquipment["totalactivevalue"]
             
-        counters = []
-        for output in outputs:
-            outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
-            if(outputTotal == None):
-                outputTotal = 0
+            counters = []
+            for output in outputs:
+                outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+                if(outputTotal == None):
+                    outputTotal = 0
+                else:
+                    outputTotal = outputTotal["totalvalue"]
+                counters.append({"outputCode": output['code'], "value": outputTotal})
+
+            if "productionOrderCode" in data:
+                productionOrderCode = data["productionOrderCode"]
             else:
-                outputTotal = outputTotal["totalvalue"]
-            counters.append({"outputCode": output['code'], "value": outputTotal})
+                productionOrderCode = ""
 
-        if "productionOrderCode" in data:
-            productionOrderCode = data["productionOrderCode"]
-        else:
-            productionOrderCode = ""
+            alarms = alarm_dao.getAlarmsByEquipmentId(equipment_found['id'])
+            if alarms != None:
+                alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+            else:
+                alarm = [0, 0, 0, 0]
 
-        alarms = alarm_dao.getAlarmsByEquipmentId(equipment_found['id'])
-        if alarms != None:
-            alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
-        else:
-            alarm = [0, 0, 0, 0]
+            message = {}
 
-        message = {}
+            message.update({"jsonType": jsonType})
+            message.update({"equipmentCode": equipment_found['code']})
+            message.update({"productionOrderCode": productionOrderCode})
+            message.update({"equipmentStatus": equipment_found['equipment_status']})
+            message.update({"activeTime":time})
+            message.update({"alarms":alarm})
+            message.update({"counters": counters})
 
-        message.update({"jsonType": jsonType})
-        message.update({"equipmentCode": equipment_found['code']})
-        message.update({"productionOrderCode": productionOrderCode})
-        message.update({"equipmentStatus": equipment_found['equipment_status']})
-        message.update({"activeTime":time})
-        message.update({"alarms":alarm})
-        message.update({"counters": counters})
-
-        client.publish(topicSend, json.dumps(message), qos=1)
-        print("Response message sent")
+            client.publish(topicSend, json.dumps(message), qos=1)
+            print("Response message sent")
 
 
 
