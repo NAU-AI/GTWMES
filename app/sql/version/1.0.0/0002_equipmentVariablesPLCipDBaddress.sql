@@ -1,13 +1,11 @@
 ALTER TABLE counting_equipment
 ADD COLUMN plc_ip VARCHAR(20) NOT NULL DEFAULT '0';
 
-ALTER TABLE counting_equipment
-ADD COLUMN db_address VARCHAR(20) NOT NULL DEFAULT '';
-
 CREATE TABLE equipment_variable (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER NOT NULL,
     name VARCHAR(20) NOT NULL,
+    db_address VARCHAR(20) NOT NULL,
     offset_byte INTEGER NOT NULL,
     offset_bit INTEGER NOT NULL,
     FOREIGN KEY (equipment_id) REFERENCES counting_equipment(id)
