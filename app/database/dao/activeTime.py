@@ -48,10 +48,11 @@ class ActiveTimeDAO:
                 SELECT at.equipment_id, SUM(at.active_time) AS totalActiveValue
                 FROM active_time at
                 JOIN counting_equipment ce ON at.equipment_id = ce.id
+                WHERE ce.id = %s
                 GROUP BY at.equipment_id
                 """)
                 
-                cursor.execute(check_active_time_total_value_query, (data, 0))
+                cursor.execute(check_active_time_total_value_query, (data, ))
                 equipment_found = cursor.fetchone()
                 return equipment_found
             

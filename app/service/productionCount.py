@@ -44,6 +44,7 @@ def productionCount(client, topicSend):
                     message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
                     message_service.sendProductionCount(client, topicSend, temp_list)
                 else:
+                    active_time_dao.insertActiveTime(equipment['id'], equipment['p_timer_communication_cycle'])
                     temp_list = json.dumps(existPO, indent = 4)
                     temp_list = json.loads(temp_list)
                     temp_list.update({"p_timer_communication_cycle": equipment['p_timer_communication_cycle']})
