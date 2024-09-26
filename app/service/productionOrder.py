@@ -1,8 +1,12 @@
+import snap7
+from service.PLC.snap7 import plc_connect, plc_disconnect, write_bool
+
 class ProductionOrderService:
-    def __init__(self, configuration_dao, production_order_dao, active_time_dao):
+    def __init__(self, configuration_dao, production_order_dao, active_time_dao, equipment_variables_dao):
         self.configuration_dao = configuration_dao
         self.production_order_dao = production_order_dao
         self.active_time_dao = active_time_dao
+        self.equipment_variables_dao = equipment_variables_dao
 
     def productionOrderInit(self, data):
         configuration_dao = self.configuration_dao
@@ -22,7 +26,11 @@ class ProductionOrderService:
                     #create new production order
                     production_order_dao.insertProductionOrder(equipment_data['id'], data)
 
-                    production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
+                    #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 1
+                    plc = plc_connect()
+                    write_bool(plc, 8, 2, 0, 1)
+                    plc_disconnect(plc)
+                    #production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
 
             print("ProductionInit function done")
 
@@ -39,9 +47,15 @@ class ProductionOrderService:
         production_order_dao.setPOFinished(equipment_data['id'])
 
         #setting equipment status using isEquipmentEnabled property from MQTT message
-        production_order_dao.setEquipmentStatus(equipment_data['id'], 0)
+        #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 0
+        plc = plc_connect()
+        write_bool(plc, 8, 2, 0, 0)
+        plc_disconnect(plc)
+        #production_order_dao.setEquipmentStatus(equipment_data['id'], 0)
 
         print("ProductionConclusion function done")
+
+
 
     def productionOrderMachineInit(self, data):
         configuration_dao = self.configuration_dao
@@ -54,7 +68,12 @@ class ProductionOrderService:
             #create new production order
             production_order_dao.insertProductionOrder(equipment_data['id'], data)
 
-            production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
+
+            #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 1
+            plc = plc_connect()
+            write_bool(plc, 8, 2, 0, 1)
+            plc_disconnect(plc)
+            #production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
 
         
             print("ProductionInit function done")

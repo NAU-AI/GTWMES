@@ -9,9 +9,10 @@ import json
 from dotenv import load_dotenv
 load_dotenv() 
 
+from database.dao.equipmentVariables import EquipmentVariablesDAO
 from variables import FIRST_RECONNECT_DELAY, RECONNECT_RATE, MAX_RECONNECT_DELAY
 from database.dao.alarm import AlarmDAO
-from service.counterRecord2 import counterRecordsForThreadTests
+from service.getPLCvaluesPeriodically import getPLCvaluesPeriodically
 from database.dao.counterRecord import CounterRecordDAO
 import database.connectDB
 from database.config import load_config
@@ -84,7 +85,8 @@ def on_message(client, userdata, msg):
                 active_time_dao = ActiveTimeDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
                 alarm_dao = AlarmDAO(conn)
-                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
+                equipment_variables_dao = EquipmentVariablesDAO(conn)
+                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao, equipment_variables_dao)
                 production_order_service.productionOrderInit(message)
                             
             except Exception as e:
@@ -105,7 +107,8 @@ def on_message(client, userdata, msg):
                 active_time_dao = ActiveTimeDAO(conn)
                 counter_record_dao = CounterRecordDAO(conn)
                 alarm_dao = AlarmDAO(conn)
-                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao)
+                equipment_variables_dao = EquipmentVariablesDAO(conn)
+                production_order_service = ProductionOrderService(configuration_dao, production_order_dao, active_time_dao, equipment_variables_dao)
                 production_order_service.productionOrderConclusion(message)
                                     
             except Exception as e:
@@ -136,9 +139,9 @@ def subscribe(client):
     periodically_messages_thread.daemon = True
     periodically_messages_thread.start()  
 
-    periodically_counterRecord_thread = threading.Thread(target=counterRecordsForThreadTests)
-    periodically_counterRecord_thread.daemon = True
-    periodically_counterRecord_thread.start()  
+    periodically_PLC_communication_thread = threading.Thread(target=getPLCvaluesPeriodically)
+    periodically_PLC_communication_thread.daemon = True
+    periodically_PLC_communication_thread.start()  
     
     try:
         while True:

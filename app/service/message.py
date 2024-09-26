@@ -1,5 +1,8 @@
 import json
-from random import randint
+
+#I will need to change this functions in order to know all the equipment_variables that each equipment have
+#then It will be necessary send the message with all the parameters.
+#But 1st we have to decide the better way to send it on our protocol
 
 class MessageService:
     def __init__(self, configuration_dao, active_time_dao, counter_record_dao, alarm_dao):
@@ -39,7 +42,7 @@ class MessageService:
 
             alarms = alarm_dao.getAlarmsByEquipmentId(equipment_found['id'])
             if alarms != None:
-                alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+                alarm = [alarms['alarm_0'], alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3']]
             else:
                 alarm = [0, 0, 0, 0]
 
@@ -83,7 +86,7 @@ class MessageService:
 
         alarms = alarm_dao.getAlarmsByEquipmentId(data['equipment_id'])
         if alarms != None:
-            alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+            alarm = [alarms['alarm_0'], alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3']]
         else:
             alarm = [0, 0, 0, 0]
 
