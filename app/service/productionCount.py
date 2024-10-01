@@ -4,6 +4,7 @@ import sys
 import time
 
 from database.dao.counterRecord import CounterRecordDAO
+from service.getPLCvaluesPeriodically import getPLCvalues
 from service.message import MessageService
 from database.dao.activeTime import ActiveTimeDAO 
 from database.dao.configuration import ConfigurationDAO
@@ -30,8 +31,10 @@ def productionCount(client, topicSend):
         end = time.time()
         length = end - start
         equipments = configuration_dao.getCountingEquipmentAll()
+ 
         for equipment in equipments:
             if(round(round(length) % equipment['p_timer_communication_cycle']) == 0 and round(length) != 0):
+                getPLCvalues(equipment)
                 existPO = production_order_dao.getProductionOrderByCEquipmentIdIfNotFinished(equipment['id'])
                 if not existPO:
                     temp_list = json.dumps({}, indent = 4)

@@ -12,7 +12,6 @@ load_dotenv()
 from database.dao.equipmentVariables import EquipmentVariablesDAO
 from variables import FIRST_RECONNECT_DELAY, RECONNECT_RATE, MAX_RECONNECT_DELAY
 from database.dao.alarm import AlarmDAO
-from service.getPLCvaluesPeriodically import getPLCvaluesPeriodically
 from database.dao.counterRecord import CounterRecordDAO
 import database.connectDB
 from database.config import load_config
@@ -138,10 +137,6 @@ def subscribe(client):
     periodically_messages_thread = threading.Thread(target=productionCount, args=(client, topicSend ))
     periodically_messages_thread.daemon = True
     periodically_messages_thread.start()  
-
-    periodically_PLC_communication_thread = threading.Thread(target=getPLCvaluesPeriodically)
-    periodically_PLC_communication_thread.daemon = True
-    periodically_PLC_communication_thread.start()  
     
     try:
         while True:

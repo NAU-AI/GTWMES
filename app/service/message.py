@@ -28,11 +28,11 @@ class MessageService:
             
             counters = []
             for output in outputs:
-                outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+                outputTotal = counter_record_dao.getLastCounterRecordByEquipmentOutputId(output['id'])
                 if(outputTotal == None):
                     outputTotal = 0
                 else:
-                    outputTotal = outputTotal["totalvalue"]
+                    outputTotal = outputTotal["real_value"]
                 counters.append({"outputCode": output['code'], "value": outputTotal})
 
             if "productionOrderCode" in data:
@@ -76,11 +76,11 @@ class MessageService:
 
         counters = []
         for output in outputs:
-            outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+            outputTotal = counter_record_dao.getLastCounterRecordByEquipmentOutputId(output['id'])
             if(outputTotal == None):
                 outputTotal = 0
             else:
-                outputTotal = outputTotal["totalvalue"]
+                outputTotal = outputTotal["real_value"]
             counters.append({"outputCode": output['code'], "value": outputTotal})
 
 

@@ -1,4 +1,5 @@
 import snap7
+from service.getPLCvaluesPeriodically import getPLCvalues
 from service.PLC.snap7 import plc_connect, plc_disconnect, write_bool
 
 class ProductionOrderService:
@@ -15,6 +16,7 @@ class ProductionOrderService:
         if data['productionOrderCode'] != "":
             #check if exists some counting_equipment with this code and get this id
             equipment_data = configuration_dao.getCountingEquipmentByCode(data)
+            getPLCvalues(equipment_data)
             
             if equipment_data['equipment_status'] == 1:
                 #update production order code
@@ -42,7 +44,8 @@ class ProductionOrderService:
 
         #check if exists some counting_equipment with this code and get this id
         equipment_data = configuration_dao.getCountingEquipmentByCode(data)
-        
+        #get values from PLC
+        getPLCvalues(equipment_data)
         #setting po as finished
         production_order_dao.setPOFinished(equipment_data['id'])
 
