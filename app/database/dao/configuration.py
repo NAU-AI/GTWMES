@@ -90,6 +90,22 @@ class ConfigurationDAO:
         except Exception as err:
             logging.error("%s. updateCountingEquipment failed", err)
 
+    def updateCountingEquipmentStatus(self, equipment_id, equipment_status):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                update_counting_equipment_status_query = sql.SQL("""
+                UPDATE counting_equipment
+                SET equipment_status = %s
+                WHERE id = %s
+                """)
+                cursor.execute(update_counting_equipment_status_query, (equipment_status, equipment_id))
+    
+                self.connection.commit()
+                print("Updated counting_equipment status")
+        
+        except Exception as err:
+            logging.error("%s. updateCountingEquipmentStatus failed", err)
+
     def getEquipmentOutputByEquipmentId(self, data):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
@@ -128,6 +144,22 @@ class ConfigurationDAO:
                 FROM equipment_output
                 """)
                 cursor.execute(get_equipment_output_query)
+                equipment_output_found = cursor.fetchall()
+                return equipment_output_found
+            
+        except Exception as err:
+            logging.error("%s. getEquipmentOutput failed", err)
+
+    def getEquipmentOutputById(self, id):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                get_equipment_output_query = sql.SQL("""
+                SELECT *
+                FROM equipment_output
+                WHERE equipment_id = %s
+                ORDER BY id;
+                """)
+                cursor.execute(get_equipment_output_query, (id,))
                 equipment_output_found = cursor.fetchall()
                 return equipment_output_found
             

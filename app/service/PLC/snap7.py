@@ -23,9 +23,9 @@ def plc_disconnect(plc):
         # Disconnect from the PLC
         plc.disconnect()
         print(f"Disconnected to PLC at {plc_ip}")
-    except snap7.exceptions.Snap7Exception as e:
+    except: #snap7.exceptions.Snap7Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
-        print(f"Error disconnecting from PLC: {e}")
+        print(f"Error disconnecting from PLC")
 
 from snap7 import type
 

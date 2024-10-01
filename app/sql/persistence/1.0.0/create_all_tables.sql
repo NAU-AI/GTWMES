@@ -43,10 +43,10 @@ CREATE TABLE active_time (
 CREATE TABLE alarm (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
+    alarm_0 INTEGER,
     alarm_1 INTEGER,
     alarm_2 INTEGER,
     alarm_3 INTEGER,
-    alarm_4 INTEGER,
     registered_at TIMESTAMP
 );
 

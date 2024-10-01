@@ -7,7 +7,7 @@ CREATE TABLE equipment_variable (
     name VARCHAR(20) NOT NULL,
     db_address VARCHAR(20) NOT NULL,
     offset_byte INTEGER NOT NULL,
-    offset_bit INTEGER NOT NULL,
+    offset_bit INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (equipment_id) REFERENCES counting_equipment(id)
 );
 

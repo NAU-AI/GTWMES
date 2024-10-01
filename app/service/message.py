@@ -1,5 +1,8 @@
 import json
-from random import randint
+
+#I will need to change this functions in order to know all the equipment_variables that each equipment have
+#then It will be necessary send the message with all the parameters.
+#But 1st we have to decide the better way to send it on our protocol
 
 class MessageService:
     def __init__(self, configuration_dao, active_time_dao, counter_record_dao, alarm_dao):
@@ -17,19 +20,20 @@ class MessageService:
         equipment_found = configuration_dao.getCountingEquipmentByCode(data)  
         if equipment_found:
             outputs = configuration_dao.getEquipmentOutputByEquipmentId(equipment_found['id'])
-            totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment_found['id'])
-        
+            
+            active_time_value = active_time_dao.getLastActiveTimeByEquipmentId(equipment_found['id'])
+
             time = 0
-            if(totalActiveTimeEquipment != None):
-                time = totalActiveTimeEquipment["totalactivevalue"]
+            if(active_time_value != None):
+                time = active_time_value['active_time']
             
             counters = []
             for output in outputs:
-                outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+                outputTotal = counter_record_dao.getLastCounterRecordByEquipmentOutputId(output['id'])
                 if(outputTotal == None):
                     outputTotal = 0
                 else:
-                    outputTotal = outputTotal["totalvalue"]
+                    outputTotal = outputTotal["real_value"]
                 counters.append({"outputCode": output['code'], "value": outputTotal})
 
             if "productionOrderCode" in data:
@@ -39,7 +43,7 @@ class MessageService:
 
             alarms = alarm_dao.getAlarmsByEquipmentId(equipment_found['id'])
             if alarms != None:
-                alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+                alarm = [alarms['alarm_0'], alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3']]
             else:
                 alarm = [0, 0, 0, 0]
 
@@ -65,25 +69,27 @@ class MessageService:
         alarm_dao = self.alarm_dao
 
         outputs = configuration_dao.getEquipmentOutputByEquipmentId(data['equipment_id'])
-        totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
+        #totalActiveTimeEquipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(data['equipment_id'])
+        active_time_value = active_time_dao.getLastActiveTimeByEquipmentId(data['equipment_id'])
 
         time = 0
-        if(totalActiveTimeEquipment != None):
-            time = totalActiveTimeEquipment["totalactivevalue"]
+        if(active_time_value != None):
+            #time = totalActiveTimeEquipment["totalactivevalue"]
+            time = active_time_value['active_time']
 
         counters = []
         for output in outputs:
-            outputTotal = counter_record_dao.getCounterRecordTotalValueByEquipmentOutputId(output['id'])
+            outputTotal = counter_record_dao.getLastCounterRecordByEquipmentOutputId(output['id'])
             if(outputTotal == None):
                 outputTotal = 0
             else:
-                outputTotal = outputTotal["totalvalue"]
+                outputTotal = outputTotal["real_value"]
             counters.append({"outputCode": output['code'], "value": outputTotal})
 
 
         alarms = alarm_dao.getAlarmsByEquipmentId(data['equipment_id'])
         if alarms != None:
-            alarm = [alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3'], alarms['alarm_4']]
+            alarm = [alarms['alarm_0'], alarms['alarm_1'], alarms['alarm_2'], alarms['alarm_3']]
         else:
             alarm = [0, 0, 0, 0]
 
