@@ -1,6 +1,6 @@
 import snap7
-from service.getPLCvaluesPeriodically import getPLCvalues
-from service.PLC.snap7 import plc_connect, plc_disconnect, write_bool
+from service.getPLCvalues import getPLCvalues
+from service.PLC.snap7 import plc_connect, plc_disconnect, write_bool, write_int
 
 class ProductionOrderService:
     def __init__(self, configuration_dao, production_order_dao, active_time_dao, equipment_variables_dao):
@@ -12,6 +12,7 @@ class ProductionOrderService:
     def productionOrderInit(self, data):
         configuration_dao = self.configuration_dao
         production_order_dao = self.production_order_dao
+        equipment_variables_dao = self.equipment_variables_dao
 
         if data['productionOrderCode'] != "":
             #check if exists some counting_equipment with this code and get this id
@@ -29,10 +30,22 @@ class ProductionOrderService:
                     production_order_dao.insertProductionOrder(equipment_data['id'], data)
 
                     #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 1
+                    equipment_variables = equipment_variables_dao.getEquipmentVariablesByEquipmentId(equipment_data['id'])
                     plc = plc_connect()
-                    write_bool(plc, 8, 2, 0, 1)
+
+                    if plc is not None:    
+                        for equipment_var in equipment_variables:
+                            if equipment_var['name'] == "isEquipmentEnabled":
+                                if data['isEquipmentEnabled'] is True:
+                                    isEquipmentEnabled = 1
+                                else:
+                                    isEquipmentEnabled = 0
+                                write_bool(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), int(equipment_var['offset_bit']), isEquipmentEnabled)
+                           
+                            if equipment_var['name'] == "targetAmount":
+                                write_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), data['targetAmount'])
+
                     plc_disconnect(plc)
-                    #production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
 
             print("ProductionInit function done")
 
@@ -41,6 +54,7 @@ class ProductionOrderService:
     def productionOrderConclusion(self, data):
         configuration_dao = self.configuration_dao
         production_order_dao = self.production_order_dao
+        equipment_variables_dao = self.equipment_variables_dao
 
         #check if exists some counting_equipment with this code and get this id
         equipment_data = configuration_dao.getCountingEquipmentByCode(data)
@@ -51,10 +65,23 @@ class ProductionOrderService:
 
         #setting equipment status using isEquipmentEnabled property from MQTT message
         #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 0
+        equipment_variables = equipment_variables_dao.getEquipmentVariablesByEquipmentId(equipment_data['id'])
         plc = plc_connect()
-        write_bool(plc, 8, 2, 0, 0)
+
+        if plc is not None:    
+            for equipment_var in equipment_variables:
+                if equipment_var['name'] == "isEquipmentEnabled":
+                    if data['isEquipmentEnabled'] is True:
+                        isEquipmentEnabled = 1
+                    else:
+                        isEquipmentEnabled = 0
+                    write_bool(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), int(equipment_var['offset_bit']), isEquipmentEnabled)
+                
+                if equipment_var['name'] == "targetAmount":
+                    write_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), data['targetAmount'])
+
         plc_disconnect(plc)
-        #production_order_dao.setEquipmentStatus(equipment_data['id'], 0)
+
 
         print("ProductionConclusion function done")
 
@@ -63,6 +90,7 @@ class ProductionOrderService:
     def productionOrderMachineInit(self, data):
         configuration_dao = self.configuration_dao
         production_order_dao = self.production_order_dao
+        equipment_variables_dao = self.equipment_variables_dao
 
         if data['productionOrderCode'] == "" and data['equipmentStatus'] == 1:
             #check if exists some counting_equipment with this code and get this id
@@ -73,10 +101,22 @@ class ProductionOrderService:
 
 
             #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 1
+            equipment_variables = equipment_variables_dao.getEquipmentVariablesByEquipmentId(equipment_data['id'])
             plc = plc_connect()
-            write_bool(plc, 8, 2, 0, 1)
+
+            if plc is not None:    
+                for equipment_var in equipment_variables:
+                    if equipment_var['name'] == "isEquipmentEnabled":
+                        if data['isEquipmentEnabled'] is True:
+                            isEquipmentEnabled = 1
+                        else:
+                            isEquipmentEnabled = 0
+                        write_bool(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), int(equipment_var['offset_bit']), isEquipmentEnabled)
+                    
+                    if equipment_var['name'] == "targetAmount":
+                        write_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), data['targetAmount'])
+
             plc_disconnect(plc)
-            #production_order_dao.setEquipmentStatus(equipment_data['id'], 1)
 
         
             print("ProductionInit function done")

@@ -71,7 +71,6 @@ def getPLCvalues(equipment):
 
         
         #add active_time
-        active_time_from_equipment = active_time_dao.getActiveTimeTotalValueByEquipmentId(equipment['id'])
         active_time_value = 0
 
         for item in non_alarms_and_non_outputs:
@@ -79,8 +78,8 @@ def getPLCvalues(equipment):
                 active_time_value = item['value']
                 break  
 
-        if active_time_value - active_time_from_equipment['totalactivevalue'] > 0:
-            active_time_dao.insertActiveTime(equipment['id'], active_time_value - active_time_from_equipment['totalactivevalue'])
+        if active_time_value:
+            active_time_dao.insertActiveTime(equipment['id'], active_time_value)
 
         #set equipmentStatus
         for item in non_alarms_and_non_outputs:
