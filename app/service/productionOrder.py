@@ -36,7 +36,7 @@ class ProductionOrderService:
                     if plc is not None:    
                         for equipment_var in equipment_variables:
                             if equipment_var['name'] == "isEquipmentEnabled":
-                                if data['isEquipmentEnabled'] is True:
+                                if data['equipmentEnabled'] is True:
                                     isEquipmentEnabled = 1
                                 else:
                                     isEquipmentEnabled = 0
@@ -73,7 +73,7 @@ class ProductionOrderService:
         if plc is not None:    
             for equipment_var in equipment_variables:
                 if equipment_var['name'] == "isEquipmentEnabled":
-                    if data['isEquipmentEnabled'] is True:
+                    if data['equipmentEnabled'] is True:
                         isEquipmentEnabled = 1
                     else:
                         isEquipmentEnabled = 0
@@ -110,7 +110,7 @@ class ProductionOrderService:
             if plc is not None:    
                 for equipment_var in equipment_variables:
                     if equipment_var['name'] == "isEquipmentEnabled":
-                        if data['isEquipmentEnabled'] is True:
+                        if data['equipmentEnabled'] is True:
                             isEquipmentEnabled = 1
                         else:
                             isEquipmentEnabled = 0
