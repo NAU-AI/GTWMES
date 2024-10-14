@@ -47,6 +47,8 @@ class ProductionOrderService:
 
                     plc_disconnect(plc)
 
+            getPLCvalues(equipment_data)
+
             print("ProductionInit function done")
 
 
@@ -82,6 +84,7 @@ class ProductionOrderService:
 
         plc_disconnect(plc)
 
+        getPLCvalues(equipment_data)
 
         print("ProductionConclusion function done")
 
@@ -117,7 +120,8 @@ class ProductionOrderService:
                         write_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), data['targetAmount'])
 
             plc_disconnect(plc)
-
+            
+            getPLCvalues(equipment_data)
         
             print("ProductionInit function done")
         
