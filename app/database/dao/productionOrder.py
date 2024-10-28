@@ -44,6 +44,7 @@ class ProductionOrderDAO:
                 SELECT *
                 FROM production_order
                 WHERE equipment_id = %s AND finished = %s
+                ORDER BY id DESC
                 """)
                 cursor.execute(check_if_PO_exists_query, (equipment_id,0))
                 po_found = cursor.fetchone()
