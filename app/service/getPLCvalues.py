@@ -9,7 +9,7 @@ from database.dao.alarm import AlarmDAO
 from database.dao.equipmentVariables import EquipmentVariablesDAO
 from database.dao.counterRecord import CounterRecordDAO
 from database.dao.configuration import ConfigurationDAO
-from service.PLC.snap7 import plc_connect, plc_disconnect, read_bool, read_int 
+from service.PLC.snap7 import plc_connect, plc_disconnect, read_bool, read_uint 
 import database.connectDB
 from database.config import load_config
 import logging
@@ -36,7 +36,7 @@ def getPLCvalues(equipment):
                     for equipment_var in equipment_variables:
                         try:
                             if equipment_var['name'] != "isEquipmentEnabled":
-                                equipment_var_value = read_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']))
+                                equipment_var_value = read_uint(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']))
                                 array_of_equipment_variables_values.append(
                                     {
                                         "name": equipment_var['name'],
@@ -53,6 +53,7 @@ def getPLCvalues(equipment):
                                 )
                         except Exception as e:
                             logging.error(f"Error reading PLC variable {equipment_var['name']}: {e}")
+                            raise Exception("Error while getting values from PLC")
                 finally:
                     plc_disconnect(plc)
 
