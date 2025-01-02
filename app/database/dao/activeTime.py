@@ -24,6 +24,22 @@ class ActiveTimeDAO:
         except Exception as err:
             logging.error("%s. getActiveTimeByEquipmentId failed.", err)
 
+    def getLastActiveTimeByEquipmentId(self, equipment_id):
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                get_last_active_time_by_equipmentId_query = sql.SQL("""
+                SELECT *
+                FROM active_time
+                WHERE equipment_id = %s
+                ORDER BY registered_at DESC
+                """)
+                cursor.execute(get_last_active_time_by_equipmentId_query, (equipment_id,))
+                at_found = cursor.fetchone()
+                return at_found
+            
+        except Exception as err:
+            logging.error("%s. getActiveTimeByEquipmentId failed.", err)
+
     def insertActiveTime(self, equipment_id, active_time):
         try:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:

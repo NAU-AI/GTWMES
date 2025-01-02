@@ -24,10 +24,10 @@ class AlarmDAO:
             with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
                 ct = datetime.datetime.now()
                 new_alarm_query = sql.SQL("""
-                INSERT INTO alarm (equipment_id, alarm_1, alarm_2, alarm_3, alarm_4, registered_at)
+                INSERT INTO alarm (equipment_id, alarm_0, alarm_1, alarm_2, alarm_3, registered_at)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 """)
-                cursor.execute(new_alarm_query, (equipment_id, alarms["alarm_1"], alarms["alarm_2"], alarms["alarm_3"], alarms["alarm_4"], ct))
+                cursor.execute(new_alarm_query, (equipment_id, alarms["alarm_0"], alarms["alarm_1"], alarms["alarm_2"], alarms["alarm_3"], ct))
                 self.connection.commit()
             
         except Exception as err:
@@ -39,10 +39,10 @@ class AlarmDAO:
                 ct = datetime.datetime.now()
                 edit_alarm_query = sql.SQL("""
                 UPDATE alarm 
-                set alarm_1 = %s, alarm_2 = %s, alarm_3 = %s, alarm_4 = %s, registered_at = %s
+                set alarm_0 = %s, alarm_1 = %s, alarm_2 = %s, alarm_3 = %s, registered_at = %s
                 WHERE equipment_id = %s
                 """)
-                cursor.execute(edit_alarm_query, (alarms["alarm_1"], alarms["alarm_2"], alarms["alarm_3"], alarms["alarm_4"], ct, equipment_id))
+                cursor.execute(edit_alarm_query, (alarms["alarm_0"], alarms["alarm_1"], alarms["alarm_2"], alarms["alarm_3"], ct, equipment_id))
                 self.connection.commit()
             
         except Exception as err:

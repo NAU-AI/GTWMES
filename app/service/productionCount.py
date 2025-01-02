@@ -4,6 +4,7 @@ import sys
 import time
 
 from database.dao.counterRecord import CounterRecordDAO
+from service.getPLCvalues import getPLCvalues
 from service.message import MessageService
 from database.dao.activeTime import ActiveTimeDAO 
 from database.dao.configuration import ConfigurationDAO
@@ -30,8 +31,10 @@ def productionCount(client, topicSend):
         end = time.time()
         length = end - start
         equipments = configuration_dao.getCountingEquipmentAll()
+ 
         for equipment in equipments:
             if(round(round(length) % equipment['p_timer_communication_cycle']) == 0 and round(length) != 0):
+                getPLCvalues(equipment)
                 existPO = production_order_dao.getProductionOrderByCEquipmentIdIfNotFinished(equipment['id'])
                 if not existPO:
                     temp_list = json.dumps({}, indent = 4)
@@ -44,7 +47,7 @@ def productionCount(client, topicSend):
                     message_service = MessageService(configuration_dao, active_time_dao, counter_record_dao, alarm_dao)
                     message_service.sendProductionCount(client, topicSend, temp_list)
                 else:
-                    active_time_dao.insertActiveTime(equipment['id'], equipment['p_timer_communication_cycle'])
+                    #active_time_dao.insertActiveTime(equipment['id'], equipment['p_timer_communication_cycle'])
                     temp_list = json.dumps(existPO, indent = 4)
                     temp_list = json.loads(temp_list)
                     temp_list.update({"p_timer_communication_cycle": equipment['p_timer_communication_cycle']})
