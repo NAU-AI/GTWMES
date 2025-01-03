@@ -1,8 +1,5 @@
 .env
-.envTeste
-database.ini
 keys/
-variables.py
 dist
 
 #ignore pycache's
