@@ -115,7 +115,7 @@ class MqttHeartbeatMonitor:
             bit = 0
             value = status
 
-            self.plc_service.write_alarm(8, byte, bit, value)
+            self.plc_service._write_alarm(8, byte, bit, value)
             logging.warning(
                 f"Alarm written to PLC for {equipment_code}: Byte {byte}, Bit {bit}, Value {value}"
             )

@@ -56,7 +56,7 @@ class PlcService:
         except Exception as e:
             logging.error(f"Error during PLC disconnection: {e}", exc_info=True)
 
-    def write_alarm(self, db_address, byte, bit, value):
+    def _write_alarm(self, db_address, byte, bit, value):
         try:
             plc = self.plc_client()
             if not plc:

@@ -24,7 +24,7 @@ class CountingEquipmentService:
         try:
             existing_equipment = self._get_equipment_or_raise(data["equipmentCode"])
 
-            updated_id = self.counting_equipment_dao.update_config_equipment(
+            updated_id = self.counting_equipment_dao.update_counting_equipment(
                 {
                     "equipmentCode": existing_equipment.code,
                     "pTimerCommunicationCycle": data["pTimerCommunicationCycle"],
@@ -107,7 +107,7 @@ class CountingEquipmentService:
                     f"Equipment with code '{data['equipmentCode']}' already exists"
                 )
 
-            equipment_id = self.counting_equipment_dao.insert_config_equipment(data)
+            equipment_id = self.counting_equipment_dao.insert_counting_equipment(data)
             logger.info(f"Inserted new equipment with ID {equipment_id}")
             return {"id": equipment_id, "message": "Equipment successfully inserted"}
         except ConflictException as e:
