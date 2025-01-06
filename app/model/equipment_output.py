@@ -1,5 +1,5 @@
 class EquipmentOutput:
-    def __init__(self, id=None, code=None, alias=None, counting_equipment_id=None, disable=None): # i need to change on the database from "equipment_id" to "counting_equipment_id". This way corkdefect and GTW code will be equal
+    def __init__(self, id=None, code=None, alias=None, counting_equipment_id=None, disable=None):
         self.id = id
         self.code = code
         #self.alias = alias # on the GTW we dont have "alias". See if we need to add it
