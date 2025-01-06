@@ -110,6 +110,21 @@ def read_status_data(plc):
 
     return status
 
+def read_uint(plc, db_number, byte_offset):
+    try:
+        # Read a 16-bit integer (2 bytes) from the specified DB and byte offset
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
+        
+        # Convert the two bytes to a 16-bit integer (big-endian)
+        uint_value = snap7.util.get_uint(data, 0)
+
+        return uint_value
+
+    except Exception as e:
+        # Handle exceptions if there's an issue with the PLC connection
+        print(f"Error reading uinteger")
+        raise Exception("Error reading uinteger")
+    
 def read_bool(plc, db_number, byte_offset, bit_offset):
     try:
         # Read a single Boolean (bit) from the specified DB, byte, and bit offset
@@ -120,7 +135,7 @@ def read_bool(plc, db_number, byte_offset, bit_offset):
 
         return bool_value
 
-    except snap7.exceptions.Snap7Exception as e:
+    except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading Boolean")
         return None
@@ -141,7 +156,7 @@ def write_bool(plc, db_number, byte_offset, bit_offset, value):
         # Write the modified byte back to the PLC
         plc.write_area(snap7.types.Areas.DB, db_number, byte_offset, data)
 
-    except snap7.exceptions.Snap7Exception as e:
+    except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error writing Boolean: {e}")
 
@@ -155,7 +170,7 @@ def read_int(plc, db_number, byte_offset):
 
         return int_value
 
-    except snap7.exceptions.Snap7Exception as e:
+    except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading integer")
         return None
@@ -172,7 +187,7 @@ def write_int(plc, db_number, byte_offset, value):
         # Write the 16-bit integer (2 bytes) to the specified DB and byte offset
         plc.write_area(snap7.types.Areas.DB, db_number, byte_offset, data)
 
-    except snap7.exceptions.Snap7Exception as e:
+    except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error writing integer: {e}")
 
@@ -187,7 +202,7 @@ def read_real(plc, db_number, byte_offset):
 
         return real_value
 
-    except snap7.exceptions.Snap7Exception as e:
+    except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading real value: {e}")
         return None
