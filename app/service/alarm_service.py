@@ -14,11 +14,8 @@ class AlarmService:
         try:
             alarm = self.alarm_dao.get_alarm_by_equipment_id(equipment_id)
             if not alarm:
-                return {
-                    "message": f"No alarms found for equipment_id {equipment_id}",
-                    "alarm": None,
-                }
-            return {"message": "Alarm fetched successfully", "alarm": alarm}
+                return None
+            return [alarm.alarm_0, alarm.alarm_1, alarm.alarm_2, alarm.alarm_3]
         except Exception as e:
             logger.error(
                 f"Service error while fetching alarm for equipment_id {equipment_id}: {e}"
@@ -26,7 +23,8 @@ class AlarmService:
             raise ServiceException("An error occurred while fetching the alarm")
 
     def insert_alarm(self, equipment_id, alarms):
-        self._validate_alarms_data(equipment_id, alarms)
+        if not equipment_id or not alarms:
+            raise ValueError("equipment_id and alarms are required")
 
         try:
             alarm_id = self.alarm_dao.insert_alarm_by_equipment_id(equipment_id, alarms)
@@ -38,7 +36,8 @@ class AlarmService:
             raise ServiceException("An error occurred while inserting the alarm")
 
     def update_alarm(self, equipment_id, alarms):
-        self._validate_alarms_data(equipment_id, alarms)
+        if not equipment_id or not alarms:
+            raise ValueError("equipment_id and alarms are required")
 
         try:
             alarm_id = self.alarm_dao.update_alarm_by_equipment_id(equipment_id, alarms)

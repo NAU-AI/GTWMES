@@ -48,6 +48,24 @@ class CountingEquipmentService:
         except Exception as e:
             logger.error(f"Error while updating equipment: {e}", exc_info=True)
             raise ServiceException("Unable to update equipment configuration.") from e
+        
+    def update_equipment_status(self, equipment_status, equipment_id):
+        if not equipment_id:
+            raise Exception.NotFoundException(f"Equipment with id '{equipment_id}' not found")
+        if not equipment_status:
+            raise ValueError("equipment_status cannot be empty")
+
+        try:
+            existing_equipment = self._get_equipment_or_raise_by_id(equipment_id)
+
+            updated_id = self.counting_equipment_dao.update_counting_equipment_status(equipment_status, equipment_id)
+
+            logger.info(f"Updated equipment status with code '{existing_equipment.code}'")
+
+            return {"id": updated_id, "message": "Equipment status successfully updated"}
+        except Exception as e:
+            logger.error(f"Error while updating equipment status: {e}", exc_info=True)
+            raise ServiceException("Unable to update equipment status.") from e
 
     def get_equipment_by_code(self, code):
         if not code:
@@ -98,7 +116,7 @@ class CountingEquipmentService:
             logger.error("Error while fetching all equipment.", exc_info=True)
             raise ServiceException("Unable to fetch all equipment.") from e
 
-    def insert_config_equipment(self, data):
+    def insert_counting_equipment(self, data):
         self._validate_equipment_data(data)
 
         try:
@@ -143,4 +161,10 @@ class CountingEquipmentService:
         equipment = self.counting_equipment_dao.get_equipment_by_code(code)
         if not equipment:
             raise Exception.NotFoundException(f"Equipment with code '{code}' not found")
+        return equipment
+
+    def _get_equipment_or_raise_by_id(self, id):
+        equipment = self.counting_equipment_dao.get_equipment_by_id(id)
+        if not equipment:
+            raise Exception.NotFoundException(f"Equipment with id '{id}' not found")
         return equipment
