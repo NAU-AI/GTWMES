@@ -1,4 +1,5 @@
 import logging
+import datetime
 from exception.Exception import DatabaseException
 from model.counter_record import CounterRecord
 from database.connection.db_connection import DatabaseConnection
@@ -10,19 +11,20 @@ class CounterRecordDAO:
     def __init__(self):
         self.db = DatabaseConnection()
 
-    def insert_counter_record(self, equipment_output_id, value): # on the corkdefect machine the counter record insert is done by the PLC function "insert_counter_record" -> i think that here it will be the same
+    def insert_counter_record(self, equipment_output_id, value):
         if not equipment_output_id or not value:
             raise ValueError("equipment_output_id and value cannot be null or empty")
         try:
+             ct = datetime.datetime.now()
              with self.db.connect() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO counter_record (equipment_output_id, real_value)
-                        VALUES (%s, %s)
+                        INSERT INTO counter_record (equipment_output_id, real_value, registered_at)
+                        VALUES (%s, %s, %s)
                         RETURNING id;
                         """,
-                        (equipment_output_id, value),
+                        (equipment_output_id, value, ct),
                     )
                     counter_record_id = cursor.fetchone()["id"]
                     conn.commit()

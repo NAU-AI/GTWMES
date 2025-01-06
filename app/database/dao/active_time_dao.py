@@ -38,7 +38,7 @@ class ActiveTimeDAO:
             )
 
 
-    def insert_active_time(self, equipment_id, active_time): # we will need an area for PLC functions and it will be there. Like record_DB_service from corkdefect
+    def insert_active_time(self, equipment_id, active_time):
         if not equipment_id or not active_time:
             raise ValueError("equipment_id and active_time cannot be null or empty")
         try:

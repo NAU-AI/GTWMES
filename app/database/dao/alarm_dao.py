@@ -18,7 +18,7 @@ class AlarmDAO:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
-                        SELECT id, equipment_id, alarms, registered_at
+                        SELECT *
                         FROM alarm
                         WHERE equipment_id = %s 
                         ORDER BY id DESC LIMIT 1
@@ -34,16 +34,15 @@ class AlarmDAO:
     def insert_alarm_by_equipment_id(self, equipment_id, alarms):
         try:
             registered_at = datetime.now()
-            alarms_json = json.dumps(alarms)
             with self.db.connect() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO alarm (equipment_id, alarms, registered_at)
-                        VALUES (%s, %s, %s)
+                        INSERT INTO alarm (equipment_id, alarm_0, alarm_1, alarm_2, alarm_3, registered_at)
+                        VALUES (%s, %s, %s, %s, %s, %s)
                         RETURNING id;
                         """,
-                        (equipment_id, alarms_json, registered_at),
+                        (equipment_id, alarms[0], alarms[1], alarms[2], alarms[3], registered_at),
                     )
                     alarm_id = cursor.fetchone()["id"]
                     conn.commit()
@@ -58,17 +57,16 @@ class AlarmDAO:
     def update_alarm_by_equipment_id(self, equipment_id, alarms):
         try:
             registered_at = datetime.now()
-            alarms_json = json.dumps(alarms)
             with self.db.connect() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
                         UPDATE alarm
-                        SET alarms = %s, registered_at = %s
+                        SET alarm_0 = %s, alarm_1 = %s, alarm_2 = %s, alarm_3 = %s, registered_at = %s
                         WHERE equipment_id = %s
                         RETURNING id;
                         """,
-                        (alarms_json, registered_at, equipment_id),
+                        (alarms[0], alarms[1], alarms[2], alarms[3], registered_at, equipment_id),
                     )
                     alarm_id = cursor.fetchone()["id"]
                     conn.commit()

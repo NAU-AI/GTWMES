@@ -16,7 +16,7 @@ class CountingEquipmentDAO:
             raise ValueError("code cannot be empty")
 
         query = """
-            SELECT id, code
+            SELECT id, code, equipment_status
             FROM counting_equipment
             WHERE code = %s
             LIMIT 1
@@ -105,10 +105,41 @@ class CountingEquipmentDAO:
                 exc_info=True,
             )
             raise DatabaseException("Failed to update counting equipment.") from e
+        
+    def update_counting_equipment_status(self, equipment_status, equipment_id):
+        if not equipment_status:
+            raise ValueError("equipment_status cannot be empty")
+        if not equipment_id:
+            raise ValueError("equipment_id cannot be empty")
+
+        query = """
+            UPDATE counting_equipment
+            SET equipment_status = %s
+            WHERE id = %s
+            RETURNING id;
+        """
+        try:
+            with self.db.connect() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(
+                        query, (equipment_status, equipment_id)
+                    )
+                    counting_equipment_id = cursor.fetchone()["id"]
+                    conn.commit()
+                    logger.info(
+                        f"Updated counting equipment status with ID {counting_equipment_id}."
+                    )
+                    return counting_equipment_id
+        except Exception as e:
+            logger.error(
+                f"Error updating counting equipment status with id '{equipment_id}': {e}",
+                exc_info=True,
+            )
+            raise DatabaseException("Failed to update counting equipment status.") from e
 
     def get_equipment_by_id(self, equipment_id):
         query = """
-            SELECT id, code, p_timer_communication_cycle
+            SELECT id, code, equipment_status, p_timer_communication_cycle
             FROM counting_equipment
             WHERE id = %s
             LIMIT 1
