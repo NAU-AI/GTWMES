@@ -1,11 +1,15 @@
 import logging
 from database.dao.counting_equipment_dao import CountingEquipmentDAO
 from database.dao.production_order_dao import ProductionOrderDAO
+from service.plc_service import PlcService
+from service.equipment_variables_service import EquipmentVariablesService
 
 class ProductionOrderService:
     def __init__(self):
         self.production_order_dao = ProductionOrderDAO()
         self.counting_equipment_dao = CountingEquipmentDAO()
+        self.equipment_variables_service = EquipmentVariablesService()
+        self.plc_service = PlcService()
 
     def production_order_init(self, data):
         if not self._validate_data(data, ["productionOrderCode", "equipmentCode"]):
@@ -29,14 +33,19 @@ class ProductionOrderService:
             self.production_order_dao.insert_production_order(
                 equipment_data.id, data["productionOrderCode"]
             )
+
+            is_equipment_enable, target_amount = self.equipment_variables_service.get_equipment_variables(equipment_data.id, False)
+            self.plc_service._get_write_function(is_equipment_enable, is_equipment_enable["type"], True)
+            self.plc_service._get_write_function(target_amount, target_amount["type"], data["targetAmount"])
+
             logging.info(f"Production order {data['productionOrderCode']} initialized.")
-            return True # i think that we need to verify the equipment status (it can be disabled) and set the equipment status (or set it on another place)
+            return True
         except Exception as e:
             logging.error(f"Error initializing production order: {e}")
             return False
         
     
-    def production_order_conclusion(self, data): # if we are finishing the PO the status is always true (so we can remove it)
+    def production_order_conclusion(self, data):
         if not self._validate_data(data, ["equipmentCode"]):
             logging.error("Invalid data provided for production_order_conclusion.")
             return False
@@ -54,16 +63,22 @@ class ProductionOrderService:
             self.production_order_dao.update_production_order_status(
                 equipment_data.id, True
             )
+
+            is_equipment_enable, target_amount = self.equipment_variables_service.get_equipment_variables(equipment_data.id, False)
+            self.plc_service._get_write_function(is_equipment_enable, is_equipment_enable["type"], False)
+            self.plc_service._get_write_function(target_amount, target_amount["type"], data["targetAmount"])
+
             logging.info(
                 f"Production order for equipment {data['equipmentCode']} updated to status {True}."
             )
-            return True # i think that we need to change the equipment disabled status here
+            return True
         except Exception as e:
             logging.error(
                 f"Error concluding production order for equipment {data['equipmentCode']}: {e}",
                 exc_info=True,
             )
             return False
+
         
     def get_production_order_by_equipment_id_and_status(self, equipment_id, status):
         try:

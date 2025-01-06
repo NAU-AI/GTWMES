@@ -1,6 +1,7 @@
 from asyncio.log import logger
 import logging
 
+from service.alarm_service import AlarmService
 from service.active_time_service import ActiveTimeService
 from service.plc_service import PlcService
 from service.counter_record_service import CounterRecordService
@@ -16,6 +17,7 @@ class ProductionCountService:
         counting_equipment_service=None,
         equipment_output_service=None,
         active_time_service=None,
+        alarm_service=None,
         counter_record_service=None,
         plc_service=None,
     ):
@@ -31,6 +33,7 @@ class ProductionCountService:
         self.counter_record_service = counter_record_service or CounterRecordService()
         self.plc_service = plc_service or PlcService()
         self.active_time_service = active_time_service or ActiveTimeService()
+        self.alarm_service = alarm_service or AlarmService()
 
     def build_production_count(
         self, data, message_type, default_production_order_code=""
@@ -45,15 +48,15 @@ class ProductionCountService:
                     f"No equipment found for code '{data.get('code')}' or ID '{data.get('equipment_id')}'."
                 )
                 return
-
+            self.plc_service.read_plc_data(equipment.id) 
             equipment_id = equipment.id
             equipment_code = equipment.code
+            equipment_status = equipment.equipment_status
 
             active_time = self.active_time_service.get_active_time(equipment_id)
             counters = self._get_counters(equipment_id)
-
-            alarms, equipment_status = self.plc_service.read_plc_data()
-
+            alarms = self.alarm_service.get_latest_alarm(equipment_id)
+            
             production_order_code = data.get("code", default_production_order_code)
             message = self._prepare_message(
                 json_type=message_type,
