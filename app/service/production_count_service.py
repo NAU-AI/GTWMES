@@ -89,8 +89,7 @@ class ProductionCountService:
     def _get_equipment(self, code=None, equipment_id=None):
         try:
             if equipment_id:
-                equipment = self.counting_equipment_service.get_equipment_by_id(equipment_id)
-                self.plc_service.read_plc_data(equipment.id) 
+                self.plc_service.read_plc_data(equipment_id) 
                 return self.counting_equipment_service.get_equipment_by_id(equipment_id)
             elif code:
                 equipment = self.counting_equipment_service.get_equipment_by_code(code)
