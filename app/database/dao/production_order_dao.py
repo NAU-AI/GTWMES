@@ -60,6 +60,7 @@ class ProductionOrderDAO:
                         SELECT *
                         FROM production_order
                         WHERE equipment_id = %s AND is_completed = %s
+                        ORDER BY id DESC
                         """,
                         (equipment_id, status),
                     )

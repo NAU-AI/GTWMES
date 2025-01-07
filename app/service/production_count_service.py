@@ -48,7 +48,7 @@ class ProductionCountService:
                     f"No equipment found for code '{data.get('code')}' or ID '{data.get('equipment_id')}'."
                 )
                 return
-            self.plc_service.read_plc_data(equipment.id) 
+
             equipment_id = equipment.id
             equipment_code = equipment.code
             equipment_status = equipment.equipment_status
@@ -59,7 +59,8 @@ class ProductionCountService:
             if alarms is None:
                 alarms = [0, 0, 0, 0]
             
-            production_order_code = data.get("code", default_production_order_code)
+            production_order = self.production_order_service.get_production_order_by_equipment_id_and_status(equipment_id, False)
+            production_order_code = production_order.code if production_order else default_production_order_code
             message = self._prepare_message(
                 json_type=message_type,
                 equipment_code=equipment_code,
@@ -88,8 +89,12 @@ class ProductionCountService:
     def _get_equipment(self, code=None, equipment_id=None):
         try:
             if equipment_id:
+                equipment = self.counting_equipment_service.get_equipment_by_id(equipment_id)
+                self.plc_service.read_plc_data(equipment.id) 
                 return self.counting_equipment_service.get_equipment_by_id(equipment_id)
             elif code:
+                equipment = self.counting_equipment_service.get_equipment_by_code(code)
+                self.plc_service.read_plc_data(equipment.id) 
                 return self.counting_equipment_service.get_equipment_by_code(code)
             return None
         except Exception as e:
