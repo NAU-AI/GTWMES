@@ -178,7 +178,7 @@ def read_int(plc, db_number, byte_offset):
 def read_uint(plc, db_number, byte_offset):
     try:
         # Read a 16-bit integer (2 bytes) from the specified DB and byte offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
 
         # Convert the two bytes to a 16-bit integer (big-endian)
         uint_value = snap7.util.get_uint(data, 0)
