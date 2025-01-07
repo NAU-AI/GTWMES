@@ -27,7 +27,7 @@ def plc_disconnect(plc):
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error disconnecting from PLC")
 
-from snap7 import type
+from snap7 import types
 
 
 def read_multiple_variables(plc, items):
@@ -73,7 +73,7 @@ def read_multiple_variables(plc, items):
 def read_bool(plc, db_number, byte_offset, bit_offset):
     try:
         # Read a single Boolean (bit) from the specified DB, byte, and bit offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 1)  # Read 1 byte
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 1)  # Read 1 byte
 
         # Extract the Boolean value from the specified bit
         bool_value = bool(data[0] & (1 << bit_offset))
@@ -88,7 +88,7 @@ def read_bool(plc, db_number, byte_offset, bit_offset):
 def write_bool(plc, db_number, byte_offset, bit_offset, value):
     try:
         # Read the current byte from the specified DB and byte offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 1)
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 1)
 
         # Modify the specific bit in the byte based on the 'value' argument
         if value:
@@ -99,7 +99,7 @@ def write_bool(plc, db_number, byte_offset, bit_offset, value):
             data[0] &= ~(1 << bit_offset)
 
         # Write the modified byte back to the PLC
-        plc.write_area(snap7.type.Areas.DB, db_number, byte_offset, data)
+        plc.write_area(snap7.types.Areas.DB, db_number, byte_offset, data)
 
     except snap7.exceptions.Snap7Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
@@ -108,7 +108,7 @@ def write_bool(plc, db_number, byte_offset, bit_offset, value):
 def read_int(plc, db_number, byte_offset):
     try:
         # Read a 16-bit integer (2 bytes) from the specified DB and byte offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
 
         # Convert the two bytes to a 16-bit integer (big-endian)
         int_value = snap7.util.get_int(data, 0)
@@ -123,7 +123,7 @@ def read_int(plc, db_number, byte_offset):
 def read_uint(plc, db_number, byte_offset):
     try:
         # Read a 16-bit integer (2 bytes) from the specified DB and byte offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
 
         # Convert the two bytes to a 16-bit integer (big-endian)
         uint_value = snap7.util.get_uint(data, 0)
@@ -134,7 +134,7 @@ def read_uint(plc, db_number, byte_offset):
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading uinteger")
         raise Exception("Error reading uinteger")
-
+        
 def write_int(plc, db_number, byte_offset, value):
     try:
         # Convert the integer value to a 16-bit binary representation
@@ -145,7 +145,7 @@ def write_int(plc, db_number, byte_offset, value):
         data[1] = value & 0xFF         # Least significant byte
 
         # Write the 16-bit integer (2 bytes) to the specified DB and byte offset
-        plc.write_area(snap7.type.Areas.DB, db_number, byte_offset, data)
+        plc.write_area(snap7.types.Areas.DB, db_number, byte_offset, data)
 
     except snap7.exceptions.Snap7Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
@@ -155,7 +155,7 @@ def write_int(plc, db_number, byte_offset, value):
 def read_real(plc, db_number, byte_offset):
     try:
         # Read a 32-bit floating-point value (4 bytes) from the specified DB and byte offset
-        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 4)  # Read 4 bytes
+        data = plc.read_area(snap7.types.Areas.DB, db_number, byte_offset, 4)  # Read 4 bytes
 
         # Convert the four bytes to a 32-bit floating-point value (big-endian)
         real_value = snap7.util.get_real(data, 0)
@@ -176,7 +176,7 @@ def write_real(plc, db_number, byte_offset, value):
         snap7.util.set_real(data, 0, value)
 
         # Write the 32-bit floating-point value (4 bytes) to the specified DB and byte offset
-        plc.write_area(snap7.type.Areas.DB, db_number, byte_offset, data)
+        plc.write_area(snap7.types.Areas.DB, db_number, byte_offset, data)
 
     except snap7.exceptions.Snap7Exception as e:
         # Handle exceptions if there's an issue with the PLC connection

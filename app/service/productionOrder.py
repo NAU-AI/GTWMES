@@ -15,7 +15,7 @@ class ProductionOrderService:
         equipment_variables_dao = self.equipment_variables_dao
 
         if data['productionOrderCode'] != "":
-                #check if exists some counting_equipment with this code and get this id
+            #check if exists some counting_equipment with this code and get this id
             equipment_data = configuration_dao.getCountingEquipmentByCode(data)
             getPLCvalues(equipment_data)
             
@@ -24,7 +24,7 @@ class ProductionOrderService:
             #    production_order_dao.updatePOcode(equipment_data['id'], data['productionOrderCode'])
             #else:
             #already_exist_this_production_order = production_order_dao.getProductionOrderByCodeAndCEquipmentId(equipment_data['id'], data)
-
+        
             #if already_exist_this_production_order == None:
             #create new production order
             production_order_dao.insertProductionOrder(equipment_data['id'], data)
@@ -52,7 +52,6 @@ class ProductionOrderService:
         print("ProductionInit function done")
 
 
-
     def productionOrderConclusion(self, data):
         configuration_dao = self.configuration_dao
         production_order_dao = self.production_order_dao
@@ -68,11 +67,13 @@ class ProductionOrderService:
         #setting equipment status using isEquipmentEnabled property from MQTT message
         #Here, instead of setEquipmentStatus i need to write on the PLC offset for isEquipmentEnable the value 0
         equipment_variables = equipment_variables_dao.getEquipmentVariablesByEquipmentId(equipment_data['id'])
+        
         plc = plc_connect()
 
         if plc is not None:    
             for equipment_var in equipment_variables:
                 if equipment_var['name'] == "isEquipmentEnabled":
+                    
                     if data['equipmentEnabled'] is True:
                         isEquipmentEnabled = 1
                     else:
@@ -85,7 +86,6 @@ class ProductionOrderService:
         plc_disconnect(plc)
 
         getPLCvalues(equipment_data)
-
         print("ProductionConclusion function done")
 
 
@@ -120,8 +120,7 @@ class ProductionOrderService:
                         write_int(plc, int(equipment_var['db_address']), int(equipment_var['offset_byte']), data['targetAmount'])
 
             plc_disconnect(plc)
-            
-            getPLCvalues(equipment_data)
-        
+
+            getPLCvalues(equipment_data)  
             print("ProductionInit function done")
         

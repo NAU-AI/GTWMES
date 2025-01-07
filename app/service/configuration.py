@@ -11,10 +11,9 @@ class ConfigurationService:
 
         if equipment_found == None:
             #if it doesn't exists, create a new one and the outputs
-            #inserted_counting_equipment_id = configuration_dao.insertCountingEquipment(data)
+            inserted_counting_equipment_id = configuration_dao.insertCountingEquipment(data)
             #like this counting equipment didn't exist, we have to insert the outputs at equipment_output
-            #configuration_dao.insertEquipmentOutput(inserted_counting_equipment_id, data)
-            print("This equipment doesn't exist on this GTW")
+            configuration_dao.insertEquipmentOutput(inserted_counting_equipment_id, data)
 
         else: 
             #if exists, we update it

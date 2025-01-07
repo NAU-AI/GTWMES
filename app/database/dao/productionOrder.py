@@ -13,9 +13,9 @@ class ProductionOrderDAO:
                 check_if_PO_exists_query = sql.SQL("""
                 SELECT *
                 FROM production_order
-                WHERE code = %s AND equipment_id = %s AND finished = %s
+                WHERE code = %s AND equipment_id = %s
                 """)
-                cursor.execute(check_if_PO_exists_query, (data["productionOrderCode"], equipment_id, 0))
+                cursor.execute(check_if_PO_exists_query, (data["productionOrderCode"], equipment_id))
                 po_found = cursor.fetchone()
                 return po_found
             
@@ -106,9 +106,9 @@ class ProductionOrderDAO:
                 update_po_code_query = sql.SQL("""
                 UPDATE production_order
                 SET code = %s
-                WHERE equipment_id = %s AND finished = %s
+                WHERE equipment_id = %s
                 """)
-                cursor.execute(update_po_code_query, (code, equipment_id, 0))
+                cursor.execute(update_po_code_query, (code, equipment_id))
                 self.connection.commit()
                 print("PO edited for equipment_id: " + str(equipment_id))
         

@@ -36,6 +36,7 @@ def productionCount(client, topicSend):
             if(round(round(length) % equipment['p_timer_communication_cycle']) == 0 and round(length) != 0):
                 getPLCvalues(equipment)
                 existPO = production_order_dao.getProductionOrderByCEquipmentIdIfNotFinished(equipment['id'])
+                print(existPO)
                 if not existPO:
                     temp_list = json.dumps({}, indent = 4)
                     temp_list = json.loads(temp_list)
