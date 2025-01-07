@@ -23,9 +23,9 @@ def plc_disconnect(plc):
         # Disconnect from the PLC
         plc.disconnect()
         print(f"Disconnected to PLC at {plc_ip}")
-    except snap7.exceptions.Snap7Exception as e:
+    except: #snap7.exceptions.Snap7Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
-        print(f"Error disconnecting from PLC: {e}")
+        print(f"Error disconnecting from PLC")
 
 from snap7 import types
 
@@ -138,7 +138,7 @@ def read_bool(plc, db_number, byte_offset, bit_offset):
     except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading Boolean")
-        return None
+        raise Exception("Error reading Boolean")
 
 def write_bool(plc, db_number, byte_offset, bit_offset, value):
     try:
@@ -173,7 +173,22 @@ def read_int(plc, db_number, byte_offset):
     except Exception as e:
         # Handle exceptions if there's an issue with the PLC connection
         print(f"Error reading integer")
-        return None
+        raise Exception("Error reading integer")
+
+def read_uint(plc, db_number, byte_offset):
+    try:
+        # Read a 16-bit integer (2 bytes) from the specified DB and byte offset
+        data = plc.read_area(snap7.type.Areas.DB, db_number, byte_offset, 2)  # Read 2 bytes
+
+        # Convert the two bytes to a 16-bit integer (big-endian)
+        uint_value = snap7.util.get_uint(data, 0)
+
+        return uint_value
+
+    except Exception as e:
+        # Handle exceptions if there's an issue with the PLC connection
+        print(f"Error reading uinteger")
+        raise Exception("Error reading uinteger")
 
 def write_int(plc, db_number, byte_offset, value):
     try:
