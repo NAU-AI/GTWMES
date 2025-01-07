@@ -1,5 +1,4 @@
-from datetime import datetime
-
+import datetime
 
 class CounterRecord:
     def __init__(
@@ -16,7 +15,7 @@ class CounterRecord:
         self.alias = alias
         self.real_value = real_value
         #self.increment = increment
-        self.registered_at = registered_at or datetime.now()
+        self.registered_at = registered_at or datetime.datetime.now()
 
     def to_dict(self):
         return {

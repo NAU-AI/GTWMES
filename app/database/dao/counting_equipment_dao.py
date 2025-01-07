@@ -107,8 +107,6 @@ class CountingEquipmentDAO:
             raise DatabaseException("Failed to update counting equipment.") from e
         
     def update_counting_equipment_status(self, equipment_status, equipment_id):
-        if not equipment_status:
-            raise ValueError("equipment_status cannot be empty")
         if not equipment_id:
             raise ValueError("equipment_id cannot be empty")
 

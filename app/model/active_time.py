@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 class ActiveTime:
     def __init__(
@@ -12,7 +12,7 @@ class ActiveTime:
         self.id = id
         self.active_time = active_time
         #self.increment_active_time = increment_active_time
-        self.registered_at = registered_at or datetime.now()
+        self.registered_at = registered_at or datetime.datetime.now()
         self.equipment_id = equipment_id
 
     def to_dict(self):

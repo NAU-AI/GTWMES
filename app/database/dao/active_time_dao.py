@@ -1,4 +1,5 @@
 import logging
+import datetime
 from exception.Exception import DatabaseException
 from model.active_time import ActiveTime
 from database.connection.db_connection import DatabaseConnection
@@ -42,15 +43,16 @@ class ActiveTimeDAO:
         if not equipment_id or not active_time:
             raise ValueError("equipment_id and active_time cannot be null or empty")
         try:
+             ct = datetime.datetime.now()
              with self.db.connect() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO active_time (equipment_id, active_time)
-                        VALUES (%s,%s)
+                        INSERT INTO active_time (equipment_id, active_time, registered_at)
+                        VALUES (%s, %s, %s)
                         RETURNING id;
                         """,
-                        (equipment_id, active_time),
+                        (equipment_id, active_time, ct),
                     )
                     active_time_id = cursor.fetchone()["id"]
                     conn.commit()

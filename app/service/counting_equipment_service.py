@@ -52,16 +52,11 @@ class CountingEquipmentService:
     def update_equipment_status(self, equipment_status, equipment_id):
         if not equipment_id:
             raise Exception.NotFoundException(f"Equipment with id '{equipment_id}' not found")
-        if not equipment_status:
-            raise ValueError("equipment_status cannot be empty")
 
         try:
             existing_equipment = self._get_equipment_or_raise_by_id(equipment_id)
-
             updated_id = self.counting_equipment_dao.update_counting_equipment_status(equipment_status, equipment_id)
-
             logger.info(f"Updated equipment status with code '{existing_equipment.code}'")
-
             return {"id": updated_id, "message": "Equipment status successfully updated"}
         except Exception as e:
             logger.error(f"Error while updating equipment status: {e}", exc_info=True)
