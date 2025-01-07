@@ -50,15 +50,14 @@ class PlcService:
                 logging.warning("PLC connection failed. Using default values.")
 
             variables = self.equipment_variables_service.get_equipment_variables(equipment_id)
-            alarms, outputs, active_time, equipment_status, is_equipment_enabled, target_amount, unmatched = variables
-
-            self._process_alarms(plc, equipment_id, alarms)
-            self._process_equipment_status(plc, equipment_id, equipment_status)
-            self._process_outputs(plc, equipment_id, outputs)
-            self._process_active_time(plc, equipment_id, active_time)
+            if variables:
+                self._process_alarms(plc, equipment_id, variables["alarms"])
+                self._process_equipment_status(plc, equipment_id, variables["equipment_status"])
+                self._process_outputs(plc, equipment_id, variables["outputs"])
+                self._process_active_time(plc, equipment_id, variables["active_time"])
 
             logging.info("Successfully read PLC data.")
-            return alarms, outputs, active_time, equipment_status, is_equipment_enabled, target_amount, unmatched
+            return variables
         except Exception as e:
             logging.error(f"Error while reading PLC data: {e}", exc_info=True)
         finally:
@@ -66,8 +65,10 @@ class PlcService:
                 self._disconnect_plc(plc)
 
     def _process_alarms(self, plc, equipment_id, alarms):
+        if not plc:
+                logging.warning("PLC connection failed. Using default values.")
         alarms = self._read_arrays(plc, alarms)
-        if alarms:
+        if alarms is not None:
             existing_alarm = self.alarm_service.get_latest_alarm(equipment_id)
             if existing_alarm is None:
                 self.alarm_service.insert_alarm(equipment_id, alarms)
@@ -75,13 +76,17 @@ class PlcService:
                 self.alarm_service.update_alarm(equipment_id, alarms)
 
     def _process_equipment_status(self, plc, equipment_id, equipment_status):
+        if not plc:
+                logging.warning("PLC connection failed. Using default values.")
         equipment_status = self._read_element(plc, equipment_status)
-        if equipment_status:
+        if equipment_status is not None:
             self.counting_equipment_service.update_equipment_status(equipment_status, equipment_id)
 
     def _process_outputs(self, plc, equipment_id, outputs):
+        if not plc:
+                logging.warning("PLC connection failed. Using default values.")
         outputs = self._read_arrays(plc, outputs)
-        if outputs:
+        if outputs is not None:
             equipment_outputs = self.equipment_output_service.get_by_equipment_id(equipment_id)
             if not equipment_outputs or len(equipment_outputs) != len(outputs):
                 logging.error(
@@ -94,12 +99,16 @@ class PlcService:
                 self.counter_record_service.insert_counter_record(equipment_output.id, output_value)
 
     def _process_active_time(self, plc, equipment_id, active_time):
+        if not plc:
+                logging.warning("PLC connection failed. Using default values.")
         active_time = self._read_element(plc, active_time)
-        if active_time:
+        if active_time is not None:
             self.active_time_service.insert_active_time(equipment_id, active_time)
 
     def _read_element(self, plc, variable):
         try:
+            if not plc:
+                logging.warning("PLC connection failed. Using default values.")
             variable = self._get_read_function(plc, variable, variable["type"])
             if variable is not None:
                 return variable
@@ -111,6 +120,8 @@ class PlcService:
 
     def _read_arrays(self, plc, data_array):
         try:
+            if not plc:
+                logging.warning("PLC connection failed. Using default values.")
             final_array = []
             for data in data_array:
                 value = self._get_read_function(plc, data, data["type"])
@@ -185,7 +196,7 @@ class PlcService:
             logging.info(
                 f"Int data successfully written"
             )
-            return write_int(plc, int(data["db_address"]), data["offset_byte"], data["offset_bit"], value)
+            return write_int(plc, int(data["db_address"]), data["offset_byte"], value)
         except Exception as e:
             logging.error(
                 f"Error writing Int data - {e}",
@@ -215,10 +226,10 @@ class PlcService:
             if plc:
                 self._disconnect_plc(plc)
 
-    def _get_write_function(self, data, data_type):
+    def _get_write_function(self, data, data_type, value):
         if data_type == 'int':
-            return self._write_int(data)
+            return self._write_int(data, value)
         elif data_type == 'bool':
-            return self._write_bool(data)
+            return self._write_bool(data, value)
         else:
             raise ValueError(f"Unknown data type: {data_type}")

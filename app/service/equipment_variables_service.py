@@ -14,10 +14,7 @@ class EquipmentVariablesService:
         try:
             equipment_variables = self.equipment_variables_dao.get_equipment_variables_by_equipment_id(equipment_id)
             if not equipment_variables:
-                return {
-                    "message": f"No equipment variables found for equipment_id {equipment_id}",
-                    "equipment_variables": None,
-                }
+                return None
             alarms = self._get_alarms_equipment_variable(equipment_variables)
             outputs = self._get_outputs_equipment_variable(equipment_variables)
             active_time = self._get_active_time_equipment_variable(equipment_variables)
@@ -37,7 +34,15 @@ class EquipmentVariablesService:
                 matched_prefixes,
             )
             if return_all:
-                return alarms, outputs, active_time, equipment_status, is_equipment_enabled, target_amount, unmatched
+                return {
+                        "alarms": alarms,
+                        "outputs": outputs,
+                        "active_time": active_time,
+                        "equipment_status": equipment_status,
+                        "is_equipment_enabled": is_equipment_enabled,
+                        "target_amount": target_amount,
+                        "unmatched": unmatched,
+                        }
             else:
                 return is_equipment_enabled, target_amount
 

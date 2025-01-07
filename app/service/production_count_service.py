@@ -56,6 +56,8 @@ class ProductionCountService:
             active_time = self.active_time_service.get_active_time(equipment_id)
             counters = self._get_counters(equipment_id)
             alarms = self.alarm_service.get_latest_alarm(equipment_id)
+            if alarms is None:
+                alarms = [0, 0, 0, 0]
             
             production_order_code = data.get("code", default_production_order_code)
             message = self._prepare_message(
