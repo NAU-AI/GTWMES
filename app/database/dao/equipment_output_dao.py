@@ -40,12 +40,12 @@ class EquipmentOutputDAO:
         query = """
             SELECT *
             FROM equipment_output
-            WHERE counting_equipment_id = %s AND disable = %s AND code = %s
+            WHERE counting_equipment_id = %s AND code = %s
         """
         try:
             with self.db.connect() as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute(query, (equipment_id, 0, code))
+                    cursor.execute(query, (equipment_id, code))
                     rows = cursor.fetchall()
                     return [EquipmentOutput.from_dict(row) for row in rows]
         except Exception as e:
