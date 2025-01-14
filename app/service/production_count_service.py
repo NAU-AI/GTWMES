@@ -40,6 +40,7 @@ class ProductionCountService:
     ):
         try:
             equipment_code = data.get("code") or data.get("equipmentCode")
+            self._get_equipment_plc_data(equipment_code)
             equipment = self._get_equipment(
                 equipment_code, equipment_id=data.get("equipment_id")
             )
@@ -89,16 +90,26 @@ class ProductionCountService:
     def _get_equipment(self, code=None, equipment_id=None):
         try:
             if equipment_id:
-                self.plc_service.read_plc_data(equipment_id) 
                 return self.counting_equipment_service.get_equipment_by_id(equipment_id)
             elif code:
-                equipment = self.counting_equipment_service.get_equipment_by_code(code)
-                self.plc_service.read_plc_data(equipment.id) 
                 return self.counting_equipment_service.get_equipment_by_code(code)
             return None
         except Exception as e:
             logger.error(
                 f"Error fetching equipment with code '{code}' or ID '{equipment_id}': {e}",
+                exc_info=True,
+            )
+            return None
+    
+    def _get_equipment_plc_data(self, code=None):
+        try:
+            if code:
+                equipment = self.counting_equipment_service.get_equipment_by_code(code)
+                self.plc_service.read_plc_data(equipment.id) 
+            return None
+        except Exception as e:
+            logger.error(
+                f"Error fetching plc data for equipment with code '{code}' or ID '{equipment.id}': {e}",
                 exc_info=True,
             )
             return None

@@ -15,17 +15,17 @@ class EquipmentVariablesService:
             equipment_variables = self.equipment_variables_dao.get_equipment_variables_by_equipment_id(equipment_id)
             if not equipment_variables:
                 return None
-            alarms = self._get_alarms_equipment_variable(equipment_variables)
-            outputs = self._get_outputs_equipment_variable(equipment_variables)
-            active_time = self._get_active_time_equipment_variable(equipment_variables)
-            equipment_status = self._get_equipment_status_equipment_variable(equipment_variables)
-            is_equipment_enabled = self._get_is_equipment_enabled_equipment_variable(equipment_variables)
-            target_amount = self._get_target_amount_equipment_variable(equipment_variables)
+            alarms_address = self._get_equipment_variable_by_label(equipment_variables, 'alarm_', allow_multiple=True)
+            outputs_address = self._get_equipment_variable_by_label(equipment_variables, 'output_', allow_multiple=True)
+            active_time_address = self._get_equipment_variable_by_label(equipment_variables, 'activeTime')
+            equipment_status_address = self._get_equipment_variable_by_label(equipment_variables, 'equipmentStatus')
+            is_equipment_enabled_address = self._get_equipment_variable_by_label(equipment_variables, 'isEquipmentEnabled')
+            target_amount_address = self._get_equipment_variable_by_label(equipment_variables, 'targetAmount')
             matched_names = [
-                    active_time['name'],
-                    equipment_status['name'],
-                    is_equipment_enabled['name'],
-                    target_amount['name'],
+                    active_time_address['name'],
+                    equipment_status_address['name'],
+                    is_equipment_enabled_address['name'],
+                    target_amount_address['name'],
                 ]
             matched_prefixes = ['alarm_', 'output_']
             unmatched = self._get_unmatched_equipment_variables(
@@ -35,95 +35,39 @@ class EquipmentVariablesService:
             )
             if return_all:
                 return {
-                        "alarms": alarms,
-                        "outputs": outputs,
-                        "active_time": active_time,
-                        "equipment_status": equipment_status,
-                        "is_equipment_enabled": is_equipment_enabled,
-                        "target_amount": target_amount,
+                        "alarms": alarms_address,
+                        "outputs": outputs_address,
+                        "active_time": active_time_address,
+                        "equipment_status": equipment_status_address,
+                        "is_equipment_enabled": is_equipment_enabled_address,
+                        "target_amount": target_amount_address,
                         "unmatched": unmatched,
                         }
             else:
-                return is_equipment_enabled, target_amount
+                return is_equipment_enabled_address, target_amount_address
 
         except Exception as e:
             logger.error(
                 f"Service error while fetching equipment variables for equipment_id {equipment_id}: {e}"
             )
             raise ServiceException("An error occurred while fetching the equipment variables")
+
+    def _get_equipment_variable_by_label(self, equipment_variables, label, allow_multiple=False):
+        if not equipment_variables:
+            raise ValueError("equipment_variables is required")
+
+        try:
+            if allow_multiple:
+                return [item for item in equipment_variables if item['name'].startswith(label)]
+            else:
+                return next(item for item in equipment_variables if item['name'] == label)
+        except StopIteration:
+            logger.error(f"Item with name '{label}' not found in equipment_variables.")
+            return None 
+        except Exception as e:
+            logger.error(f"Service error while getting {label} from equipment_variables: {e}")
+            raise ServiceException(f"An error occurred while getting {label} from the equipment variables")
         
-    def _get_alarms_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return [item for item in equipment_variables if item['name'].startswith('alarm_')]
-        except Exception as e:
-            logger.error(
-                f"Service error while getting alarms from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting alarms from the equipment variables")
-    
-    def _get_outputs_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return [item for item in equipment_variables if item['name'].startswith('output_')]
-        except Exception as e:
-            logger.error(
-                f"Service error while getting outputs from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting outputs from the equipment variables")
-    
-    def _get_active_time_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return next(item for item in equipment_variables if item['name'] == 'activeTime')
-        except Exception as e:
-            logger.error(
-                f"Service error while getting active_time from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting active_time from the equipment variables")
-    
-    def _get_equipment_status_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return next(item for item in equipment_variables if item['name'] == 'equipmentStatus')
-        except Exception as e:
-            logger.error(
-                f"Service error while getting equipment_status from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting equipment_status from the equipment variables")
-    
-    def _get_is_equipment_enabled_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return next(item for item in equipment_variables if item['name'] == 'isEquipmentEnabled')
-        except Exception as e:
-            logger.error(
-                f"Service error while getting is_equipment_enabled from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting is_equipment_enabled from the equipment variables")
-
-    def _get_target_amount_equipment_variable(self, equipment_variables):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        try:
-            return next(item for item in equipment_variables if item['name'] == 'targetAmount')
-        except Exception as e:
-            logger.error(
-                f"Service error while getting target_amount from equipment_variables: {e}"
-            )
-            raise ServiceException("An error occurred while getting target_amount from the equipment variables")
-
     def _get_unmatched_equipment_variables(self, equipment_variables, matched_names=None, matched_prefixes=None):
         if not equipment_variables:
             raise ValueError("equipment_variables is required")
