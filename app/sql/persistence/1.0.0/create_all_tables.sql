@@ -1,4 +1,5 @@
--- Drop tables
+BEGIN;
+
 DROP TABLE IF EXISTS counting_equipment CASCADE;
 DROP TABLE IF EXISTS equipment_output CASCADE;
 DROP TABLE IF EXISTS production_order CASCADE;
@@ -7,31 +8,27 @@ DROP TABLE IF EXISTS alarm CASCADE;
 DROP TABLE IF EXISTS counter_record CASCADE;
 DROP TABLE IF EXISTS audit_script CASCADE;
 
--- Create table counting_equipment
 CREATE TABLE counting_equipment (
     id SERIAL PRIMARY KEY,
     code VARCHAR(20) NOT NULL,
     equipment_status INTEGER,
-    p_timer_communication_cycle INTEGER
+    p_timer_communication_cycle INTEGER,
+    plc_ip VARCHAR(20) NOT NULL DEFAULT '0'
 );
 
--- Create table equipment_output
 CREATE TABLE equipment_output (
     id SERIAL PRIMARY KEY,
-    equipment_code VARCHAR(20) NOT NULL,
-    code VARCHAR(20) NOT NULL,
-    disable INTEGER NOT NULL DEFAULT 0
+    counting_equipment_id INTEGER REFERENCES counting_equipment(id),
+    code VARCHAR(20) NOT NULL
 );
 
--- Create table production_order
 CREATE TABLE production_order (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
     code VARCHAR(20),
-    finished INTEGER NOT NULL DEFAULT 0
+    is_completed INTEGER NOT NULL DEFAULT 0
 );
 
--- Create table active_time
 CREATE TABLE active_time (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
@@ -39,7 +36,6 @@ CREATE TABLE active_time (
     registered_at TIMESTAMP
 );
 
--- Create table alarm
 CREATE TABLE alarm (
     id SERIAL PRIMARY KEY,
     equipment_id INTEGER REFERENCES counting_equipment(id),
@@ -50,7 +46,6 @@ CREATE TABLE alarm (
     registered_at TIMESTAMP
 );
 
--- Create table counter_record
 CREATE TABLE counter_record (
     id SERIAL PRIMARY KEY,
     equipment_output_id INTEGER REFERENCES equipment_output(id),
@@ -58,7 +53,6 @@ CREATE TABLE counter_record (
     registered_at TIMESTAMP
 );
 
--- Create table audit_script
 CREATE TABLE audit_script (
     id SERIAL PRIMARY KEY,
     run_date DATE NOT NULL,
@@ -66,3 +60,16 @@ CREATE TABLE audit_script (
     version VARCHAR(10) NOT NULL,
     schema VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE equipment_variable (
+    id SERIAL PRIMARY KEY,
+    counting_equipment_id INTEGER NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    db_address VARCHAR(20) NOT NULL,
+    offset_byte INTEGER NOT NULL,
+    offset_bit INTEGER NOT NULL DEFAULT 0,
+    type VARCHAR(20) NOT NULL,
+    FOREIGN KEY (counting_equipment_id) REFERENCES counting_equipment(id)
+);
+
+COMMIT;
