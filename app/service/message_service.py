@@ -1,139 +1,122 @@
-from datetime import datetime
 import json
-import logging
-
+from datetime import datetime
 from utility.scheduler import Scheduler
 from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
-from service.production_count_service import (
-    ProductionCountService,
-)
+from service.production_count_service import ProductionCountService
+from service.equipment_service import EquipmentService
+from app.utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 PRODUCTION_COUNT_MESSAGE_TYPE = "ProductionCount"
+MAX_MQTT_MESSAGE_SIZE = 128 * 1024  # 128 KB limit for AWS IoT Core
 
 
 class MessageService:
-    def __init__(self, production_count_service=None, mqtt_heart_beat=None):
+    def __init__(
+        self,
+        production_count_service: ProductionCountService = None,
+        equipment_service: EquipmentService = None,
+        mqtt_heart_beat: MqttHeartbeatMonitor = None,
+    ):
         self.production_count_service = (
             production_count_service or ProductionCountService()
         )
+        self.equipment_service = equipment_service or EquipmentService()
         self.mqtt_heart_beat = mqtt_heart_beat or MqttHeartbeatMonitor()
         self.scheduler = Scheduler()
 
     def execute_production_count(self, client, topic_send):
-        equipments = self.production_count_service.get_all_equipment()
-        for equipment in equipments:
-            task_id = f"equipment_{equipment.id}"
-            self.scheduler.schedule_task(
-                task_id=task_id,
-                equipment=equipment,
-                action=self.send_production_message,
-                client=client,
-                topic_send=topic_send,
-            )
-        logging.info("All equipment schedules initialized.")
-
-    def send_production_message(self, client, topic_send, equipment):
         try:
-            production_values = self.production_count_service.get_production_values(
-                equipment
+            equipments = self.equipment_service.get_all_equipment()
+            if not equipments:
+                logger.warning("No equipment found for production count execution.")
+                return
+
+            for equipment in equipments:
+                task_id = f"equipment_{equipment.id}"
+                self.scheduler.schedule_task(
+                    task_id=task_id,
+                    equipment=equipment,
+                    action=self._send_production_message,
+                    client=client,
+                    topic_send=topic_send,
+                )
+
+            logger.info("All equipment schedules initialized.")
+        except Exception as e:
+            logger.error(f"Error executing production count: {e}", exc_info=True)
+
+    def _send_production_message(self, client, topic_send, equipment):
+        try:
+            production_values = self.production_count_service.build_production_count(
+                equipment_code=equipment.code,
+                message_type=PRODUCTION_COUNT_MESSAGE_TYPE,
             )
             if not production_values:
-                logging.warning(
+                logger.warning(
                     f"No production values generated for equipment {equipment.id}."
                 )
                 return
 
-            self.send_message_response(
+            self._send_message_response(
                 client, topic_send, production_values, PRODUCTION_COUNT_MESSAGE_TYPE
             )
-            logging.info(f"Sent production message for equipment {equipment.id}.")
+            logger.info(f"Sent production message for equipment {equipment.id}.")
         except Exception as e:
-            logging.error(
+            logger.error(
                 f"Error sending production message for equipment {equipment.id}: {e}",
                 exc_info=True,
             )
 
-    def send_message_response(
-        self, client, topic_send, data, message_type, default_production_order_code=""
-    ):
+    def _send_message_response(self, client, topic_send, data, message_type):
         try:
-            message = self.production_count_service.build_production_count(
-                data=data,
-                message_type=message_type,
-                default_production_order_code=default_production_order_code,
-            )
-            if not message:
-                logging.warning("No message generated. Skipping sending response.")
-                return
-
-            serialized_message = json.dumps(message, default=self._serialize_message)
+            serialized_message = json.dumps(data, default=self._serialize_message)
             message_size = len(serialized_message.encode("utf-8"))
 
-            max_size = 128 * 1024  # 128 KB limit for AWS IoT Core
-            if message_size > max_size:
-                logging.warning(
-                    f"Message size {message_size} bytes exceeds AWS IoT Core limit of {max_size} bytes. "
-                    "Truncating message."
+            if message_size > MAX_MQTT_MESSAGE_SIZE:
+                logger.warning(
+                    f"Message size {message_size} bytes exceeds limit ({MAX_MQTT_MESSAGE_SIZE} bytes). Truncating."
                 )
-                # Truncate the message
-                truncated_message = self.truncate_json_to_limit(message, max_size)
-                serialized_message = json.dumps(truncated_message)
+                data = self._truncate_json_to_limit(data, MAX_MQTT_MESSAGE_SIZE)
+                serialized_message = json.dumps(data)
                 message_size = len(serialized_message.encode("utf-8"))
 
             client.publish(topic_send, serialized_message, qos=1)
-            logging.info(
-                f"{message_type} message sent to topic '{topic_send}' (Size: {message_size} bytes)."
-                f"{message_type} message sent to topic '{topic_send}': {serialized_message}"
+            logger.info(
+                f"Sent {message_type} message to '{topic_send}' (Size: {message_size} bytes): {serialized_message}"
             )
         except Exception as e:
-            logging.error(f"Error while sending message response: {e}", exc_info=True)
-
-    def truncate_json_to_limit(self, json_data, max_bytes):
-        return self._fit_json(json_data, max_bytes)
-
-    def _fit_json(self, data, limit_bytes):
-        serialized = json.dumps(data)
-        if len(serialized.encode("utf-8")) <= limit_bytes:
-            return data
-
-        if isinstance(data, dict):
-            truncated = {}
-            for key, value in data.items():
-                reduced_value = self._fit_json(value, limit_bytes)
-                temp_truncated = {**truncated, key: reduced_value}
-
-                if len(json.dumps(temp_truncated).encode("utf-8")) > limit_bytes:
-                    break
-
-                truncated[key] = reduced_value
-            return truncated
-
-        if isinstance(data, list):
-            truncated = []
-            for item in data:
-                reduced_item = self._fit_json(item, limit_bytes)
-                temp_truncated = truncated + [reduced_item]
-
-                if len(json.dumps(temp_truncated).encode("utf-8")) > limit_bytes:
-                    break
-
-                truncated.append(reduced_item)
-            return truncated
-
-        return data
+            logger.error(f"Error while sending message response: {e}", exc_info=True)
 
     def message_received(self, client, topic_send, data):
         try:
             equipment_code = data.get("equipmentCode")
             if not equipment_code:
-                logging.warning("Message ignored: 'equipmentCode' missing from data.")
+                logger.warning("Message ignored: 'equipmentCode' missing.")
                 return
 
-            logging.info(f"Message received for equipmentCode: {equipment_code}")
+            logger.info(f"Message received for equipmentCode: {equipment_code}")
             self.mqtt_heart_beat.received_heartbeat(equipment_code)
-
         except Exception as e:
-            logging.error(f"Error processing received message: {e}", exc_info=True)
+            logger.error(f"Error processing received message: {e}", exc_info=True)
+
+    def _truncate_json_to_limit(self, data, max_bytes):
+        serialized = json.dumps(data)
+        if len(serialized.encode("utf-8")) <= max_bytes:
+            return data
+
+        if isinstance(data, dict):
+            return {
+                k: v
+                for k, v in data.items()
+                if len(json.dumps({k: v}).encode("utf-8")) <= max_bytes
+            }
+
+        if isinstance(data, list):
+            return data[: len(data) // 2]  # Truncate halfway
+
+        return data  # Return as-is if no truncation logic applies
 
     def _serialize_message(self, obj):
         if isinstance(obj, datetime):

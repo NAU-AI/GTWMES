@@ -1,56 +1,65 @@
-import logging
 import os
-
 from MQTT.protocol import Protocol
-from service.production_order_service import ProductionOrderService
+from service.production_order_handler_service import ProductionOrderHandlerService
 from service.message_service import MessageService
-from equipment_service import EquipmentService
+from service.equipment_service import EquipmentService
+from app.utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class MessageHandler:
     def __init__(self):
-        self.production_order_service = ProductionOrderService()
+        self.production_order_handler = ProductionOrderHandlerService()
         self.message_service = MessageService()
-        self.counting_equipment_service = EquipmentService()
+        self.equipment_service = EquipmentService()
         self.topic_send = os.getenv("TOPIC_SEND")
-        self.protocols = Protocol.get_jsonType(self)
+        self.protocols = Protocol.get_jsonType()
 
     def handle_message(self, client, message):
         json_type = message.get("jsonType")
-        handler = self.protocols.get(json_type)
-        if handler:
+
+        if handler := self.protocols.get(json_type):
             handler(client, message)
         else:
-            logging.warning(f"Unhandled jsonType: {json_type}. Message: {message}")
+            logger.warning(f"Unhandled jsonType: {json_type}. Message: {message}")
 
     def _process_message(self, client, message, handler, response_type):
         try:
-            logging.info(f"Processing '{response_type}' message: {message}")
+            logger.info(f"Processing '{response_type}' message: {message}")
+
             handler(message)
+
+            logger.info(f"Successfully handled '{response_type}'")
+
         except Exception as e:
-            logging.error(
-                f"Error processing '{response_type}' for jsonType {message.get('jsonType')}: {e}"
+            logger.error(
+                f"Error processing '{response_type}' for jsonType {message.get('jsonType')}: {e}",
+                exc_info=True,
             )
-        else:
-            logging.info(f"Successfully handled '{response_type}'")
+            message["error"] = str(e)
+
         finally:
-            self.message_service.send_message_response(
-                client, self.topic_send, message, f"{response_type}Response"
-            )
+            self._send_response(client, message, response_type)
+
+    def _send_response(self, client, message, response_type):
+        self.message_service.send_message_response(
+            client, self.topic_send, message, f"{response_type}Response"
+        )
 
     def _handle_configuration(self, client, message):
         self._process_message(
             client,
             message,
-            self.counting_equipment_service.update_equipment_variables,
+            self.equipment_service.update_equipment_variables,
             "Configuration",
         )
 
-    def _handle_production_order(self, client, message):
+    def _handle_production_order_init(self, client, message):
         self._process_message(
             client,
             message,
-            self.production_order_service.start_new_production_order,
+            self.production_order_handler.process_production_order_init,
             "ProductionOrder",
         )
 
@@ -58,7 +67,7 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.production_order_service.complete_production_order,
+            self.production_order_handler.process_production_order_conclusion,
             "ProductionOrderConclusion",
         )
 

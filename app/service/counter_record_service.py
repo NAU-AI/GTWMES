@@ -35,15 +35,15 @@ class CounterRecordService:
         self, equipment_output_id: int
     ) -> CounterRecord:
         try:
-            record = self.counter_record_dao.find_last_by_equipment_output_id(
+            if record := self.counter_record_dao.find_last_by_equipment_output_id(
                 equipment_output_id
-            )
-            if not record:
+            ):
+                return record
+            else:
                 raise NotFoundException(
                     f"No counter records found for equipment output ID '{equipment_output_id}'"
                 )
 
-            return record
         except Exception as e:
             logger.error(
                 f"Error fetching last counter record for equipment output ID '{equipment_output_id}': {e}",

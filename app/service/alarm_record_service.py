@@ -23,10 +23,10 @@ class AlarmRecordService:
 
     def get_alarm_record_by_id(self, alarm_id: int) -> AlarmRecord:
         try:
-            alarm_record = self.alarm_record_dao.find_by_id(alarm_id)
-            if not alarm_record:
+            if alarm_record := self.alarm_record_dao.find_by_id(alarm_id):
+                return alarm_record
+            else:
                 raise NotFoundException(f"Alarm record with ID '{alarm_id}' not found")
-            return alarm_record
         except Exception as e:
             logger.error(
                 f"Error fetching alarm record by ID '{alarm_id}': {e}", exc_info=True
@@ -52,13 +52,13 @@ class AlarmRecordService:
 
     def get_by_variable_id(self, variable_id: int) -> list[AlarmRecord]:
         try:
-            alarms = self.alarm_record_dao.find_by_variable_id(variable_id)
-            if not alarms:
+            if alarms := self.alarm_record_dao.find_by_variable_id(variable_id):
+                return alarms
+            else:
                 raise NotFoundException(
                     f"No alarms found for variable ID '{variable_id}'"
                 )
 
-            return alarms
         except Exception as e:
             logger.error(
                 f"Error fetching alarms for variable ID '{variable_id}': {e}",

@@ -29,12 +29,12 @@ class EquipmentOutputService:
 
     def get_output_by_id(self, output_id: int) -> EquipmentOutput:
         try:
-            output = self.equipment_output_dao.find_by_id(output_id)
-            if not output:
+            if output := self.equipment_output_dao.find_by_id(output_id):
+                return output
+            else:
                 raise NotFoundException(
                     f"Equipment output with ID '{output_id}' not found"
                 )
-            return output
         except Exception as e:
             logger.error(
                 f"Error fetching equipment output by ID '{output_id}': {e}",
@@ -47,8 +47,7 @@ class EquipmentOutputService:
             if not self.equipment_dao.find_by_id(equipment_id):
                 raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
 
-            outputs = self.equipment_output_dao.find_by_equipment_id(equipment_id)
-            return outputs
+            return self.equipment_output_dao.find_by_equipment_id(equipment_id)
         except Exception as e:
             logger.error(
                 f"Error fetching equipment outputs for equipment ID '{equipment_id}': {e}",

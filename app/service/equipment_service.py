@@ -25,11 +25,11 @@ class EquipmentService:
             raise ValueError("Equipment code cannot be empty")
 
         try:
-            equipment = self.equipment_dao.find_by_code(code)
-            if not equipment:
+            if equipment := self.equipment_dao.find_by_code(code):
+                return equipment
+            else:
                 raise NotFoundException(f"Equipment with code '{code}' not found")
 
-            return equipment
         except Exception as e:
             logger.error(
                 f"Error fetching equipment by code '{code}': {e}", exc_info=True
@@ -41,11 +41,11 @@ class EquipmentService:
             raise ValueError("equipment_id cannot be null or empty.")
 
         try:
-            equipment = self.equipment_dao.find_by_id(equipment_id)
-            if not equipment:
+            if equipment := self.equipment_dao.find_by_id(equipment_id):
+                return equipment
+            else:
                 raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
 
-            return equipment
         except Exception as e:
             logger.error(
                 f"Error fetching equipment by ID '{equipment_id}': {e}", exc_info=True

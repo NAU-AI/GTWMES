@@ -12,12 +12,12 @@ class ProductionOrderService:
 
     def get_production_order_by_id(self, order_id: int) -> ProductionOrder:
         try:
-            order = self.production_order_dao.find_by_id(order_id)
-            if not order:
+            if order := self.production_order_dao.find_by_id(order_id):
+                return order
+            else:
                 raise NotFoundException(
                     f"Production order with ID '{order_id}' not found"
                 )
-            return order
         except Exception as e:
             logger.error(
                 f"Error fetching production order by ID '{order_id}': {e}",
@@ -29,30 +29,15 @@ class ProductionOrderService:
         self, equipment_id: int, is_completed: bool
     ) -> list[ProductionOrder]:
         try:
-            orders = self.production_order_dao.find_by_equipment_id(
+            return self.production_order_dao.find_by_equipment_id(
                 equipment_id, is_completed
             )
-            return orders
         except Exception as e:
             logger.error(
                 f"Error fetching production orders for equipment ID '{equipment_id}' with status '{is_completed}': {e}",
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch production orders.") from e
-
-    def complete_production_order(self, order_id: int) -> bool:
-        try:
-            completed = self.production_order_dao.complete_production_order(order_id)
-            if not completed:
-                raise NotFoundException(
-                    f"Production order with ID '{order_id}' not found or already completed"
-                )
-
-            logger.info(f"Completed production order with ID {order_id}")
-            return True
-        except Exception as e:
-            logger.error(f"Error completing production order: {e}", exc_info=True)
-            raise ServiceException("Unable to complete production order.") from e
 
     def start_new_production_order(
         self, equipment_id: int, code: str
@@ -68,6 +53,20 @@ class ProductionOrderService:
         except Exception as e:
             logger.error(f"Error starting new production order: {e}", exc_info=True)
             raise ServiceException("Unable to start new production order.") from e
+
+    def complete_production_order(self, order_id: int) -> bool:
+        try:
+            completed = self.production_order_dao.complete_production_order(order_id)
+            if not completed:
+                raise NotFoundException(
+                    f"Production order with ID '{order_id}' not found or already completed"
+                )
+
+            logger.info(f"Completed production order with ID {order_id}")
+            return True
+        except Exception as e:
+            logger.error(f"Error completing production order: {e}", exc_info=True)
+            raise ServiceException("Unable to complete production order.") from e
 
     def delete_production_order(self, order_id: int) -> bool:
         try:

@@ -1,147 +1,97 @@
-from asyncio.log import logger
-from dao.variable_dao import EquipmentVariablesDAO
-from exception.Exception import ServiceException
+from dao.variable_dao import VariableDAO
+from model import Variable
+from app.exception import NotFoundException, ServiceException
+from app.utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
-class EquipmentVariablesService:
-    def __init__(self, equipment_variables_dao=None):
-        self.equipment_variables_dao = (
-            equipment_variables_dao or EquipmentVariablesDAO()
-        )
+class VariableService:
+    def __init__(self, variable_dao: VariableDAO = None):
+        self.variable_dao = variable_dao or VariableDAO()
 
-    def get_equipment_variables(self, equipment_id, return_all=True):
-        if not equipment_id:
-            raise ValueError("equipment_id is required")
-
+    def get_variable_by_id(self, variable_id: int) -> Variable:
         try:
-            equipment_variables = (
-                self.equipment_variables_dao.get_equipment_variables_by_equipment_id(
-                    equipment_id
-                )
-            )
-            if not equipment_variables:
-                return None
-            alarms_address = self._get_equipment_variable_by_label(
-                equipment_variables, "alarm_", allow_multiple=True
-            )
-            outputs_address = self._get_equipment_variable_by_label(
-                equipment_variables, "output_", allow_multiple=True
-            )
-            active_time_address = self._get_equipment_variable_by_label(
-                equipment_variables, "activeTime"
-            )
-            equipment_status_address = self._get_equipment_variable_by_label(
-                equipment_variables, "equipmentStatus"
-            )
-            is_equipment_enabled_address = self._get_equipment_variable_by_label(
-                equipment_variables, "isEquipmentEnabled"
-            )
-            target_amount_address = self._get_equipment_variable_by_label(
-                equipment_variables, "targetAmount"
-            )
-            matched_names = [
-                active_time_address["name"],
-                equipment_status_address["name"],
-                is_equipment_enabled_address["name"],
-                target_amount_address["name"],
-            ]
-            matched_prefixes = ["alarm_", "output_"]
-            unmatched = self._get_unmatched_equipment_variables(
-                equipment_variables,
-                matched_names,
-                matched_prefixes,
-            )
-            if return_all:
-                return {
-                    "alarms": alarms_address,
-                    "outputs": outputs_address,
-                    "active_time": active_time_address,
-                    "equipment_status": equipment_status_address,
-                    "is_equipment_enabled": is_equipment_enabled_address,
-                    "target_amount": target_amount_address,
-                    "unmatched": unmatched,
-                }
+            if variable := self.variable_dao.find_by_id(variable_id):
+                return variable
             else:
-                return is_equipment_enabled_address, target_amount_address
-
+                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
         except Exception as e:
             logger.error(
-                f"Service error while fetching equipment variables for equipment_id {equipment_id}: {e}"
+                f"Error fetching variable by ID '{variable_id}': {e}", exc_info=True
             )
-            raise ServiceException(
-                "An error occurred while fetching the equipment variables"
-            )
+            raise ServiceException("Unable to fetch variable.") from e
 
-    def _get_equipment_variable_by_label(
-        self, equipment_variables, label, allow_multiple=False
-    ):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
+    def get_by_equipment_id(self, equipment_id: int) -> list[Variable]:
         try:
-            if allow_multiple:
-                return [
-                    item
-                    for item in equipment_variables
-                    if item["name"].startswith(label)
-                ]
-            else:
-                return next(
-                    item for item in equipment_variables if item["name"] == label
-                )
-        except StopIteration:
-            logger.error(f"Item with name '{label}' not found in equipment_variables.")
-            return None
+            return self.variable_dao.find_by_equipment_id(equipment_id)
         except Exception as e:
             logger.error(
-                f"Service error while getting {label} from equipment_variables: {e}"
+                f"Error fetching variables for equipment ID '{equipment_id}': {e}",
+                exc_info=True,
             )
-            raise ServiceException(
-                f"An error occurred while getting {label} from the equipment variables"
-            )
+            raise ServiceException("Unable to fetch variables.") from e
 
-    def _get_unmatched_equipment_variables(
-        self, equipment_variables, matched_names=None, matched_prefixes=None
-    ):
-        if not equipment_variables:
-            raise ValueError("equipment_variables is required")
-
-        if matched_names is None:
-            matched_names = []
-        if matched_prefixes is None:
-            matched_prefixes = []
-
+    def get_by_equipment_output_id(self, equipment_output_id: int) -> list[Variable]:
         try:
-            unmatched = []
-
-            for idx, item in enumerate(equipment_variables):
-                logger.debug(f"Item at index {idx} has type {type(item)}")
-
-                if isinstance(item, dict):
-                    item_name = item.get("name", None)
-                elif hasattr(item, "name"):
-                    item_name = getattr(item, "name", None)
-                else:
-                    logger.debug(
-                        f"Item at index {idx} does not have a 'name' attribute: {item}"
-                    )
-                    item_name = None
-
-                if (
-                    item_name
-                    and item_name not in matched_names
-                    and not any(
-                        item_name.startswith(prefix) for prefix in matched_prefixes
-                    )
-                ):
-                    unmatched.append(item_name)
-
-            return unmatched
-
+            return self.variable_dao.find_by_equipment_output_id(equipment_output_id)
         except Exception as e:
             logger.error(
-                f"Service error while getting unmatched equipment variables: {e}, input: {equipment_variables}"
+                f"Error fetching variables for equipment output ID '{equipment_output_id}': {e}",
+                exc_info=True,
             )
-            raise ServiceException(
-                "An error occurred while getting unmatched equipment variables"
+            raise ServiceException("Unable to fetch variables.") from e
+
+    def get_all_variables(self) -> list[Variable]:
+        try:
+            return self.variable_dao.find_all()
+        except Exception as e:
+            logger.error("Error fetching all variables.", exc_info=True)
+            raise ServiceException("Unable to fetch variables.") from e
+
+    def save_variable(self, variable: Variable) -> Variable:
+        try:
+            saved_variable = self.variable_dao.save(variable)
+            logger.info(
+                f"Created variable '{saved_variable.key}' for equipment ID {saved_variable.equipment_id}."
             )
+            return saved_variable
+        except Exception as e:
+            logger.error(f"Error saving variable '{variable.key}': {e}", exc_info=True)
+            raise ServiceException("Unable to save variable.") from e
+
+    def update_variable(self, variable: Variable) -> Variable:
+        try:
+            existing_variable = self.variable_dao.find_by_id(variable.id)
+            if not existing_variable:
+                raise NotFoundException(f"Variable with ID '{variable.id}' not found.")
+
+            existing_variable.key = variable.key
+            existing_variable.db_address = variable.db_address
+            existing_variable.offset_byte = variable.offset_byte
+            existing_variable.offset_bit = variable.offset_bit
+            existing_variable.type = variable.type
+            existing_variable.operation_type = variable.operation_type
+
+            updated_variable = self.variable_dao.save(existing_variable)
+            logger.info(
+                f"Updated variable '{updated_variable.key}' for equipment ID {updated_variable.equipment_id}."
+            )
+            return updated_variable
+        except Exception as e:
+            logger.error(f"Error updating variable '{variable.id}': {e}", exc_info=True)
+            raise ServiceException("Unable to update variable.") from e
+
+    def delete_variable(self, variable_id: int) -> bool:
+        try:
+            deleted = self.variable_dao.delete(variable_id)
+            if not deleted:
+                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
+
+            logger.info(f"Deleted variable with ID {variable_id}.")
+            return True
+        except Exception as e:
+            logger.error(
+                f"Error deleting variable ID {variable_id}: {e}", exc_info=True
+            )
+            raise ServiceException("Unable to delete variable.") from e

@@ -25,12 +25,12 @@ class ActiveTimeRecordService:
 
     def get_active_time_record_by_id(self, active_time_id: int) -> ActiveTimeRecord:
         try:
-            record = self.active_time_record_dao.find_by_id(active_time_id)
-            if not record:
+            if record := self.active_time_record_dao.find_by_id(active_time_id):
+                return record
+            else:
                 raise NotFoundException(
                     f"Active time record with ID '{active_time_id}' not found"
                 )
-            return record
         except Exception as e:
             logger.error(
                 f"Error fetching active time record by ID '{active_time_id}': {e}",
@@ -67,15 +67,15 @@ class ActiveTimeRecordService:
 
     def get_latest_by_equipment_id(self, equipment_id: int) -> ActiveTimeRecord:
         try:
-            record = self.active_time_record_dao.find_latest_by_equipment_id(
+            if record := self.active_time_record_dao.find_latest_by_equipment_id(
                 equipment_id
-            )
-            if not record:
+            ):
+                return record
+            else:
                 raise NotFoundException(
                     f"No active time records found for equipment ID '{equipment_id}'"
                 )
 
-            return record
         except Exception as e:
             logger.error(
                 f"Error fetching latest active time record for equipment ID '{equipment_id}': {e}",
