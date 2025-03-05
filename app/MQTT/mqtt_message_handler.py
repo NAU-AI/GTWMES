@@ -4,13 +4,14 @@ import os
 from MQTT.protocol import Protocol
 from service.production_order_service import ProductionOrderService
 from service.message_service import MessageService
-from service.counting_equipment_service import CountingEquipmentService
+from equipment_service import EquipmentService
+
 
 class MessageHandler:
     def __init__(self):
         self.production_order_service = ProductionOrderService()
         self.message_service = MessageService()
-        self.counting_equipment_service = CountingEquipmentService()
+        self.counting_equipment_service = EquipmentService()
         self.topic_send = os.getenv("TOPIC_SEND")
         self.protocols = Protocol.get_jsonType(self)
 
@@ -41,7 +42,7 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.counting_equipment_service.update_equipment_configuration,
+            self.counting_equipment_service.update_equipment_variables,
             "Configuration",
         )
 

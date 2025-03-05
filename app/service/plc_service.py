@@ -2,7 +2,7 @@ import logging
 from service.active_time_service import ActiveTimeService
 from service.alarm_service import AlarmService
 from service.counter_record_service import CounterRecordService
-from service.counting_equipment_service import CountingEquipmentService
+from equipment_service import EquipmentService
 from service.equipment_output_service import EquipmentOutputService
 from service.PLC.snap7 import (
     read_bool,
@@ -36,7 +36,7 @@ class PlcService:
         )
         self.alarm_service = alarm_service or AlarmService()
         self.counting_equipment_service = (
-            counting_equipment_service or CountingEquipmentService()
+            counting_equipment_service or EquipmentService()
         )
         self.equipment_output_service = (
             equipment_output_service or EquipmentOutputService()

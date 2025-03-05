@@ -6,7 +6,7 @@ from service.active_time_service import ActiveTimeService
 from service.plc_service import PlcService
 from service.counter_record_service import CounterRecordService
 from service.equipment_output_service import EquipmentOutputService
-from service.counting_equipment_service import CountingEquipmentService
+from equipment_service import EquipmentService
 from service.production_order_service import ProductionOrderService
 
 
@@ -25,7 +25,7 @@ class ProductionCountService:
             production_order_service or ProductionOrderService()
         )
         self.counting_equipment_service = (
-            counting_equipment_service or CountingEquipmentService()
+            counting_equipment_service or EquipmentService()
         )
         self.equipment_output_service = (
             equipment_output_service or EquipmentOutputService()
@@ -59,9 +59,15 @@ class ProductionCountService:
             alarms = self.alarm_service.get_latest_alarm(equipment_id)
             if alarms is None:
                 alarms = [0, 0, 0, 0]
-            
-            production_order = self.production_order_service.get_production_order_by_equipment_id_and_status(equipment_id, False)
-            production_order_code = production_order.code if production_order else default_production_order_code
+
+            production_order = self.production_order_service.get_production_order_by_equipment_id_and_status(
+                equipment_id, False
+            )
+            production_order_code = (
+                production_order.code
+                if production_order
+                else default_production_order_code
+            )
             message = self._prepare_message(
                 json_type=message_type,
                 equipment_code=equipment_code,
@@ -69,7 +75,7 @@ class ProductionCountService:
                 equipment_status=equipment_status,
                 active_time=active_time,
                 alarms=alarms,
-                counters=counters
+                counters=counters,
             )
 
             return message
@@ -100,12 +106,12 @@ class ProductionCountService:
                 exc_info=True,
             )
             return None
-    
+
     def _get_equipment_plc_data(self, code=None):
         try:
             if code:
                 equipment = self.counting_equipment_service.get_equipment_by_code(code)
-                self.plc_service.read_plc_data(equipment.id) 
+                self.plc_service.read_plc_data(equipment.id)
             return None
         except Exception as e:
             logger.error(
@@ -162,5 +168,5 @@ class ProductionCountService:
             "equipmentStatus": kwargs.get("equipment_status", 0),
             "activeTime": kwargs.get("active_time", 0),
             "alarms": kwargs.get("alarms", []),
-            "counters": kwargs.get("counters", [])
+            "counters": kwargs.get("counters", []),
         }

@@ -1,3 +1,14 @@
+-- Drop tables if they exist to ensure a clean slate
+DROP TABLE IF EXISTS audit_script CASCADE;
+DROP TABLE IF EXISTS counter_record CASCADE;
+DROP TABLE IF EXISTS active_time_record CASCADE;
+DROP TABLE IF EXISTS alarm_record CASCADE;
+DROP TABLE IF EXISTS production_order CASCADE;
+DROP TABLE IF EXISTS equipment_output CASCADE;
+DROP TABLE IF EXISTS variable CASCADE;
+DROP TABLE IF EXISTS equipment CASCADE;
+
+-- Create tables
 CREATE TABLE audit_script (
     id SERIAL PRIMARY KEY,
     run_date DATE NOT NULL,

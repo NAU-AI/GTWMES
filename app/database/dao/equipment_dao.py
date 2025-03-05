@@ -11,6 +11,9 @@ class EquipmentDAO:
             self.session.query(Equipment).filter(Equipment.id == equipment_id).first()
         )
 
+    def find_by_code(self, code: str) -> Equipment:
+        return self.session.query(Equipment).filter(Equipment.code == code).first()
+
     def find_all(self) -> list[Equipment]:
         return self.session.query(Equipment).all()
 
