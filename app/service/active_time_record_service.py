@@ -1,7 +1,7 @@
-from dao.active_time_record_dao import ActiveTimeRecordDAO
-from model import ActiveTimeRecord
-from app.exception import NotFoundException, ServiceException
-from app.utility.logger import Logger
+from database.dao.active_time_record_dao import ActiveTimeRecordDAO
+from model.active_time_record import ActiveTimeRecord
+from exception.Exception import NotFoundException, ServiceException
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 

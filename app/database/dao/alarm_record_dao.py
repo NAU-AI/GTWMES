@@ -1,6 +1,7 @@
-from app.exception.Exception import NotFoundException
+from exception.Exception import NotFoundException
 from database.connection.db_connection import SessionLocal
-from model import AlarmRecord, Variable
+from model.alarm_record import AlarmRecord
+from model.variable import Variable
 
 
 class AlarmRecordDAO:

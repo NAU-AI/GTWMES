@@ -4,7 +4,7 @@ from utility.scheduler import Scheduler
 from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
 from service.production_count_service import ProductionCountService
 from service.equipment_service import EquipmentService
-from app.utility.logger import Logger
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 

@@ -1,5 +1,5 @@
 from database.connection.db_connection import SessionLocal
-from model import ProductionOrder
+from model.production_order import ProductionOrder
 
 
 class ProductionOrderDAO:

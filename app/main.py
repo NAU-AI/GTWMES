@@ -3,6 +3,7 @@ from MQTT.mqtt_message_processor import MessageProcessor
 from MQTT.mqtt_client_manager import ClientManager
 from utility.logger import Logger
 from database.connection.db_connection import SessionLocal
+from sqlalchemy.sql import text
 
 
 class MESMain:
@@ -51,12 +52,12 @@ class MESMain:
 def main():
     try:
         with SessionLocal() as session:
-            session.execute("SELECT 1")
+            session.execute(text("SELECT 1"))
         mes_service = MESMain()
         mes_service.start()
     except Exception as e:
         Logger.get_logger(__name__).error(
-            f"❌ Critical startup failure: {e}", exc_info=True
+            f"Critical startup failure: {e}", exc_info=True
         )
         exit(1)
 

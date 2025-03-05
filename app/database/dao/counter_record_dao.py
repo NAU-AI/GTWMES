@@ -1,5 +1,5 @@
 from database.connection.db_connection import SessionLocal
-from model import CounterRecord
+from model.counter_record import CounterRecord
 
 
 class CounterRecordDAO:

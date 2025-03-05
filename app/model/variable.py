@@ -17,6 +17,8 @@ class Variable(Base):
     type = Column(String(20), nullable=False)
     operation_type = Column(String(10), nullable=False)
 
+    equipment = relationship("Equipment", back_populates="variables")  # ✅ ADD THIS!
+
     outputs = relationship("EquipmentOutput", back_populates="variable")
     active_time_records = relationship(
         "ActiveTimeRecord", back_populates="variable", cascade="all, delete-orphan"

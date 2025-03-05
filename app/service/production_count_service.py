@@ -1,14 +1,14 @@
 from service.production_order_service import ProductionOrderService
 from service.equipment_service import EquipmentService
 from service.equipment_output_service import EquipmentOutputService
-from service.active_time_service import ActiveTimeService
+from service.active_time_record_service import ActiveTimeRecordService
 from service.alarm_record_service import AlarmRecordService
 from service.counter_record_service import CounterRecordService
 from service.plc_service import PlcService
-from model import Equipment, CounterRecord
-from dto.counter_record_dto import CounterRecordDTO
-from app.exception import ServiceException, NotFoundException
-from app.utility.logger import Logger
+from model.equipment import Equipment
+from model.dto.counter_record_dto import CounterRecordDTO
+from exception.Exception import ServiceException, NotFoundException
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -19,7 +19,7 @@ class ProductionCountService:
         production_order_service: ProductionOrderService = None,
         equipment_service: EquipmentService = None,
         equipment_output_service: EquipmentOutputService = None,
-        active_time_service: ActiveTimeService = None,
+        active_time_service: ActiveTimeRecordService = None,
         alarm_service: AlarmRecordService = None,
         counter_record_service: CounterRecordService = None,
         plc_service: PlcService = None,
@@ -31,7 +31,7 @@ class ProductionCountService:
         self.equipment_output_service = (
             equipment_output_service or EquipmentOutputService()
         )
-        self.active_time_service = active_time_service or ActiveTimeService()
+        self.active_time_service = active_time_service or ActiveTimeRecordService()
         self.alarm_service = alarm_service or AlarmRecordService()
         self.counter_record_service = counter_record_service or CounterRecordService()
         self.plc_service = plc_service or PlcService()

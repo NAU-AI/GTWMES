@@ -2,11 +2,9 @@ from service.production_order_service import ProductionOrderService
 
 from service.equipment_service import EquipmentService
 
-from model import ProductionOrder
+from exception.Exception import NotFoundException, ServiceException
 
-from app.exception import NotFoundException, ServiceException
-
-from app.utility.logger import Logger
+from utility.logger import Logger
 
 
 logger = Logger.get_logger(__name__)

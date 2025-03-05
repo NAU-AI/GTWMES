@@ -1,5 +1,5 @@
-from service.PLC.snap7 import write_alarms_data, plc_connect, plc_disconnect
-from app.utility.logger import Logger
+##from service.PLC.snap7 import write_alarms_data, plc_connect, plc_disconnect
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -10,9 +10,9 @@ class PlcService:
 
     def _default_plc_client(self):
         try:
-            plc = plc_connect()
-            if plc:
-                return plc
+            ##plc = plc_connect()
+            ##if plc:
+            ##return plc
             logger.warning("PLC client connection failed.")
         except Exception as e:
             logger.error(f"Failed to connect PLC client: {e}", exc_info=True)
@@ -25,11 +25,11 @@ class PlcService:
             return False
 
         try:
-            result = write_alarms_data(db_address, byte, bit, value, plc)
+            ##result = write_alarms_data(db_address, byte, bit, value, plc)
             logger.info(
                 f"Alarm data successfully written: Byte {byte}, Bit {bit}, Value {value}"
             )
-            return result
+            ##return result
         except Exception as e:
             logger.error(
                 f"Error writing alarm data: Byte {byte}, Bit {bit}, Value {value} - {e}",
@@ -42,7 +42,7 @@ class PlcService:
     def _disconnect_plc(self, plc):
         try:
             if plc:
-                plc_disconnect(plc)
+                ##plc_disconnect(plc)
                 logger.info("PLC connection successfully closed.")
         except Exception as e:
             logger.error(f"Error during PLC disconnection: {e}", exc_info=True)

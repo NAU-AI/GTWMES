@@ -3,7 +3,7 @@ from MQTT.protocol import Protocol
 from service.production_order_handler_service import ProductionOrderHandlerService
 from service.message_service import MessageService
 from service.equipment_service import EquipmentService
-from app.utility.logger import Logger
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -14,7 +14,7 @@ class MessageHandler:
         self.message_service = MessageService()
         self.equipment_service = EquipmentService()
         self.topic_send = os.getenv("TOPIC_SEND")
-        self.protocols = Protocol.get_jsonType()
+        self.protocols = Protocol.get_jsonType(self)
 
     def handle_message(self, client, message):
         json_type = message.get("jsonType")

@@ -1,10 +1,10 @@
-from app.utility.logger import Logger
-from app.exception.Exception import NotFoundException, ServiceException
-from dao.equipment_output_dao import EquipmentOutputDAO
-from dao.equipment_dao import EquipmentDAO
-from model import EquipmentOutput
+from utility.logger import Logger
+from exception.Exception import NotFoundException, ServiceException
+from database.dao.equipment_output_dao import EquipmentOutputDAO
+from database.dao.equipment_dao import EquipmentDAO
+from model.equipment_output import EquipmentOutput
 
-logger = Logger.getLogger(__name__)
+logger = Logger.get_logger(__name__)
 
 
 class EquipmentOutputService:

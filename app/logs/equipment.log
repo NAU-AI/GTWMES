@@ -1,0 +1,208 @@
+2025-03-05 22:59:32,336 - ERROR - Critical startup failure: Protocol.get_jsonType() missing 1 required positional argument: 'handler'
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\main.py", line 56, in main
+    mes_service = MESMain()
+                  ^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\main.py", line 16, in __init__
+    self.message_processor = message_processor or MessageProcessor()
+                                                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_processor.py", line 12, in __init__
+    self.message_handler = message_handler or MessageHandler()
+                                              ^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 17, in __init__
+    self.protocols = Protocol.get_jsonType()
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Protocol.get_jsonType() missing 1 required positional argument: 'handler'
+2025-03-05 23:03:05,592 - INFO - Initializing MQTT connection...
+2025-03-05 23:03:05,792 - INFO - Starting periodic message service...
+2025-03-05 23:03:05,794 - INFO - Started periodic message sending thread.
+2025-03-05 23:03:05,795 - INFO - Starting heartbeat monitoring...
+2025-03-05 23:03:05,795 - INFO - Starting heartbeat monitor thread.
+2025-03-05 23:03:05,796 - INFO - Heartbeat monitoring started.
+2025-03-05 23:03:05,796 - INFO - Starting MQTT client loop...
+2025-03-05 23:03:05,794 - ERROR - Error fetching all equipment.
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2522, in get_property
+    return self._props[key]
+           ~~~~~~~~~~~^^^^^
+KeyError: 'equipment'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 57, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 18, in find_all
+    return self.session.query(Equipment).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2955, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4213, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4254, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2147, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1592, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2524, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[Variable(variable)]' has no property 'equipment'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+2025-03-05 23:03:05,796 - ERROR - Error fetching all equipment.
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 57, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 18, in find_all
+    return self.session.query(Equipment).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2955, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4213, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4250, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Equipment(equipment)]'. Original exception was: Mapper 'Mapper[Variable(variable)]' has no property 'equipment'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+2025-03-05 23:03:05,892 - ERROR - Error executing production count: Unable to fetch all equipment.
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2522, in get_property
+    return self._props[key]
+           ~~~~~~~~~~~^^^^^
+KeyError: 'equipment'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 57, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 18, in find_all
+    return self.session.query(Equipment).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2955, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4213, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4254, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1661, in do_init
+    self._generate_backref()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2147, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1592, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2524, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[Variable(variable)]' has no property 'equipment'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 31, in execute_production_count
+    equipments = self.equipment_service.get_all_equipment()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 60, in get_all_equipment
+    raise ServiceException("Unable to fetch all equipment.") from e
+exception.Exception.ServiceException: Unable to fetch all equipment.
+2025-03-05 23:03:05,892 - ERROR - Unexpected error in heartbeat monitor: Unable to fetch all equipment.
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 57, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 18, in find_all
+    return self.session.query(Equipment).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2955, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1257, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4213, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4250, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Equipment(equipment)]'. Original exception was: Mapper 'Mapper[Variable(variable)]' has no property 'equipment'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_heart_beat.py", line 45, in monitor
+    equipments = self.equipment_service.get_all_equipment()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 60, in get_all_equipment
+    raise ServiceException("Unable to fetch all equipment.") from e
+exception.Exception.ServiceException: Unable to fetch all equipment.
+2025-03-05 23:04:59,480 - INFO - Initializing MQTT connection...
+2025-03-05 23:04:59,670 - INFO - Starting periodic message service...
+2025-03-05 23:04:59,675 - INFO - Started periodic message sending thread.
+2025-03-05 23:04:59,696 - INFO - Starting heartbeat monitoring...
+2025-03-05 23:04:59,696 - INFO - Starting heartbeat monitor thread.
+2025-03-05 23:04:59,697 - WARNING - No equipment found for production count execution.
+2025-03-05 23:04:59,697 - INFO - Heartbeat monitoring started.
+2025-03-05 23:04:59,697 - INFO - Starting MQTT client loop...

@@ -1,7 +1,7 @@
-from dao.counter_record_dao import CounterRecordDAO
-from model import CounterRecord
-from app.exception import NotFoundException, ServiceException
-from app.utility.logger import Logger
+from database.dao.counter_record_dao import CounterRecordDAO
+from model.counter_record import CounterRecord
+from exception.Exception import NotFoundException, ServiceException
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 

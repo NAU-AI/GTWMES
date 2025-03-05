@@ -1,7 +1,7 @@
-from dao.alarm_record_dao import AlarmRecordDAO
-from model import AlarmRecord
-from app.exception import NotFoundException, ServiceException
-from app.utility.logger import Logger
+from database.dao.alarm_record_dao import AlarmRecordDAO
+from model.alarm_record import AlarmRecord
+from exception.Exception import NotFoundException, ServiceException
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 

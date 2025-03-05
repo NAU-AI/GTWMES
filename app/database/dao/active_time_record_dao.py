@@ -1,5 +1,6 @@
 from database.connection.db_connection import SessionLocal
-from model import ActiveTimeRecord, Variable
+from model.variable import Variable
+from model.active_time_record import ActiveTimeRecord
 
 
 class ActiveTimeRecordDAO:
