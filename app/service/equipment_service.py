@@ -1,14 +1,14 @@
-from app.exception.Exception import (
+from exception.Exception import (
     ConflictException,
     NotFoundException,
     ServiceException,
 )
-from app.utility.logger import Logger
-from dao.equipment_dao import EquipmentDAO
-from dao.equipment_output_dao import EquipmentOutputDAO
-from model import Equipment
+from utility.logger import Logger
+from database.dao.equipment_dao import EquipmentDAO
+from database.dao.equipment_output_dao import EquipmentOutputDAO
+from model.equipment import Equipment
 
-logger = Logger.getLogger(__name__)
+logger = Logger.get_logger(__name__)
 
 
 class EquipmentService:

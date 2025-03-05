@@ -1,4 +1,4 @@
-from model import Equipment
+from model.equipment import Equipment
 from database.connection.db_connection import SessionLocal
 
 

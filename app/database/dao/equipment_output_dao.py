@@ -1,5 +1,5 @@
 from database.connection.db_connection import SessionLocal
-from model import EquipmentOutput
+from model.equipment_output import EquipmentOutput
 
 
 class EquipmentOutputDAO:
