@@ -85,7 +85,7 @@ class ProductionCountService:
     def _get_counters(self, equipment_id):
         try:
             outputs = self.equipment_output_service.get_by_equipment_id(equipment_id)
-            return self.counter_record_service.build_counters(outputs)
+            return self.counter_record_service.get_by_output_id(outputs)
         except Exception as e:
             logging.error(
                 f"Error fetching counters for equipment ID {equipment_id}: {e}",

@@ -117,7 +117,7 @@ class PlcService:
                 return
 
             for equipment_output, output_value in zip(equipment_outputs, outputs):
-                self.counter_record_service.insert_counter_record(
+                self.counter_record_service.create_counter_record(
                     equipment_output.id, output_value
                 )
 

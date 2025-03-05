@@ -1,60 +1,48 @@
-from asyncio.log import logger
-from exception.Exception import DatabaseException, ServiceException
-from database.dao.counter_record_dao import CounterRecordDAO
+from dao.counter_record_dao import CounterRecordDAO
+from model import CounterRecord
+from app.exception import NotFoundException, ServiceException
+from app.utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class CounterRecordService:
-    def __init__(self, counter_record_dao=None):
+    def __init__(self, counter_record_dao: CounterRecordDAO = None):
         self.counter_record_dao = counter_record_dao or CounterRecordDAO()
 
-    def build_counters(self, outputs):
-        if not outputs or not isinstance(outputs, list):
-            raise ValueError("outputs must be a non-empty list")
-
-        counters = []
-        for output in outputs:
-            if not hasattr(output, "id") or not hasattr(output, "code"):
-                raise ValueError("Each output must have 'id' and 'code' attributes")
-
-            try:
-                counter_record = self.counter_record_dao.get_last_counter_record_by_equipment_output_id(
-                    output.id
-                )
-                counters.append(
-                    {
-                        "outputCode": output.code,
-                        "alias": counter_record.alias if counter_record else None,
-                        "value": counter_record.real_value if counter_record else 0,
-                    }
-                )
-            except DatabaseException as e:
-                logger.error(
-                    f"Failed to build counter for output {output.id}: {e}",
-                    exc_info=True,
-                )
-                counters.append(
-                    {
-                        "outputCode": output.code,
-                        "alias": None,
-                        "value": 0,
-                        "error": "Failed to fetch counter record",
-                    }
-                )
-
-        return counters
-
-    def insert_counter_record(self, equipment_output_id, value):
-        if not equipment_output_id:
-            raise ValueError("Equipment_output_id must be a number")
-
+    def create_counter_record(self, counter_record: CounterRecord) -> CounterRecord:
         try:
-            if value > 0:
-                counter_record_id = self.counter_record_dao.insert_counter_record(equipment_output_id, value)
-                return {"message": "Counter record inserted successfully", "id": counter_record_id}
-            else: 
-                raise ValueError("Value must be positive")
+            saved_record = self.counter_record_dao.save(counter_record)
+            logger.info(
+                f"Created counter record for output ID {counter_record.equipment_output_id} with value {counter_record.real_value}"
+            )
+            return saved_record
+        except Exception as e:
+            logger.error(f"Error creating counter record: {e}", exc_info=True)
+            raise ServiceException("Unable to create counter record.") from e
+
+    def get_by_output_id(self, output_id: int) -> list[CounterRecord]:
+        try:
+            return self.counter_record_dao.find_by_output_id(output_id)
         except Exception as e:
             logger.error(
-                f"Service error while inserting counter record for equipment_output_id {equipment_output_id}: {e}"
+                f"Error fetching counter records for output ID '{output_id}': {e}",
+                exc_info=True,
             )
-            raise ServiceException("An error occurred while inserting the counter record")
+            raise ServiceException("Unable to fetch counter records.") from e
+
+    def delete_counter_record(self, record_id: int) -> dict:
+        try:
+            deleted = self.counter_record_dao.delete(record_id)
+            if not deleted:
+                raise NotFoundException(
+                    f"Counter record with ID '{record_id}' not found"
+                )
+
+            logger.info(f"Deleted counter record with ID {record_id}")
+            return {
+                "message": f"Counter record with ID {record_id} deleted successfully"
+            }
+        except Exception as e:
+            logger.error(f"Error deleting counter record: {e}", exc_info=True)
+            raise ServiceException("Unable to delete counter record.") from e
