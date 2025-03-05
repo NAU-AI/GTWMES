@@ -1,12 +1,13 @@
-import logging
-import sys
-
 from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
 from MQTT.mqtt_message_processor import MessageProcessor
 from MQTT.mqtt_client_manager import ClientManager
+from app.utility.logger import Logger
+from connection.db_connection import DatabaseConnection
 
 
 class MESMain:
+    logger = Logger.get_logger(__name__)
+
     def __init__(
         self, message_processor=None, client_manager=None, mqtt_heart_beat=None
     ):
@@ -16,29 +17,25 @@ class MESMain:
 
     def start(self):
         try:
-            logging.info("Starting MQTT connection.")
+            self.logger.info("Starting MQTT connection.")
             self.client_manager.connect()
-            logging.info("Initializing periodic message service.")
+            self.logger.info("Initializing periodic message service.")
             self.message_processor.start_periodic_messages(
                 self.client_manager.client, self.client_manager.topic_send
             )
-            logging.info("Starting heartbeat monitoring.")
+            self.logger.info("Starting heartbeat monitoring.")
             self.mqtt_heart_beat.start_monitoring()
-            logging.info("Starting MQTT client loop.")
+            self.logger.info("Starting MQTT client loop.")
             self.client_manager.start_loop()
         except KeyboardInterrupt:
-            logging.info("Shutting down application.")
+            self.logger.info("Shutting down application.")
             self.mqtt_heart_beat.stop_monitoring()
             self.client_manager.disconnect()
+            DatabaseConnection.close_pool()
 
 
 def main():
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)],
-    )
-
+    DatabaseConnection.initialize(minconn=1, maxconn=10)
     mqtt_service = MESMain()
     mqtt_service.start()
 

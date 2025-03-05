@@ -1,39 +1,19 @@
-import datetime
+from sqlalchemy import Column, Integer, ForeignKey, TIMESTAMP, func
+from sqlalchemy.orm import relationship
+from database.connection.db_connection import Base
 
-class CounterRecord:
-    def __init__(
-        self,
-        id=None,
-        equipment_output_id=None,
-        alias=None,
-        real_value=None,
-        increment=None,
-        registered_at=None,
-    ):
-        self.id = id
-        self.equipment_output_id = equipment_output_id
-        self.alias = alias
-        self.real_value = real_value
-        #self.increment = increment
-        self.registered_at = registered_at or datetime.datetime.now()
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "equipment_output_id": self.equipment_output_id,
-            "alias": self.alias,
-            "real_value": self.real_value,
-            #"increment": self.increment,
-            "registered_at": self.registered_at,
-        }
+class CounterRecord(Base):
+    __tablename__ = "counter_record"
 
-    @classmethod
-    def from_dict(cls, data):
-        return cls(
-            id=data.get("id"),
-            equipment_output_id=data.get("equipment_output_id"),
-            alias=data.get("alias"),
-            real_value=data.get("real_value"),
-            #increment=data.get("increment"),
-            registered_at=data.get("registered_at"),
-        )
+    id = Column(Integer, primary_key=True)
+    real_value = Column(Integer, nullable=False)
+    equipment_output_id = Column(
+        Integer, ForeignKey("equipment_output.id"), nullable=False, index=True
+    )
+    registered_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    equipment_output = relationship("EquipmentOutput", back_populates="counter_records")
+
+    def __repr__(self):
+        return f"<CounterRecord(id={self.id}, real_value={self.real_value}, registered_at={self.registered_at})>"

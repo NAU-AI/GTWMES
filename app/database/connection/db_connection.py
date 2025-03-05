@@ -1,29 +1,16 @@
-import psycopg2
-from psycopg2.extras import RealDictCursor
-import os 
-from dotenv import load_dotenv
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import os
 
-load_dotenv()  
+# Define the declarative base class (Base for ORM models)
+Base = declarative_base()
 
-class DatabaseConnection:
-    def __init__(self):
-        self.connection = None
+# Database connection string (PostgreSQL)
+DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
 
-    def connect(self):
-        try:
-            self.connection = psycopg2.connect(
-                database=os.getenv("DB_NAME"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD"),
-                host=os.getenv("DB_HOST"),
-                port=os.getenv("DB_PORT"),
-                cursor_factory=RealDictCursor
-            )
-            return self.connection
-        except Exception as e:
-            print(f"Error connecting to the database: {e}")
-            return None
+# Create the database engine (Manages DB connections)
+engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20)
 
-    def close(self):
-        if self.connection:
-            self.connection.close()
+# Create session factory (Manages DB transactions)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

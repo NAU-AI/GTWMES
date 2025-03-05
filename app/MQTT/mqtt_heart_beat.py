@@ -2,8 +2,9 @@ import threading
 import time
 import logging
 
-from database.dao.counting_equipment_dao import CountingEquipmentDAO
+from dao.equipment_dao import EquipmentDAO
 from service.plc_service import PlcService
+
 
 class MqttHeartbeatMonitor:
     def __init__(self, plc_service=None, counting_equipment_dao=None):
@@ -16,7 +17,7 @@ class MqttHeartbeatMonitor:
         self.monitor_thread = None
 
         self.plc_service = plc_service or PlcService()
-        self.counting_equipment_dao = counting_equipment_dao or CountingEquipmentDAO()
+        self.counting_equipment_dao = counting_equipment_dao or EquipmentDAO()
 
     def received_heartbeat(self, equipment_code):
         with self.lock:

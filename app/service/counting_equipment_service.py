@@ -7,14 +7,14 @@ from exception.Exception import (
     ServiceException,
 )
 from database.dao.equipment_output_dao import EquipmentOutputDAO
-from database.dao.counting_equipment_dao import CountingEquipmentDAO
+from dao.equipment_dao import EquipmentDAO
 
 
 class CountingEquipmentService:
     def __init__(
         self, counting_equipment_dao=None, equipment_output_dao=None, scheduler=None
     ):
-        self.counting_equipment_dao = counting_equipment_dao or CountingEquipmentDAO()
+        self.counting_equipment_dao = counting_equipment_dao or EquipmentDAO()
         self.equipment_output_dao = equipment_output_dao or EquipmentOutputDAO()
         self.scheduler = scheduler or Scheduler()
 
@@ -24,7 +24,7 @@ class CountingEquipmentService:
         try:
             existing_equipment = self._get_equipment_or_raise(data["equipmentCode"])
 
-            updated_id = self.counting_equipment_dao.update_counting_equipment(
+            updated_id = self.counting_equipment_dao.update_equipment(
                 {
                     "equipmentCode": existing_equipment.code,
                     "pTimerCommunicationCycle": data["pTimerCommunicationCycle"],
@@ -48,16 +48,25 @@ class CountingEquipmentService:
         except Exception as e:
             logger.error(f"Error while updating equipment: {e}", exc_info=True)
             raise ServiceException("Unable to update equipment configuration.") from e
-        
+
     def update_equipment_status(self, equipment_status, equipment_id):
         if not equipment_id:
-            raise Exception.NotFoundException(f"Equipment with id '{equipment_id}' not found")
+            raise Exception.NotFoundException(
+                f"Equipment with id '{equipment_id}' not found"
+            )
 
         try:
             existing_equipment = self._get_equipment_or_raise_by_id(equipment_id)
-            updated_id = self.counting_equipment_dao.update_counting_equipment_status(equipment_status, equipment_id)
-            logger.info(f"Updated equipment status with code '{existing_equipment.code}'")
-            return {"id": updated_id, "message": "Equipment status successfully updated"}
+            updated_id = self.counting_equipment_dao.update_equipment_status(
+                equipment_status, equipment_id
+            )
+            logger.info(
+                f"Updated equipment status with code '{existing_equipment.code}'"
+            )
+            return {
+                "id": updated_id,
+                "message": "Equipment status successfully updated",
+            }
         except Exception as e:
             logger.error(f"Error while updating equipment status: {e}", exc_info=True)
             raise ServiceException("Unable to update equipment status.") from e
@@ -120,7 +129,7 @@ class CountingEquipmentService:
                     f"Equipment with code '{data['equipmentCode']}' already exists"
                 )
 
-            equipment_id = self.counting_equipment_dao.insert_counting_equipment(data)
+            equipment_id = self.counting_equipment_dao.insert_equipment(data)
             logger.info(f"Inserted new equipment with ID {equipment_id}")
             return {"id": equipment_id, "message": "Equipment successfully inserted"}
         except ConflictException as e:

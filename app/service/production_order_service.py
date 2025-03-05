@@ -1,13 +1,14 @@
 import logging
-from database.dao.counting_equipment_dao import CountingEquipmentDAO
+from dao.equipment_dao import EquipmentDAO
 from database.dao.production_order_dao import ProductionOrderDAO
 from service.plc_service import PlcService
-from service.equipment_variables_service import EquipmentVariablesService
+from variable_service import EquipmentVariablesService
+
 
 class ProductionOrderService:
     def __init__(self):
         self.production_order_dao = ProductionOrderDAO()
-        self.counting_equipment_dao = CountingEquipmentDAO()
+        self.counting_equipment_dao = EquipmentDAO()
         self.equipment_variables_service = EquipmentVariablesService()
         self.plc_service = PlcService()
 
@@ -34,17 +35,24 @@ class ProductionOrderService:
                 equipment_data.id, data["productionOrderCode"]
             )
 
-            is_equipment_enable, target_amount = self.equipment_variables_service.get_equipment_variables(equipment_data.id, False)
-            self.plc_service._get_write_function(is_equipment_enable, is_equipment_enable["type"], True)
-            self.plc_service._get_write_function(target_amount, target_amount["type"], data["targetAmount"])
+            is_equipment_enable, target_amount = (
+                self.equipment_variables_service.get_equipment_variables(
+                    equipment_data.id, False
+                )
+            )
+            self.plc_service._get_write_function(
+                is_equipment_enable, is_equipment_enable["type"], True
+            )
+            self.plc_service._get_write_function(
+                target_amount, target_amount["type"], data["targetAmount"]
+            )
 
             logging.info(f"Production order {data['productionOrderCode']} initialized.")
             return True
         except Exception as e:
             logging.error(f"Error initializing production order: {e}")
             return False
-        
-    
+
     def production_order_conclusion(self, data):
         if not self._validate_data(data, ["equipmentCode"]):
             logging.error("Invalid data provided for production_order_conclusion.")
@@ -64,9 +72,17 @@ class ProductionOrderService:
                 equipment_data.id, True
             )
 
-            is_equipment_enable, target_amount = self.equipment_variables_service.get_equipment_variables(equipment_data.id, False)
-            self.plc_service._get_write_function(is_equipment_enable, is_equipment_enable["type"], False)
-            self.plc_service._get_write_function(target_amount, target_amount["type"], data["targetAmount"])
+            is_equipment_enable, target_amount = (
+                self.equipment_variables_service.get_equipment_variables(
+                    equipment_data.id, False
+                )
+            )
+            self.plc_service._get_write_function(
+                is_equipment_enable, is_equipment_enable["type"], False
+            )
+            self.plc_service._get_write_function(
+                target_amount, target_amount["type"], data["targetAmount"]
+            )
 
             logging.info(
                 f"Production order for equipment {data['equipmentCode']} updated to status {True}."
@@ -79,7 +95,6 @@ class ProductionOrderService:
             )
             return False
 
-        
     def get_production_order_by_equipment_id_and_status(self, equipment_id, status):
         try:
             return self.production_order_dao.get_production_order_by_equipment_id_and_status(
@@ -97,4 +112,3 @@ class ProductionOrderService:
         if not isinstance(data, dict):
             return False
         return all(key in data for key in required_keys)
-        

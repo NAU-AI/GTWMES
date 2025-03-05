@@ -1,68 +1,83 @@
-import logging
-import datetime
-from exception.Exception import DatabaseException
-from model.active_time import ActiveTime
-from database.connection.db_connection import DatabaseConnection
+from database.connection.db_connection import SessionLocal
+from model import ActiveTimeRecord, Variable
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
-class ActiveTimeDAO:
+class ActiveTimeRecordDAO:
     def __init__(self):
-        self.db = DatabaseConnection()
+        self.session = SessionLocal()
 
-    def get_active_time_by_equipment_id(self, equipment_id):
-        if not equipment_id:
-            raise ValueError("equipment_id cannot be null or empty")
+    def find_by_id(self, active_time_id: int) -> ActiveTimeRecord:
+        return (
+            self.session.query(ActiveTimeRecord)
+            .filter(ActiveTimeRecord.id == active_time_id)
+            .first()
+        )
 
-        try:
-            with self.db.connect() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        SELECT active_time 
-                        FROM active_time 
-                        WHERE equipment_id = %s 
-                        ORDER BY id DESC LIMIT 1
-                        """,
-                        (equipment_id,),
-                    )
-                    row = cursor.fetchone()
-                    return ActiveTime.from_dict(row) if row else None
-        except Exception as e:
-            logger.error(
-                f"Failed to fetch active time for equipment_id {equipment_id}: {e}",
-                exc_info=True,
-            )
-            raise DatabaseException(
-                f"Error fetching active time for equipment_id {equipment_id}"
-            )
+    def find_by_variable_id(self, variable_id: int) -> list[ActiveTimeRecord]:
+        return (
+            self.session.query(ActiveTimeRecord)
+            .filter(ActiveTimeRecord.variable_id == variable_id)
+            .all()
+        )
 
+    def find_by_equipment_id(self, equipment_id: int) -> list[ActiveTimeRecord]:
+        return (
+            self.session.query(ActiveTimeRecord)
+            .join(Variable)
+            .filter(Variable.equipment_id == equipment_id)
+            .all()
+        )
 
-    def insert_active_time(self, equipment_id, active_time):
-        if not equipment_id or not active_time:
-            raise ValueError("equipment_id and active_time cannot be null or empty")
-        try:
-             ct = datetime.datetime.now()
-             with self.db.connect() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        INSERT INTO active_time (equipment_id, active_time, registered_at)
-                        VALUES (%s, %s, %s)
-                        RETURNING id;
-                        """,
-                        (equipment_id, active_time, ct),
-                    )
-                    active_time_id = cursor.fetchone()["id"]
-                    conn.commit()
-                    return active_time_id          
+    def update_active_time_by_equipment_id(
+        self, equipment_id: int, new_active_time: int
+    ) -> int:
+        updated_records = (
+            self.session.query(ActiveTimeRecord)
+            .join(Variable)
+            .filter(Variable.equipment_id == equipment_id)
+            .update({"active_time": new_active_time})
+        )
 
-        except Exception as e:
-            logger.error(
-                f"Failed inserting active time for equipment_id {equipment_id}: {e}",
-                exc_info=True,
-            )
-            raise DatabaseException(
-                f"Error inserting active time for equipment_id {equipment_id}"
-            )
+        self.session.commit()
+        return updated_records
+
+    def find_all(self) -> list[ActiveTimeRecord]:
+        return self.session.query(ActiveTimeRecord).all()
+
+    def save(self, active_time_record: ActiveTimeRecord) -> ActiveTimeRecord:
+        self.session.add(active_time_record)
+        self.session.commit()
+        self.session.refresh(active_time_record)
+        return active_time_record
+
+    def update(self, active_time_id: int, updated_data: dict) -> ActiveTimeRecord:
+        active_time_record = (
+            self.session.query(ActiveTimeRecord)
+            .filter(ActiveTimeRecord.id == active_time_id)
+            .first()
+        )
+        if not active_time_record:
+            return None
+
+        for key, value in updated_data.items():
+            setattr(active_time_record, key, value)
+
+        self.session.commit()
+        self.session.refresh(active_time_record)
+        return active_time_record
+
+    def delete(self, active_time_id: int) -> bool:
+        active_time_record = (
+            self.session.query(ActiveTimeRecord)
+            .filter(ActiveTimeRecord.id == active_time_id)
+            .first()
+        )
+        if not active_time_record:
+            return False
+
+        self.session.delete(active_time_record)
+        self.session.commit()
+        return True
+
+    def close(self):
+        self.session.close()

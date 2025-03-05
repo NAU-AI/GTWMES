@@ -1,76 +1,85 @@
-import json
-import logging
-from datetime import datetime
-from exception.Exception import DatabaseException
-from model.alarm import Alarm
-from database.connection.db_connection import DatabaseConnection
+from database.connection.db_connection import SessionLocal
+from model import AlarmRecord, Variable
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
-class AlarmDAO:
+class AlarmRecordDAO:
     def __init__(self):
-        self.db = DatabaseConnection()
+        self.session = SessionLocal()
 
-    def get_alarm_by_equipment_id(self, equipment_id):
-        try:
-            with self.db.connect() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        SELECT *
-                        FROM alarm
-                        WHERE equipment_id = %s 
-                        ORDER BY id DESC LIMIT 1
-                        """,
-                        (equipment_id,),
-                    )
-                    row = cursor.fetchone()
-                    return Alarm.from_dict(row) if row else None
-        except Exception as e:
-            logger.error(f"Error fetching alarms for equipment_id {equipment_id}: {e}")
-            raise DatabaseException("Failed to fetch alarms")
+    def find_by_id(self, alarm_id: int) -> AlarmRecord:
+        return (
+            self.session.query(AlarmRecord).filter(AlarmRecord.id == alarm_id).first()
+        )
 
-    def insert_alarm_by_equipment_id(self, equipment_id, alarms):
-        try:
-            registered_at = datetime.now()
-            with self.db.connect() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        INSERT INTO alarm (equipment_id, alarm_0, alarm_1, alarm_2, alarm_3, registered_at)
-                        VALUES (%s, %s, %s, %s, %s, %s)
-                        RETURNING id;
-                        """,
-                        (equipment_id, alarms[0], alarms[1], alarms[2], alarms[3], registered_at),
-                    )
-                    alarm_id = cursor.fetchone()["id"]
-                    conn.commit()
-                    return alarm_id
-        except Exception as e:
-            logger.error(f"Error inserting alarm for equipment_id {equipment_id}: {e}")
-            raise DatabaseException("Failed to insert alarms")
-            
-        except Exception as err:
-            logging.error("%s. insertAlarm failed.", err)
+    def find_by_equipment_id(self, equipment_id: int) -> list[AlarmRecord]:
+        return (
+            self.session.query(AlarmRecord)
+            .join(Variable)
+            .filter(Variable.equipment_id == equipment_id)
+            .all()
+        )
 
-    def update_alarm_by_equipment_id(self, equipment_id, alarms):
-        try:
-            registered_at = datetime.now()
-            with self.db.connect() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        UPDATE alarm
-                        SET alarm_0 = %s, alarm_1 = %s, alarm_2 = %s, alarm_3 = %s, registered_at = %s
-                        WHERE equipment_id = %s
-                        RETURNING id;
-                        """,
-                        (alarms[0], alarms[1], alarms[2], alarms[3], registered_at, equipment_id),
-                    )
-                    alarm_id = cursor.fetchone()["id"]
-                    conn.commit()
-                    return alarm_id
-        except Exception as e:
-            logger.error(f"Error updating alarm for equipment_id {equipment_id}: {e}")
-            raise DatabaseException("Failed to update alarms")
+    def insert_alarm_by_equipment_id(
+        self, equipment_id: int, value: int
+    ) -> AlarmRecord:
+        variable = (
+            self.session.query(Variable)
+            .filter(Variable.equipment_id == equipment_id)
+            .first()
+        )
+        if not variable:
+            return None
+
+        new_alarm = AlarmRecord(value=value, variable_id=variable.id)
+        self.session.add(new_alarm)
+        self.session.commit()
+        self.session.refresh(new_alarm)
+        return new_alarm
+
+    def update_alarm_by_equipment_id(self, equipment_id: int, new_value: int) -> int:
+        updated_alarms = (
+            self.session.query(AlarmRecord)
+            .join(Variable)
+            .filter(Variable.equipment_id == equipment_id)
+            .update({"value": new_value})
+        )
+
+        self.session.commit()
+        return updated_alarms
+
+    def find_all(self) -> list[AlarmRecord]:
+        return self.session.query(AlarmRecord).all()
+
+    def save(self, alarm: AlarmRecord) -> AlarmRecord:
+        self.session.add(alarm)
+        self.session.commit()
+        self.session.refresh(alarm)
+        return alarm
+
+    def update(self, alarm_id: int, updated_data: dict) -> AlarmRecord:
+        alarm = (
+            self.session.query(AlarmRecord).filter(AlarmRecord.id == alarm_id).first()
+        )
+        if not alarm:
+            return None
+
+        for key, value in updated_data.items():
+            setattr(alarm, key, value)
+
+        self.session.commit()
+        self.session.refresh(alarm)
+        return alarm
+
+    def delete(self, alarm_id: int) -> bool:
+        alarm = (
+            self.session.query(AlarmRecord).filter(AlarmRecord.id == alarm_id).first()
+        )
+        if not alarm:
+            return False
+
+        self.session.delete(alarm)
+        self.session.commit()
+        return True
+
+    def close(self):
+        self.session.close()
