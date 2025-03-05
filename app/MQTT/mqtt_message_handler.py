@@ -50,7 +50,7 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.production_order_service.production_order_init,
+            self.production_order_service.start_new_production_order,
             "ProductionOrder",
         )
 
@@ -58,7 +58,7 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.production_order_service.production_order_conclusion,
+            self.production_order_service.complete_production_order,
             "ProductionOrderConclusion",
         )
 

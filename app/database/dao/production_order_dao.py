@@ -34,22 +34,6 @@ class ProductionOrderDAO:
         self.session.refresh(order)
         return order
 
-    def update(self, order_id: int, updated_data: dict) -> ProductionOrder:
-        order = (
-            self.session.query(ProductionOrder)
-            .filter(ProductionOrder.id == order_id)
-            .first()
-        )
-        if not order:
-            return None
-
-        for key, value in updated_data.items():
-            setattr(order, key, value)
-
-        self.session.commit()
-        self.session.refresh(order)
-        return order
-
     def delete(self, order_id: int) -> bool:
         order = (
             self.session.query(ProductionOrder)

@@ -1,114 +1,84 @@
-import logging
-from dao.equipment_dao import EquipmentDAO
-from database.dao.production_order_dao import ProductionOrderDAO
-from service.plc_service import PlcService
-from variable_service import EquipmentVariablesService
+from dao.production_order_dao import ProductionOrderDAO
+from model import ProductionOrder
+from app.exception import NotFoundException, ServiceException
+from app.utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class ProductionOrderService:
-    def __init__(self):
-        self.production_order_dao = ProductionOrderDAO()
-        self.counting_equipment_dao = EquipmentDAO()
-        self.equipment_variables_service = EquipmentVariablesService()
-        self.plc_service = PlcService()
+    def __init__(self, production_order_dao: ProductionOrderDAO = None):
+        self.production_order_dao = production_order_dao or ProductionOrderDAO()
 
-    def production_order_init(self, data):
-        if not self._validate_data(data, ["productionOrderCode", "equipmentCode"]):
-            logging.error("Invalid data provided for production_order_init.")
-            return False
-
-        if not data["productionOrderCode"]:
-            logging.info("Production order code is empty. Skipping initialization.")
-            return False
-
+    def get_production_order_by_id(self, order_id: int) -> ProductionOrder:
         try:
-            equipment_data = self.counting_equipment_dao.get_equipment_by_code(
-                data["equipmentCode"]
-            )
-            if not equipment_data:
-                logging.warning(
-                    f"Equipment with code {data['equipmentCode']} not found."
+            order = self.production_order_dao.find_by_id(order_id)
+            if not order:
+                raise NotFoundException(
+                    f"Production order with ID '{order_id}' not found"
                 )
-                return False
-
-            self.production_order_dao.insert_production_order(
-                equipment_data.id, data["productionOrderCode"]
-            )
-
-            is_equipment_enable, target_amount = (
-                self.equipment_variables_service.get_equipment_variables(
-                    equipment_data.id, False
-                )
-            )
-            self.plc_service._get_write_function(
-                is_equipment_enable, is_equipment_enable["type"], True
-            )
-            self.plc_service._get_write_function(
-                target_amount, target_amount["type"], data["targetAmount"]
-            )
-
-            logging.info(f"Production order {data['productionOrderCode']} initialized.")
-            return True
+            return order
         except Exception as e:
-            logging.error(f"Error initializing production order: {e}")
-            return False
-
-    def production_order_conclusion(self, data):
-        if not self._validate_data(data, ["equipmentCode"]):
-            logging.error("Invalid data provided for production_order_conclusion.")
-            return False
-
-        try:
-            equipment_data = self.counting_equipment_dao.get_equipment_by_code(
-                data["equipmentCode"]
-            )
-            if not equipment_data:
-                logging.warning(
-                    f"Equipment with code {data['equipmentCode']} not found."
-                )
-                return False
-
-            self.production_order_dao.update_production_order_status(
-                equipment_data.id, True
-            )
-
-            is_equipment_enable, target_amount = (
-                self.equipment_variables_service.get_equipment_variables(
-                    equipment_data.id, False
-                )
-            )
-            self.plc_service._get_write_function(
-                is_equipment_enable, is_equipment_enable["type"], False
-            )
-            self.plc_service._get_write_function(
-                target_amount, target_amount["type"], data["targetAmount"]
-            )
-
-            logging.info(
-                f"Production order for equipment {data['equipmentCode']} updated to status {True}."
-            )
-            return True
-        except Exception as e:
-            logging.error(
-                f"Error concluding production order for equipment {data['equipmentCode']}: {e}",
+            logger.error(
+                f"Error fetching production order by ID '{order_id}': {e}",
                 exc_info=True,
             )
-            return False
+            raise ServiceException("Unable to fetch production order.") from e
 
-    def get_production_order_by_equipment_id_and_status(self, equipment_id, status):
+    def get_production_order_by_equipment_id_and_status(
+        self, equipment_id: int, is_completed: bool
+    ) -> list[ProductionOrder]:
         try:
-            return self.production_order_dao.get_production_order_by_equipment_id_and_status(
-                equipment_id, status
+            orders = self.production_order_dao.find_by_equipment_id(
+                equipment_id, is_completed
             )
+            return orders
         except Exception as e:
-            logging.error(
-                f"Error fetching production order for equipment {equipment_id} with status {status}: {e}",
+            logger.error(
+                f"Error fetching production orders for equipment ID '{equipment_id}' with status '{is_completed}': {e}",
                 exc_info=True,
             )
-            return None
+            raise ServiceException("Unable to fetch production orders.") from e
 
-    @staticmethod
-    def _validate_data(data, required_keys):
-        if not isinstance(data, dict):
-            return False
-        return all(key in data for key in required_keys)
+    def complete_production_order(self, order_id: int) -> bool:
+        try:
+            completed = self.production_order_dao.complete_production_order(order_id)
+            if not completed:
+                raise NotFoundException(
+                    f"Production order with ID '{order_id}' not found or already completed"
+                )
+
+            logger.info(f"Completed production order with ID {order_id}")
+            return True
+        except Exception as e:
+            logger.error(f"Error completing production order: {e}", exc_info=True)
+            raise ServiceException("Unable to complete production order.") from e
+
+    def start_new_production_order(
+        self, equipment_id: int, code: str
+    ) -> ProductionOrder:
+        try:
+            new_order = self.production_order_dao.start_new_production_order(
+                equipment_id, code
+            )
+            logger.info(
+                f"Started new production order '{new_order.code}' for equipment ID {equipment_id}"
+            )
+            return new_order
+        except Exception as e:
+            logger.error(f"Error starting new production order: {e}", exc_info=True)
+            raise ServiceException("Unable to start new production order.") from e
+
+    def delete_production_order(self, order_id: int) -> bool:
+        try:
+            deleted = self.production_order_dao.delete(order_id)
+            if not deleted:
+                raise NotFoundException(
+                    f"Production order with ID '{order_id}' not found"
+                )
+
+            logger.info(f"Deleted production order with ID {order_id}")
+            return True
+        except Exception as e:
+            logger.error(f"Error deleting production order: {e}", exc_info=True)
+            raise ServiceException("Unable to delete production order.") from e

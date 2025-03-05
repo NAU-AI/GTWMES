@@ -10,7 +10,7 @@ class CounterRecordService:
     def __init__(self, counter_record_dao: CounterRecordDAO = None):
         self.counter_record_dao = counter_record_dao or CounterRecordDAO()
 
-    def create_counter_record(self, counter_record: CounterRecord) -> CounterRecord:
+    def save_counter_record(self, counter_record: CounterRecord) -> CounterRecord:
         try:
             saved_record = self.counter_record_dao.save(counter_record)
             logger.info(
@@ -30,6 +30,26 @@ class CounterRecordService:
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch counter records.") from e
+
+    def get_last_by_equipment_output_id(
+        self, equipment_output_id: int
+    ) -> CounterRecord:
+        try:
+            record = self.counter_record_dao.find_last_by_equipment_output_id(
+                equipment_output_id
+            )
+            if not record:
+                raise NotFoundException(
+                    f"No counter records found for equipment output ID '{equipment_output_id}'"
+                )
+
+            return record
+        except Exception as e:
+            logger.error(
+                f"Error fetching last counter record for equipment output ID '{equipment_output_id}': {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to fetch last counter record.") from e
 
     def delete_counter_record(self, record_id: int) -> dict:
         try:

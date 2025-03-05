@@ -1,8 +1,8 @@
 from asyncio.log import logger
 import logging
 
-from service.alarm_service import AlarmService
-from service.active_time_service import ActiveTimeService
+from alarm_record_service import AlarmService
+from active_time_record_service import ActiveTimeService
 from service.plc_service import PlcService
 from service.counter_record_service import CounterRecordService
 from service.equipment_output_service import EquipmentOutputService
@@ -54,7 +54,7 @@ class ProductionCountService:
             equipment_code = equipment.code
             equipment_status = equipment.equipment_status
 
-            active_time = self.active_time_service.get_active_time(equipment_id)
+            active_time = self.active_time_service.get_active_record_time(equipment_id)
             counters = self._get_counters(equipment_id)
             alarms = self.alarm_service.get_latest_alarm(equipment_id)
             if alarms is None:

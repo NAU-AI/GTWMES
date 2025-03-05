@@ -1,3 +1,4 @@
+from app.exception.Exception import NotFoundException
 from database.connection.db_connection import SessionLocal
 from model import AlarmRecord, Variable
 
@@ -5,6 +6,12 @@ from model import AlarmRecord, Variable
 class AlarmRecordDAO:
     def __init__(self):
         self.session = SessionLocal()
+
+    def save(self, alarm: AlarmRecord) -> AlarmRecord:
+        self.session.add(alarm)
+        self.session.commit()
+        self.session.refresh(alarm)
+        return alarm
 
     def find_by_id(self, alarm_id: int) -> AlarmRecord:
         return (
@@ -16,6 +23,16 @@ class AlarmRecordDAO:
             self.session.query(AlarmRecord)
             .join(Variable)
             .filter(Variable.equipment_id == equipment_id)
+            .all()
+        )
+
+    def find_all(self) -> list[AlarmRecord]:
+        return self.session.query(AlarmRecord).all()
+
+    def find_by_variable_id(self, variable_id: int) -> list[AlarmRecord]:
+        return (
+            self.session.query(AlarmRecord)
+            .filter(AlarmRecord.variable_id == variable_id)
             .all()
         )
 
@@ -36,38 +53,17 @@ class AlarmRecordDAO:
         self.session.refresh(new_alarm)
         return new_alarm
 
-    def update_alarm_by_equipment_id(self, equipment_id: int, new_value: int) -> int:
-        updated_alarms = (
-            self.session.query(AlarmRecord)
-            .join(Variable)
-            .filter(Variable.equipment_id == equipment_id)
-            .update({"value": new_value})
-        )
-
-        self.session.commit()
-        return updated_alarms
-
-    def find_all(self) -> list[AlarmRecord]:
-        return self.session.query(AlarmRecord).all()
-
-    def save(self, alarm: AlarmRecord) -> AlarmRecord:
-        self.session.add(alarm)
-        self.session.commit()
-        self.session.refresh(alarm)
-        return alarm
-
-    def update(self, alarm_id: int, updated_data: dict) -> AlarmRecord:
+    def update_alarm_value_by_id(self, alarm_id: int, new_value: int) -> AlarmRecord:
         alarm = (
             self.session.query(AlarmRecord).filter(AlarmRecord.id == alarm_id).first()
         )
+
         if not alarm:
-            return None
+            raise NotFoundException(f"Alarm record with ID '{alarm_id}' not found")
 
-        for key, value in updated_data.items():
-            setattr(alarm, key, value)
-
+        alarm.value = new_value
         self.session.commit()
-        self.session.refresh(alarm)
+
         return alarm
 
     def delete(self, alarm_id: int) -> bool:

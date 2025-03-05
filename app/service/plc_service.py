@@ -1,6 +1,6 @@
 import logging
-from service.active_time_service import ActiveTimeService
-from service.alarm_service import AlarmService
+from active_time_record_service import ActiveTimeService
+from alarm_record_service import AlarmService
 from service.counter_record_service import CounterRecordService
 from equipment_service import EquipmentService
 from service.equipment_output_service import EquipmentOutputService
@@ -88,9 +88,9 @@ class PlcService:
         if alarms is not None:
             existing_alarm = self.alarm_service.get_latest_alarm(equipment_id)
             if existing_alarm is None:
-                self.alarm_service.insert_alarm(equipment_id, alarms)
+                self.alarm_service.insert_alarm_by_equipment_id(equipment_id, alarms)
             else:
-                self.alarm_service.update_alarm(equipment_id, alarms)
+                self.alarm_service.update_alarm_record(equipment_id, alarms)
 
     def _process_equipment_status(self, plc, equipment_id, equipment_status):
         if not plc:
@@ -117,7 +117,7 @@ class PlcService:
                 return
 
             for equipment_output, output_value in zip(equipment_outputs, outputs):
-                self.counter_record_service.create_counter_record(
+                self.counter_record_service.save_counter_record(
                     equipment_output.id, output_value
                 )
 
