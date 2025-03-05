@@ -51,7 +51,7 @@ CREATE TABLE production_order (
 
 CREATE TABLE active_time_record (
     id SERIAL PRIMARY KEY,
-    variable INTEGER REFERENCES variable(id) ON DELETE CASCADE,
+    variable_id INTEGER REFERENCES variable(id) ON DELETE CASCADE,
     active_time INTEGER NOT NULL,
     registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -65,7 +65,7 @@ CREATE TABLE counter_record (
 
 CREATE TABLE alarm_record (
     id SERIAL PRIMARY KEY,
-    variable INTEGER REFERENCES variable(id) ON DELETE CASCADE,
+    variable_id INTEGER REFERENCES variable(id) ON DELETE CASCADE,
     value INTEGER NOT NULL,
     registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

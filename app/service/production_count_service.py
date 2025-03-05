@@ -6,7 +6,6 @@ from service.alarm_record_service import AlarmRecordService
 from service.counter_record_service import CounterRecordService
 from service.plc_service import PlcService
 from model.equipment import Equipment
-from model.dto.counter_record_dto import CounterRecordDTO
 from exception.Exception import ServiceException, NotFoundException
 from utility.logger import Logger
 
@@ -50,7 +49,7 @@ class ProductionCountService:
 
             production_order_code = self._get_active_production_order_code(equipment)
             active_time = self.active_time_service.get_active_record_time(equipment.id)
-            alarms = self.alarm_service.get_latest_alarm(equipment.id) or [0, 0, 0, 0]
+            alarms = self.alarm_service.get_by_equipment_id(equipment.id)
             counters = self._get_counters(equipment.id)
 
             equipment_status = self._get_equipment_status(equipment)
@@ -62,7 +61,7 @@ class ProductionCountService:
                 equipment_status=equipment_status,
                 active_time=active_time,
                 alarms=alarms,
-                counters=[counter.__dict__ for counter in counters],
+                counters=counters,
             )
 
         except Exception as e:
@@ -84,24 +83,32 @@ class ProductionCountService:
         )
         return production_order.code if production_order else ""
 
-    def _get_counters(self, equipment_id: int) -> list[CounterRecordDTO]:
+    def _get_counters(self, equipment_id: int) -> list:
         try:
             outputs = self.equipment_output_service.get_by_equipment_id(equipment_id)
-            return [
-                CounterRecordDTO(
-                    output_code=output.code,
-                    value=self.counter_record_service.get_last_counter_by_output_id(
+            counter_records = []
+
+            for output in outputs:
+                counter_value = (
+                    self.counter_record_service.get_last_by_equipment_output_id(
                         output.id
-                    ).real_value,
+                    )
                 )
-                for output in outputs
-            ]
+                counter_records.append(
+                    {
+                        "outputCode": output.code,
+                        "value": counter_value,
+                    }
+                )
+
+            return counter_records
+
         except Exception as e:
             logger.error(
                 f"Error fetching counters for equipment ID {equipment_id}: {e}",
                 exc_info=True,
             )
-            return []
+            return []  # Return an empty list if there's an error
 
     def _get_equipment_status(self, equipment: Equipment) -> int:
         try:

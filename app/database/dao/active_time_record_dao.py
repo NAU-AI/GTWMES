@@ -54,9 +54,9 @@ class ActiveTimeRecordDAO:
     def find_latest_by_equipment_id(self, equipment_id: int) -> ActiveTimeRecord:
         return (
             self.session.query(ActiveTimeRecord)
-            .join(Variable)
+            .join(Variable, ActiveTimeRecord.variable_id == Variable.id)
             .filter(Variable.equipment_id == equipment_id)
-            .order_by(ActiveTimeRecord.registered_at.desc())  # Most recent record first
+            .order_by(ActiveTimeRecord.registered_at.desc())
             .first()
         )
 

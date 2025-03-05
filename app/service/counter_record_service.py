@@ -31,25 +31,24 @@ class CounterRecordService:
             )
             raise ServiceException("Unable to fetch counter records.") from e
 
-    def get_last_by_equipment_output_id(
-        self, equipment_output_id: int
-    ) -> CounterRecord:
+    def get_last_by_equipment_output_id(self, equipment_output_id: int) -> int:
         try:
-            if record := self.counter_record_dao.find_last_by_equipment_output_id(
+            record = self.counter_record_dao.find_last_by_equipment_output_id(
                 equipment_output_id
-            ):
-                return record
-            else:
-                raise NotFoundException(
-                    f"No counter records found for equipment output ID '{equipment_output_id}'"
+            )
+            if not record:
+                logger.warning(
+                    f"No counter records found for equipment output ID '{equipment_output_id}', returning 0."
                 )
+                return 0  # Return 0 if no data exists
+            return record.real_value  # Return actual value if found
 
         except Exception as e:
             logger.error(
                 f"Error fetching last counter record for equipment output ID '{equipment_output_id}': {e}",
                 exc_info=True,
             )
-            raise ServiceException("Unable to fetch last counter record.") from e
+            return 0
 
     def delete_counter_record(self, record_id: int) -> dict:
         try:
