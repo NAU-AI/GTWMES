@@ -20,30 +20,26 @@ class EquipmentService:
         self.equipment_dao = equipment_dao or EquipmentDAO()
         self.equipment_output_dao = equipment_output_dao or EquipmentOutputDAO()
 
-    def update_equipment_variables(self, data: dict) -> Equipment:
-        self._validate_equipment_update_data(data)
-
+    def update_equipment(self, equipment: Equipment) -> Equipment:
         try:
-            equipment = self.equipment_dao.find_by_code(data["equipmentCode"])
-            if not equipment:
-                raise NotFoundException(
-                    f"Equipment with code '{data['equipmentCode']}' not found"
+            existing_equipment = self.equipment_dao.find_by_id(equipment.id)
+            if not existing_equipment:
+                raise NotFoundException(f"Equipment with ID '{equipment.id}' not found")
+
+            if equipment.ip is not None:
+                existing_equipment.ip = equipment.ip
+            if equipment.p_timer_communication_cycle is not None:
+                existing_equipment.p_timer_communication_cycle = (
+                    equipment.p_timer_communication_cycle
                 )
 
-            updated_data = {
-                "p_timer_communication_cycle": data.get("timerCommunicationCycle")
-            }
-            self.equipment_dao.update(equipment.id, updated_data)
+            self.equipment_dao.save(existing_equipment)
+            logger.info(f"Updated equipment '{equipment.code}'")
 
-            updated_equipment = self.equipment_dao.find_by_id(
-                equipment.id
-            )  # Fetch updated equipment with relationships
-            logger.info(f"Updated timer for equipment '{data['equipmentCode']}'")
-
-            return updated_equipment
+            return existing_equipment
         except Exception as e:
             logger.error(f"Error updating equipment: {e}", exc_info=True)
-            raise ServiceException("Unable to update equipment configuration.") from e
+            raise ServiceException("Unable to update equipment.") from e
 
     def get_equipment_by_code(self, code: str) -> Equipment:
         if not code:
@@ -84,30 +80,20 @@ class EquipmentService:
             logger.error("Error fetching all equipment.", exc_info=True)
             raise ServiceException("Unable to fetch all equipment.") from e
 
-    def insert_equipment(self, data: dict) -> Equipment:
-        self._validate_equipment_data(data)
-
+    def insert_equipment(self, equipment: Equipment) -> Equipment:
         try:
-            existing_equipment = self.equipment_dao.find_by_code(data["code"])
+            existing_equipment = self.equipment_dao.find_by_code(equipment.code)
             if existing_equipment:
                 raise ConflictException(
-                    f"Equipment with code '{data['code']}' already exists"
+                    f"Equipment with code '{equipment.code}' already exists"
                 )
 
-            new_equipment = Equipment(
-                code=data["code"],
-                ip=data["ip"],
-                p_timer_communication_cycle=data.get("p_timer_communication_cycle"),
-            )
-
-            saved_equipment = self.equipment_dao.save(new_equipment)
+            saved_equipment = self.equipment_dao.save(equipment)
             logger.info(
                 f"Inserted new equipment '{saved_equipment.code}' with ID {saved_equipment.id}"
             )
 
-            return self.equipment_dao.find_by_id(
-                saved_equipment.id
-            )  # Fetch full object with relationships
+            return self.equipment_dao.find_by_id(saved_equipment.id)
         except Exception as e:
             logger.error(f"Error inserting equipment: {e}", exc_info=True)
             raise ServiceException("Unable to insert new equipment.") from e
