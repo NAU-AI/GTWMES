@@ -2,7 +2,8 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
-LOG_DIR = "logs"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOG_DIR = os.path.join(BASE_DIR, "..", "logs")
 LOG_FILE = os.path.join(LOG_DIR, "equipment.log")
 
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -14,7 +15,7 @@ class Logger:
         logger = logging.getLogger(name)
         logger.setLevel(logging.INFO)
 
-        if not logger.hasHandlers():  # Prevent duplicate handlers
+        if not logger.hasHandlers():
             file_handler = RotatingFileHandler(
                 LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=3
             )
