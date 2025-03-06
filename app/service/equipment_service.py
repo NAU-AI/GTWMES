@@ -59,6 +59,13 @@ class EquipmentService:
             logger.error("Error fetching all equipment.", exc_info=True)
             raise ServiceException("Unable to fetch all equipment.") from e
 
+    def get_all_equipment_refreshed(self) -> list[Equipment]:
+        try:
+            return self.equipment_dao.get_all_equipment()
+        except Exception as e:
+            logger.error("Error fetching all equipment.", exc_info=True)
+            raise ServiceException("Unable to fetch all equipment.") from e
+
     def insert_equipment(self, equipment: Equipment) -> Equipment:
         try:
             existing_equipment = self.equipment_dao.find_by_code(equipment.code)

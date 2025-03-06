@@ -42,14 +42,13 @@ class MqttHeartbeatMonitor:
         def monitor():
             try:
                 while not self.stop_event.is_set():
-                    equipments = self.equipment_service.get_all_equipment()
+                    equipments = self.equipment_service.get_all_equipment_refreshed()
 
                     with self.lock:
                         for equipment in equipments:
                             self._process_equipment_heartbeat(equipment)
 
-                    time.sleep(1)
-
+                    time.sleep(60)
             except Exception as e:
                 logger.error(
                     f"Unexpected error in heartbeat monitor: {e}", exc_info=True
@@ -72,15 +71,7 @@ class MqttHeartbeatMonitor:
 
         last_heartbeat = self.last_heartbeats[equipment_code]
 
-        self._detect_config_changes(equipment_code, current_cycle)
         self._check_heartbeat_timeout(equipment_code, last_heartbeat, current_cycle)
-
-    def _detect_config_changes(self, equipment_code, current_cycle):
-        if self.previous_cycles.get(equipment_code) != current_cycle:
-            logger.info(
-                f"Configuration updated for {equipment_code}. New cycle = {current_cycle} minute(s)"
-            )
-        self.previous_cycles[equipment_code] = current_cycle
 
     def _check_heartbeat_timeout(self, equipment_code, last_heartbeat, current_cycle):
         timeout = (

@@ -17,6 +17,10 @@ class EquipmentDAO:
     def find_all(self) -> list[Equipment]:
         return self.session.query(Equipment).all()
 
+    def get_all_equipment(self) -> list[Equipment]:
+        self.session.expire_all()  # Expunge all cached objects in the session
+        return self.find_all()
+
     def save(self, equipment: Equipment) -> Equipment:
         self.session.add(equipment)
         self.session.commit()

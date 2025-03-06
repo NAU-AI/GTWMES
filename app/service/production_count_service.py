@@ -68,7 +68,7 @@ class ProductionCountService:
 
             active_time = self.active_time_service.get_active_time_value(equipment.id)
 
-            alarms = self.alarm_service.get_by_equipment_id(equipment.id)
+            ###alarms = self.alarm_service.get_by_equipment_id(equipment.id)
 
             counters = self._get_counters(equipment.id)
 
@@ -80,7 +80,7 @@ class ProductionCountService:
                 production_order_code=production_order_code,
                 equipment_status=equipment_status,
                 active_time=active_time,
-                alarms=alarms,
+                ##alarms=alarms,
                 counters=counters,
             )
 

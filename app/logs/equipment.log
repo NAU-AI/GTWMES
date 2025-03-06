@@ -9547,3 +9547,671 @@ AttributeError: 'list' object has no attribute 'value'
 2025-03-06 16:24:50 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
 2025-03-06 16:24:50 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
 2025-03-06 16:24:50 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:29:25 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:29:26 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:29:26 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:29:26 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:29:26 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:29:26 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:29:26 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:29:26 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:29:26 - INFO - service.message_service - Scheduled production message for equipment 8 every 2 minutes.
+2025-03-06 16:29:26 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:29:26 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 16:29:27 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 16:29:27 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 2 minute(s)
+2025-03-06 16:29:36 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:29:36 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:29:36 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 16:29:36 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 16:29:36 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 115 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 1}
+2025-03-06 16:30:37 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:30:42 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:30:42 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:30:44 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:30:44 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:30:44 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:31:26 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:31:26 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:31:26 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:31:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:31:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:31:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:31:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:31:26 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:31:26 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 392 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": ["<AlarmRecord(id=1, value=0, registered_at=2025-03-06 15:53:17.584981)>"], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:31:26 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:31:44 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:31:44 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:31:44 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:31:44 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:31:44 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:31:44 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:32:31 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.65s, Timeout = 185s
+2025-03-06 16:32:31 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 16:32:31 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 16:32:31 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 16:32:45 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:32:45 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:32:45 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:32:45 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:32:45 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:32:45 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:33:26 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:33:26 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:33:26 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:33:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:33:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:33:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:33:26 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:33:26 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:33:26 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 392 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": ["<AlarmRecord(id=1, value=0, registered_at=2025-03-06 15:53:17.584981)>"], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:33:26 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:33:45 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:33:45 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:33:45 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:33:45 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:33:45 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:33:45 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:34:09 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:34:09 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:34:09 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:34:09 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:34:09 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:34:09 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:34:09 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:34:09 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:34:09 - INFO - service.message_service - Scheduled production message for equipment 8 every 2 minutes.
+2025-03-06 16:34:09 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:34:09 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 16:34:35 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:34:35 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:34:35 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 16:34:35 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 16:34:35 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 115 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 1}
+2025-03-06 16:35:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:35:09 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:35:09 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:35:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:35:10 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:35:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:36:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:36:09 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:36:09 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:36:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:36:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:36:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:36:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:36:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:36:09 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 392 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": ["<AlarmRecord(id=1, value=0, registered_at=2025-03-06 15:53:17.584981)>"], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:36:09 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:36:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:36:10 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:36:10 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:36:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:36:10 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:36:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:37:06 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:37:06 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:37:06 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:37:06 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:37:06 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:37:06 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:37:06 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:37:06 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:37:06 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 16:37:06 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:37:06 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 16:37:07 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 16:37:07 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 1 minute(s)
+2025-03-06 16:38:06 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:38:06 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:38:06 - ERROR - service.equipment_service - Error fetching equipment by code 'MAQ01': This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+2025-03-06 16:38:06 - ERROR - service.production_count_service - Error fetching equipment 'MAQ01': Unable to fetch equipment by code.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 94, in _get_equipment
+    return self.equipment_service.get_equipment_by_code(equipment_code)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 37, in get_equipment_by_code
+    raise ServiceException("Unable to fetch equipment by code.") from e
+exception.Exception.ServiceException: Unable to fetch equipment by code.
+2025-03-06 16:38:06 - ERROR - service.production_count_service - Error building production count message: Equipment with code 'MAQ01' not found
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+2025-03-06 16:38:06 - ERROR - service.message_service - Error sending production message for equipment 1: Failed to build production count message.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 76, in send_production_message
+    production_values = self.production_count_service.build_production_count(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 90, in build_production_count
+    raise ServiceException("Failed to build production count message.") from e
+exception.Exception.ServiceException: Failed to build production count message.
+2025-03-06 16:38:06 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:38:06 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:38:19 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:38:19 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:38:19 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:38:19 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:38:19 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:38:19 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 392 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": ["<AlarmRecord(id=1, value=0, registered_at=2025-03-06 15:53:17.584981)>"], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:38:19 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:39:06 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:39:06 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:39:06 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:39:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:39:40 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:39:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:39:40 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:39:40 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:39:40 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:39:40 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:39:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:39:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 392 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": ["<AlarmRecord(id=1, value=0, registered_at=2025-03-06 15:53:17.584981)>"], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:39:40 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:39:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:39:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:39:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:41:30 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:41:31 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:41:31 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:41:31 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:41:31 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:41:31 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:41:31 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:41:31 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:41:31 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 16:41:31 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:41:31 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 16:41:32 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 16:41:32 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 1 minute(s)
+2025-03-06 16:42:31 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:42:31 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:42:31 - ERROR - service.equipment_service - Error fetching equipment by code 'MAQ01': This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+2025-03-06 16:42:31 - ERROR - service.production_count_service - Error fetching equipment 'MAQ01': Unable to fetch equipment by code.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 94, in _get_equipment
+    return self.equipment_service.get_equipment_by_code(equipment_code)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 37, in get_equipment_by_code
+    raise ServiceException("Unable to fetch equipment by code.") from e
+exception.Exception.ServiceException: Unable to fetch equipment by code.
+2025-03-06 16:42:31 - ERROR - service.production_count_service - Error building production count message: Equipment with code 'MAQ01' not found
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+2025-03-06 16:42:31 - ERROR - service.message_service - Error sending production message for equipment 1: Failed to build production count message.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 76, in send_production_message
+    production_values = self.production_count_service.build_production_count(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 90, in build_production_count
+    raise ServiceException("Failed to build production count message.") from e
+exception.Exception.ServiceException: Failed to build production count message.
+2025-03-06 16:42:31 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:42:31 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:42:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:42:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:42:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:42:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:42:31 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:42:31 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:42:31 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:43:37 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:43:37 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:43:37 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:43:37 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:43:37 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:43:37 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:43:37 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:43:37 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:43:37 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:43:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:43:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:43:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:43:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:43:37 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:43:37 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:43:37 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:44:54 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:44:54 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:44:54 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:44:54 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:44:54 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:44:54 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:44:54 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:44:54 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:44:54 - INFO - service.message_service - Scheduled production message for equipment 8 every 3 minutes.
+2025-03-06 16:44:54 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:44:54 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 16:45:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:45:54 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 16:45:54 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 3 minute(s)
+2025-03-06 16:45:54 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:45:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:45:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:45:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:45:54 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:46:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:46:54 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:46:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:46:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:46:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:46:54 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:47:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:47:54 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:47:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:47:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:47:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:47:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:47:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:47:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:47:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:47:54 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:47:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:47:54 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:47:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:47:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:47:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:47:54 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:48:03 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:48:03 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 16:48:03 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 16:48:03 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 16:48:03 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 115 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 1}
+2025-03-06 16:49:07 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 253.41s, Timeout = 185s
+2025-03-06 16:49:07 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 16:49:07 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 16:49:07 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 16:49:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:49:09 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:49:09 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:49:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:49:09 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:49:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:50:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:50:09 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:50:09 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:50:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:50:09 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:50:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:50:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:50:54 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:50:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:50:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:50:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:50:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:50:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:50:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:50:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:50:54 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:53:14 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:53:14 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:53:14 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:53:14 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:53:14 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:53:14 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:53:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:53:54 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:53:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:53:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:53:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:53:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:53:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:53:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:53:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:53:54 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:54:28 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ2. Elapsed = 574.45s, Timeout = 545s
+2025-03-06 16:54:28 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 16:54:28 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 16:54:28 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ2: Byte 8, Bit 0, Value 1
+2025-03-06 16:54:29 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:54:29 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:54:29 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:54:29 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:54:29 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:54:29 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:55:29 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:55:29 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:55:29 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:55:29 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:55:29 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:55:29 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:56:29 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:56:29 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:56:29 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:56:29 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:56:29 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:56:29 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:56:54 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 16:56:54 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 16:56:54 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 16:56:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 16:56:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 16:56:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 16:56:54 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 16:56:54 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 16:56:54 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 16:56:54 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 16:57:29 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 16:57:29 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 16:57:29 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 16:57:29 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 16:57:29 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 16:57:29 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 16:58:09 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:58:09 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:58:09 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:58:09 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:58:09 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:58:09 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:58:09 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:58:09 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:58:09 - ERROR - service.equipment_service - Error fetching all equipment.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 64, in get_all_equipment_refreshed
+    return self.equipment_dao.get_all_equipment()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 22, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'EquipmentDAO' object has no attribute 'equipment_dao'
+2025-03-06 16:58:09 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 16:58:09 - ERROR - MQTT.mqtt_heart_beat - Unexpected error in heartbeat monitor: Unable to fetch all equipment.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 64, in get_all_equipment_refreshed
+    return self.equipment_dao.get_all_equipment()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 22, in get_all_equipment
+    return self.equipment_dao.find_all()
+           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'EquipmentDAO' object has no attribute 'equipment_dao'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_heart_beat.py", line 45, in monitor
+    equipments = self.equipment_service.get_all_equipment_refreshed()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 67, in get_all_equipment_refreshed
+    raise ServiceException("Unable to fetch all equipment.") from e
+exception.Exception.ServiceException: Unable to fetch all equipment.
+2025-03-06 16:59:03 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 16:59:04 - INFO - MESMain - Starting periodic message service...
+2025-03-06 16:59:04 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 16:59:04 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 16:59:04 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 16:59:04 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 16:59:04 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 16:59:04 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 16:59:04 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 16:59:04 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 16:59:04 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 17:00:04 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 17:00:04 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 17:00:04 - ERROR - service.equipment_service - Error fetching equipment by code 'MAQ01': This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+2025-03-06 17:00:04 - ERROR - service.production_count_service - Error fetching equipment 'MAQ01': Unable to fetch equipment by code.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 28, in get_equipment_by_code
+    if equipment := self.equipment_dao.find_by_code(code):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_dao.py", line 15, in find_by_code
+    return self.session.query(Equipment).filter(Equipment.code == code).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2754, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2241, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2110, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 103, in _go
+    self._raise_for_prerequisite_state(fn.__name__, current_state)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 990, in _raise_for_prerequisite_state
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: This session is provisioning a new connection; concurrent operations are not permitted (Background on this error at: https://sqlalche.me/e/20/isce)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 94, in _get_equipment
+    return self.equipment_service.get_equipment_by_code(equipment_code)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_service.py", line 37, in get_equipment_by_code
+    raise ServiceException("Unable to fetch equipment by code.") from e
+exception.Exception.ServiceException: Unable to fetch equipment by code.
+2025-03-06 17:00:04 - ERROR - service.production_count_service - Error building production count message: Equipment with code 'MAQ01' not found
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+2025-03-06 17:00:04 - ERROR - service.message_service - Error sending production message for equipment 1: Failed to build production count message.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 63, in build_production_count
+    raise NotFoundException(
+exception.Exception.NotFoundException: Equipment with code 'MAQ01' not found
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 76, in send_production_message
+    production_values = self.production_count_service.build_production_count(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_count_service.py", line 90, in build_production_count
+    raise ServiceException("Failed to build production count message.") from e
+exception.Exception.ServiceException: Failed to build production count message.
+2025-03-06 17:00:13 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 17:00:13 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 17:00:13 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 17:00:13 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 3 minute(s)
+2025-03-06 17:00:15 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 17:00:15 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 17:00:15 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 17:00:15 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 17:00:15 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 17:00:15 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 17:00:15 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 17:00:30 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 17:00:30 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 1}
+2025-03-06 17:00:30 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 17:00:30 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 17:00:30 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 115 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 1}
+2025-03-06 17:01:04 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 17:01:04 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 17:01:04 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 17:01:04 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 17:01:04 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 17:01:04 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 17:01:22 - INFO - service.production_count_service - Building production count message for equipment 'MAQ2'
+2025-03-06 17:01:22 - WARNING - service.production_order_service - No active production order found for equipment ID 8
+2025-03-06 17:01:22 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=8, code='MAQ2', ip='192.168.1.10')>, 8)
+2025-03-06 17:01:22 - WARNING - service.counter_record_service - No counter records found for equipment output ID '18', returning 0.
+2025-03-06 17:01:22 - WARNING - service.counter_record_service - No counter records found for equipment output ID '19', returning 0.
+2025-03-06 17:01:22 - WARNING - service.counter_record_service - No counter records found for equipment output ID '20', returning 0.
+2025-03-06 17:01:22 - WARNING - service.counter_record_service - No counter records found for equipment output ID '21', returning 0.
+2025-03-06 17:01:22 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ2', defaulting to 0
+2025-03-06 17:01:22 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 320 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ2", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 120, "alarms": [], "counters": [{"outputCode": "MAQ2-OUT01", "value": 0}, {"outputCode": "MAQ2-OUT02", "value": 0}, {"outputCode": "MAQ2-OUT03", "value": 0}, {"outputCode": "MAQ2-OUT04", "value": 0}]}
+2025-03-06 17:01:22 - INFO - service.message_service - Sent production message for equipment 8.
+2025-03-06 17:01:22 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 1 minute(s)
+2025-03-06 17:01:40 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 17:01:40 - INFO - MESMain - Starting periodic message service...
+2025-03-06 17:01:40 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 17:01:40 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 17:01:40 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 17:01:40 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 17:01:40 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
