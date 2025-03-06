@@ -24,6 +24,10 @@ class Scheduler:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
 
+            interval = (
+                equipment.p_timer_communication_cycle or 1
+            ) * 60  # Convert minutes to seconds
+
             def wrapper():
                 try:
                     action(client, topic_send, equipment)
@@ -35,12 +39,10 @@ class Scheduler:
 
                 with self.lock:
                     if task_id in self.timers:
-                        interval = equipment.p_timer_communication_cycle
                         self._reschedule_task(
-                            task_id, equipment, action, client, topic_send, interval
+                            task_id, equipment, action, client, topic_send
                         )
 
-            interval = equipment.p_timer_communication_cycle
             self._start_timer(task_id, wrapper, interval)
 
             self.task_metadata[task_id] = {
@@ -50,14 +52,17 @@ class Scheduler:
                 "client": client,
                 "topic_send": topic_send,
             }
-            logging.info(f"Scheduled task '{task_id}' every {interval}s.")
+            logging.info(f"Scheduled task '{task_id}' every {interval / 60} minutes.")
 
     def _start_timer(self, task_id, wrapper, interval):
         timer = threading.Timer(interval, wrapper)
         self.timers[task_id] = timer
         timer.start()
 
-    def update_timer(self, task_id, new_interval):
+    def update_timer(self, task_id, new_interval_minutes):
+        """Updates an existing task with a new interval (in minutes)."""
+        new_interval = new_interval_minutes * 60  # Convert to seconds
+
         with self.lock:
             if task_id not in self.task_metadata:
                 logging.warning(
@@ -72,7 +77,7 @@ class Scheduler:
             metadata = self.task_metadata[task_id]
             equipment = metadata["equipment"]
             self.task_metadata[task_id]["interval"] = new_interval
-            equipment.p_timer_communication_cycle = new_interval
+            equipment.p_timer_communication_cycle = new_interval_minutes
 
             def wrapper():
                 try:
@@ -87,27 +92,26 @@ class Scheduler:
 
                 with self.lock:
                     if task_id in self.timers:
-                        interval = equipment.p_timer_communication_cycle
                         self._reschedule_task(
                             task_id,
                             equipment,
                             metadata["action"],
                             metadata["client"],
                             metadata["topic_send"],
-                            interval,
                         )
 
-            interval = new_interval
-            self._start_timer(task_id, wrapper, interval)
+            self._start_timer(task_id, wrapper, new_interval)
 
             logging.info(
-                f"Updated timer for task '{task_id}' with new interval {new_interval}s."
+                f"Updated timer for task '{task_id}' with new interval {new_interval / 60} minutes."
             )
             return True
 
-    def _reschedule_task(
-        self, task_id, equipment, action, client, topic_send, interval
-    ):
+    def _reschedule_task(self, task_id, equipment, action, client, topic_send):
+        interval = (
+            equipment.p_timer_communication_cycle or 1
+        ) * 60  # Convert to seconds
+
         def wrapper():
             try:
                 action(client, topic_send, equipment)
@@ -120,12 +124,7 @@ class Scheduler:
             with self.lock:
                 if task_id in self.timers:
                     self._reschedule_task(
-                        task_id,
-                        equipment,
-                        action,
-                        client,
-                        topic_send,
-                        equipment.p_timer_communication_cycle,
+                        task_id, equipment, action, client, topic_send
                     )
 
         self._start_timer(task_id, wrapper, interval)

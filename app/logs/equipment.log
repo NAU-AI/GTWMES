@@ -14982,3 +14982,287 @@ exception.Exception.ServiceException: Failed to build production count message.
 2025-03-05 23:44:51,027 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
 2025-03-05 23:44:51,027 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
 2025-03-05 23:44:51,027 - INFO - Sent production message for equipment 1.
+2025-03-05 23:50:17,170 - INFO - Initializing MQTT connection...
+2025-03-05 23:50:17,376 - INFO - Starting periodic message service...
+2025-03-05 23:50:17,385 - INFO - Started periodic message sending thread.
+2025-03-05 23:50:17,400 - INFO - Starting heartbeat monitoring...
+2025-03-05 23:50:17,401 - INFO - Starting heartbeat monitor thread.
+2025-03-05 23:50:17,401 - INFO - Heartbeat monitoring started.
+2025-03-05 23:50:17,402 - ERROR - Error executing production count: Scheduler.schedule_task() got an unexpected keyword argument 'interval'
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 42, in execute_production_count
+    self.scheduler.schedule_task(
+TypeError: Scheduler.schedule_task() got an unexpected keyword argument 'interval'
+2025-03-05 23:50:17,402 - INFO - Starting MQTT client loop...
+2025-03-05 23:50:17,439 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-05 23:50:18,441 - INFO - Configuration updated for MAQ01. New cycle = 2s
+2025-03-05 23:50:28,454 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.02s, Timeout = 11s
+2025-03-05 23:50:28,454 - WARNING - PLC client connection failed.
+2025-03-05 23:50:28,455 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-05 23:50:28,455 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-05 23:53:57,295 - INFO - Initializing MQTT connection...
+2025-03-05 23:53:57,515 - INFO - Starting periodic message service...
+2025-03-05 23:53:57,521 - INFO - Started periodic message sending thread.
+2025-03-05 23:53:57,552 - INFO - Starting heartbeat monitoring...
+2025-03-05 23:53:57,552 - INFO - Starting heartbeat monitor thread.
+2025-03-05 23:53:57,553 - INFO - Heartbeat monitoring started.
+2025-03-05 23:53:57,553 - ERROR - Error executing production count: Scheduler.schedule_task() got an unexpected keyword argument 'interval'
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 43, in execute_production_count
+    self.scheduler.schedule_task(
+TypeError: Scheduler.schedule_task() got an unexpected keyword argument 'interval'
+2025-03-05 23:53:57,554 - INFO - Starting MQTT client loop...
+2025-03-05 23:53:57,590 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-05 23:53:58,592 - INFO - Configuration updated for MAQ01. New cycle = 120m
+2025-03-05 23:54:08,607 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.02s, Timeout = 11s
+2025-03-05 23:54:08,608 - WARNING - PLC client connection failed.
+2025-03-05 23:54:08,608 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-05 23:54:08,609 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-05 23:57:03,140 - INFO - Initializing MQTT connection...
+2025-03-05 23:57:03,380 - INFO - Starting periodic message service...
+2025-03-05 23:57:03,406 - INFO - Started periodic message sending thread.
+2025-03-05 23:57:03,412 - INFO - Starting heartbeat monitoring...
+2025-03-05 23:57:03,412 - INFO - Starting heartbeat monitor thread.
+2025-03-05 23:57:03,413 - INFO - Heartbeat monitoring started.
+2025-03-05 23:57:03,413 - INFO - All equipment schedules initialized.
+2025-03-05 23:57:03,413 - INFO - Starting MQTT client loop...
+2025-03-05 23:57:03,450 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-05 23:57:04,452 - INFO - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-05 23:57:05,415 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:05,860 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:05,860 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:05,861 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:05,861 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:07,869 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:07,874 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:07,875 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:07,875 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:07,876 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:09,889 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:09,893 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:09,893 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:09,894 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:09,894 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:11,905 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:11,909 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:11,909 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:11,910 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:11,910 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:13,922 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:13,926 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:13,927 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:13,927 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:13,928 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:14,464 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.01s, Timeout = 11s
+2025-03-05 23:57:14,465 - WARNING - PLC client connection failed.
+2025-03-05 23:57:14,465 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-05 23:57:14,466 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-05 23:57:15,942 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:15,947 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:15,948 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:15,948 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:15,948 - INFO - Sent production message for equipment 1.
+2025-03-05 23:57:17,962 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-05 23:57:17,966 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-05 23:57:17,966 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-05 23:57:17,967 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-05 23:57:17,967 - INFO - Sent production message for equipment 1.
+2025-03-06 00:00:48,269 - INFO - Initializing MQTT connection...
+2025-03-06 00:00:48,493 - INFO - Starting periodic message service...
+2025-03-06 00:00:48,517 - INFO - Started periodic message sending thread.
+2025-03-06 00:00:48,520 - INFO - Starting heartbeat monitoring...
+2025-03-06 00:00:48,520 - INFO - Starting heartbeat monitor thread.
+2025-03-06 00:00:48,521 - INFO - Heartbeat monitoring started.
+2025-03-06 00:00:48,521 - INFO - Scheduled production message for equipment 1 every 2 minutes.
+2025-03-06 00:00:48,521 - INFO - Starting MQTT client loop...
+2025-03-06 00:00:48,560 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:00:49,561 - INFO - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-06 00:00:59,574 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.01s, Timeout = 11s
+2025-03-06 00:00:59,574 - WARNING - PLC client connection failed.
+2025-03-06 00:00:59,574 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 00:00:59,574 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 00:02:48,524 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:02:48,794 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:02:48,795 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:02:48,795 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:02:48,795 - INFO - Sent production message for equipment 1.
+2025-03-06 00:04:48,810 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:04:48,814 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:04:48,815 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:04:48,815 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:04:48,816 - INFO - Sent production message for equipment 1.
+2025-03-06 00:06:34,579 - INFO - Initializing MQTT connection...
+2025-03-06 00:06:34,806 - INFO - Starting periodic message service...
+2025-03-06 00:06:34,835 - INFO - Started periodic message sending thread.
+2025-03-06 00:06:34,838 - INFO - Starting heartbeat monitoring...
+2025-03-06 00:06:34,838 - INFO - Starting heartbeat monitor thread.
+2025-03-06 00:06:34,839 - INFO - Heartbeat monitoring started.
+2025-03-06 00:06:34,840 - INFO - Scheduled production message for equipment 1 every 2 minutes.
+2025-03-06 00:06:34,840 - INFO - Starting MQTT client loop...
+2025-03-06 00:06:34,878 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:06:35,880 - INFO - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-06 00:06:45,893 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.01s, Timeout = 11s
+2025-03-06 00:06:45,894 - WARNING - PLC client connection failed.
+2025-03-06 00:06:45,895 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 00:06:45,895 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 00:08:34,846 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:08:35,219 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:08:35,219 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:08:35,220 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:08:35,220 - INFO - Sent production message for equipment 1.
+2025-03-06 00:09:13,902 - INFO - Initializing MQTT connection...
+2025-03-06 00:09:14,090 - INFO - Starting periodic message service...
+2025-03-06 00:09:14,113 - INFO - Started periodic message sending thread.
+2025-03-06 00:09:14,116 - INFO - Starting heartbeat monitoring...
+2025-03-06 00:09:14,116 - INFO - Starting heartbeat monitor thread.
+2025-03-06 00:09:14,117 - INFO - Heartbeat monitoring started.
+2025-03-06 00:09:14,117 - INFO - Scheduled production message for equipment 1 every 2 minutes.
+2025-03-06 00:09:14,117 - INFO - Starting MQTT client loop...
+2025-03-06 00:09:14,156 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:09:15,157 - INFO - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-06 00:09:25,174 - ERROR - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 11.02s, Timeout = 11s
+2025-03-06 00:09:25,175 - WARNING - PLC client connection failed.
+2025-03-06 00:09:25,175 - ERROR - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 00:09:25,175 - WARNING - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 00:11:14,128 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:11:14,418 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:11:14,418 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:11:14,419 - INFO - Sent production message for equipment 1.
+2025-03-06 00:13:14,423 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:13:14,428 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:13:14,429 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:13:14,429 - INFO - Sent production message for equipment 1.
+2025-03-06 00:13:47,145 - INFO - Initializing MQTT connection...
+2025-03-06 00:13:47,380 - INFO - Starting periodic message service...
+2025-03-06 00:13:47,400 - INFO - Started periodic message sending thread.
+2025-03-06 00:13:47,405 - INFO - Starting heartbeat monitoring...
+2025-03-06 00:13:47,405 - INFO - Starting heartbeat monitor thread.
+2025-03-06 00:13:47,406 - INFO - Heartbeat monitoring started.
+2025-03-06 00:13:47,407 - INFO - Scheduled production message for equipment 1 every 2 minutes.
+2025-03-06 00:13:47,407 - INFO - Starting MQTT client loop...
+2025-03-06 00:13:47,446 - INFO - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:13:48,449 - INFO - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-06 00:15:47,414 - INFO - Building production count message for equipment 'MAQ01'
+2025-03-06 00:15:47,892 - WARNING - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:15:47,893 - WARNING - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:15:47,893 - INFO - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:15:47,893 - INFO - Sent production message for equipment 1.
+2025-03-06 00:16:13 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 00:16:13 - INFO - MESMain - Starting periodic message service...
+2025-03-06 00:16:13 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 00:16:13 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 00:16:13 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 00:16:13 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 00:16:13 - INFO - service.message_service - Scheduled production message for equipment 1 every 2 minutes.
+2025-03-06 00:16:13 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 00:16:13 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:16:14 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 2 minute(s)
+2025-03-06 00:18:13 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:18:14 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:18:14 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:18:14 - ERROR - service.message_service - Error while sending message response: 'MessageService' object has no attribute '_serialize_message'
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\message_service.py", line 80, in _send_message_response
+    serialized_message = json.dumps(data, default=self._serialize_message)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MessageService' object has no attribute '_serialize_message'
+2025-03-06 00:18:14 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:18:30 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 00:18:30 - INFO - MESMain - Starting periodic message service...
+2025-03-06 00:18:30 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 00:18:30 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 00:18:30 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 00:18:30 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 00:18:30 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 00:18:30 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 00:18:30 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:18:31 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 00:19:30 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:19:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:19:31 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:19:31 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:19:31 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:20:31 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:20:31 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:20:31 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:20:31 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:20:31 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:21:11 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 00:21:11 - INFO - MESMain - Starting periodic message service...
+2025-03-06 00:21:11 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 00:21:11 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 00:21:11 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 00:21:11 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 00:21:11 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 00:21:11 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 00:21:11 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:21:12 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 00:22:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:22:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:22:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:22:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:22:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:23:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:23:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:23:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:23:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:23:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:24:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:24:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:24:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:24:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:24:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:24:16 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.22s, Timeout = 185s
+2025-03-06 00:24:16 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 00:24:16 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 00:24:16 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 00:25:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:25:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:25:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:25:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:25:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:26:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:26:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:26:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:26:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:26:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:27:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:27:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:27:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:27:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:27:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:28:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:28:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:28:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:28:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:28:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:29:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:29:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:29:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:29:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:29:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:30:11 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:30:11 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:30:11 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:30:11 - INFO - service.message_service - SENT ProductionCount MESSAGE TO 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:30:11 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:30:36 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 00:30:36 - INFO - MESMain - Starting periodic message service...
+2025-03-06 00:30:37 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 00:30:37 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 00:30:37 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 00:30:37 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 00:30:37 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 00:30:37 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 00:30:37 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 00:30:38 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 00:31:37 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:31:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:31:37 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:31:37 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:31:37 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 00:32:37 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 00:32:37 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 00:32:37 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 00:32:37 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 00:32:37 - INFO - service.message_service - Sent production message for equipment 1.

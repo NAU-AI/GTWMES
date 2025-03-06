@@ -78,12 +78,14 @@ class MqttHeartbeatMonitor:
     def _detect_config_changes(self, equipment_code, current_cycle):
         if self.previous_cycles.get(equipment_code) != current_cycle:
             logger.info(
-                f"Configuration updated for {equipment_code}. New cycle = {current_cycle}s"
+                f"Configuration updated for {equipment_code}. New cycle = {current_cycle} minute(s)"
             )
         self.previous_cycles[equipment_code] = current_cycle
 
     def _check_heartbeat_timeout(self, equipment_code, last_heartbeat, current_cycle):
-        timeout = 3 * current_cycle + self.GRACE_PERIOD
+        timeout = (
+            3 * current_cycle * 60
+        ) + self.GRACE_PERIOD  # Convert minutes to seconds
         elapsed_time = time.time() - last_heartbeat
 
         logger.debug(

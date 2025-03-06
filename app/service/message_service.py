@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from utility.scheduler import Scheduler
 from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
 from service.production_count_service import ProductionCountService
@@ -35,6 +34,8 @@ class MessageService:
 
             for equipment in equipments:
                 task_id = f"equipment_{equipment.id}"
+                interval = equipment.p_timer_communication_cycle or 1
+
                 self.scheduler.schedule_task(
                     task_id=task_id,
                     equipment=equipment,
@@ -43,7 +44,11 @@ class MessageService:
                     topic_send=topic_send,
                 )
 
-            logger.info("All equipment schedules initialized.")
+                logger.info(
+                    f"Scheduled production message for equipment {equipment.id} "
+                    f"every {interval} minutes."
+                )
+
         except Exception as e:
             logger.error(f"Error executing production count: {e}", exc_info=True)
 
@@ -71,16 +76,8 @@ class MessageService:
 
     def _send_message_response(self, client, topic_send, data, message_type):
         try:
-            serialized_message = json.dumps(data, default=self._serialize_message)
+            serialized_message = json.dumps(data, default=str)
             message_size = len(serialized_message.encode("utf-8"))
-
-            if message_size > MAX_MQTT_MESSAGE_SIZE:
-                logger.warning(
-                    f"Message size {message_size} bytes exceeds limit ({MAX_MQTT_MESSAGE_SIZE} bytes). Truncating."
-                )
-                data = self._truncate_json_to_limit(data, MAX_MQTT_MESSAGE_SIZE)
-                serialized_message = json.dumps(data)
-                message_size = len(serialized_message.encode("utf-8"))
 
             client.publish(topic_send, serialized_message, qos=1)
             logger.info(
@@ -100,25 +97,3 @@ class MessageService:
             self.mqtt_heart_beat.received_heartbeat(equipment_code)
         except Exception as e:
             logger.error(f"Error processing received message: {e}", exc_info=True)
-
-    def _truncate_json_to_limit(self, data, max_bytes):
-        serialized = json.dumps(data)
-        if len(serialized.encode("utf-8")) <= max_bytes:
-            return data
-
-        if isinstance(data, dict):
-            return {
-                k: v
-                for k, v in data.items()
-                if len(json.dumps({k: v}).encode("utf-8")) <= max_bytes
-            }
-
-        if isinstance(data, list):
-            return data[: len(data) // 2]  # Truncate halfway
-
-        return data  # Return as-is if no truncation logic applies
-
-    def _serialize_message(self, obj):
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        raise TypeError("Unserializable object encountered")

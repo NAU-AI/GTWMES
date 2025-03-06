@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 LOG_DIR = "logs"
 LOG_FILE = os.path.join(LOG_DIR, "equipment.log")
+
 os.makedirs(LOG_DIR, exist_ok=True)
 
 
@@ -13,19 +14,21 @@ class Logger:
         logger = logging.getLogger(name)
         logger.setLevel(logging.INFO)
 
-        if not logger.handlers:
-            log_handler = RotatingFileHandler(
-                LOG_FILE,
-                maxBytes=5 * 1024 * 1024,
-                backupCount=3,  # 5MB per file, keep 3 backups
+        if not logger.hasHandlers():  # Prevent duplicate handlers
+            file_handler = RotatingFileHandler(
+                LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=3
             )
-            log_formatter = logging.Formatter(
-                "%(asctime)s - %(levelname)s - %(message)s"
+            file_formatter = logging.Formatter(
+                "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
             )
-            log_handler.setFormatter(log_formatter)
+            file_handler.setFormatter(file_formatter)
+            logger.addHandler(file_handler)
 
-            logger.addHandler(log_handler)
-            logger.addHandler(logging.StreamHandler())
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(file_formatter)
+            logger.addHandler(console_handler)
+
         return logger
 
 
