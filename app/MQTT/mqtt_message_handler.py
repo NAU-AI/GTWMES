@@ -42,9 +42,18 @@ class MessageHandler:
             self._send_response(client, message, response_type)
 
     def _send_response(self, client, message, response_type):
+        response_message = self._build_response_message(message)
         self.message_service.send_message_response(
-            client, self.topic_send, message, f"{response_type}Response"
+            client, self.topic_send, response_message
         )
+
+    def _build_response_message(self, data: dict) -> dict:
+        response_data = data.copy()
+
+        if "jsonType" in response_data:
+            response_data["jsonType"] = f"{response_data['jsonType']}Response"
+
+        return response_data
 
     def _handle_configuration(self, client, message):
         self._process_message(
@@ -66,7 +75,11 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.production_order_handler.process_production_order_conclusion,
+            lambda msg: self.production_order_handler.process_production_order_conclusion(
+                client,
+                self.topic_send,
+                msg,
+            ),
             "ProductionOrderConclusion",
         )
 

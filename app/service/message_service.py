@@ -1,12 +1,17 @@
 import json
 
+
 from utility.scheduler import Scheduler
+
 
 from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
 
+
 from service.production_count_service import ProductionCountService
 
+
 from service.equipment_service import EquipmentService
+
 
 from utility.logger import Logger
 
@@ -15,6 +20,7 @@ logger = Logger.get_logger(__name__)
 
 
 PRODUCTION_COUNT_MESSAGE_TYPE = "ProductionCount"
+
 
 MAX_MQTT_MESSAGE_SIZE = 128 * 1024  # 128 KB limit for AWS IoT Core
 
@@ -52,7 +58,7 @@ class MessageService:
                 self.scheduler.schedule_task(
                     task_id=task_id,
                     equipment=equipment,
-                    action=self._send_production_message,
+                    action=self.send_production_message,
                     client=client,
                     topic_send=topic_send,
                 )
@@ -65,7 +71,7 @@ class MessageService:
         except Exception as e:
             logger.error(f"Error executing production count: {e}", exc_info=True)
 
-    def _send_production_message(self, client, topic_send, equipment):
+    def send_production_message(self, client, topic_send, equipment):
         try:
             production_values = self.production_count_service.build_production_count(
                 equipment_code=equipment.code,
@@ -78,9 +84,7 @@ class MessageService:
                 )
                 return
 
-            self.send_message_response(
-                client, topic_send, production_values, PRODUCTION_COUNT_MESSAGE_TYPE
-            )
+            self.send_message_response(client, topic_send, production_values)
 
             logger.info(f"Sent production message for equipment {equipment.id}.")
 
@@ -90,7 +94,7 @@ class MessageService:
                 exc_info=True,
             )
 
-    def send_message_response(self, client, topic_send, data, message_type):
+    def send_message_response(self, client, topic_send, data):
         try:
             serialized_message = json.dumps(data, default=str)
 
@@ -99,7 +103,7 @@ class MessageService:
             client.publish(topic_send, serialized_message, qos=1)
 
             logger.info(
-                f"Sent {message_type} message to '{topic_send}' (Size: {message_size} bytes): {serialized_message}"
+                f"Sent message to '{topic_send}' (Size: {message_size} bytes): {serialized_message}"
             )
 
         except Exception as e:

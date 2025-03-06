@@ -98,16 +98,19 @@ class ProductionOrderService:
     def complete_production_order(self, order_id: int) -> bool:
         try:
             completed = self.production_order_dao.complete_production_order(order_id)
+
             if not completed:
-                raise NotFoundException(
-                    f"Production order with ID '{order_id}' not found or already completed"
+                logger.warning(
+                    f"Production order with ID '{order_id}' is already completed or does not exist."
                 )
+                return False  # Indicate that no action was taken
 
             logger.info(f"Completed production order with ID {order_id}")
             return True
+
         except Exception as e:
             logger.error(f"Error completing production order: {e}", exc_info=True)
-            raise ServiceException("Unable to complete production order.") from e
+            return False
 
     def delete_production_order(self, order_id: int) -> bool:
         try:

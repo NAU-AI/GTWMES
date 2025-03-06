@@ -1,7 +1,7 @@
 from service.production_order_service import ProductionOrderService
 
 from service.equipment_service import EquipmentService
-
+from service.message_service import MessageService
 from exception.Exception import NotFoundException, ServiceException
 
 from utility.logger import Logger
@@ -15,12 +15,14 @@ class ProductionOrderHandlerService:
         self,
         production_order_service: ProductionOrderService = None,
         equipment_service: EquipmentService = None,
+        message_service: MessageService = None,
     ):
         self.production_order_service = (
             production_order_service or ProductionOrderService()
         )
 
         self.equipment_service = equipment_service or EquipmentService()
+        self.message_service = message_service or MessageService()
 
     def process_production_order_init(self, message: dict):
         try:
@@ -63,7 +65,7 @@ class ProductionOrderHandlerService:
                 "Failed to process production order initialization"
             ) from e
 
-    def process_production_order_conclusion(self, message: dict):
+    def process_production_order_conclusion(self, client, topic_send, message: dict):
         try:
             equipment_code = message.get("equipmentCode")
             production_order_code = message.get("productionOrderCode")
@@ -77,11 +79,20 @@ class ProductionOrderHandlerService:
             equipment = self._get_equipment(equipment_code)
             production_order = self._get_production_order(production_order_code)
 
-            self.production_order_service.complete_production_order(production_order.id)
+            self.message_service.send_production_message(client, topic_send, equipment)
 
-            logger.info(
-                f"Production order '{production_order.code}' marked as completed for equipment '{equipment.code}'"
+            completed = self.production_order_service.complete_production_order(
+                production_order.id
             )
+
+            if completed:
+                logger.info(
+                    f"Production order '{production_order.code}' was successfully marked as completed for equipment '{equipment.code}'."
+                )
+            else:
+                logger.warning(
+                    f"Production order '{production_order.code}' was already completed or does not exist for equipment '{equipment.code}'."
+                )
 
         except Exception as e:
             logger.error(
