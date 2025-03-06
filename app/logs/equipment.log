@@ -6206,3 +6206,996 @@ exception.Exception.ServiceException: Failed to build production count message.
 2025-03-06 10:04:05 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
 2025-03-06 10:04:05 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
 2025-03-06 10:04:05 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:05:05 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:05:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:05:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:05:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:05:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:05:16 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.06s, Timeout = 185s
+2025-03-06 10:05:16 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 10:05:16 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 10:05:16 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 10:06:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:06:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:06:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:06:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:06:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:07:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:07:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:07:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:07:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:07:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:08:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:08:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:08:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:08:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:08:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:08:54 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:08:54 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrderConclusion' message: {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:08:54 - INFO - service.production_order_handler_service - Completing production order 'PO001' for equipment 'MAQ01'
+2025-03-06 10:08:54 - ERROR - service.production_order_handler_service - Error processing production order conclusion: 'ProductionOrder' object is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 90, in process_production_order_conclusion
+    (po for po in production_orders if po.code == production_order_code),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'ProductionOrder' object is not iterable
+2025-03-06 10:08:54 - ERROR - MQTT.mqtt_message_handler - Error processing 'ProductionOrderConclusion' for jsonType ProductionOrderConclusion: Failed to complete production order
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 90, in process_production_order_conclusion
+    (po for po in production_orders if po.code == production_order_code),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'ProductionOrder' object is not iterable
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 31, in _process_message
+    handler(message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 109, in process_production_order_conclusion
+    raise ServiceException("Failed to complete production order") from e
+exception.Exception.ServiceException: Failed to complete production order
+2025-03-06 10:08:54 - ERROR - MQTT.mqtt_message_processor - Error handling message: 'MessageService' object has no attribute 'send_message_response'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_processor.py", line 19, in on_message
+    self.message_handler.handle_message(client, message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 23, in handle_message
+    handler(client, message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 67, in _handle_production_order_conclusion
+    self._process_message(
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 43, in _process_message
+    self._send_response(client, message, response_type)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 46, in _send_response
+    self.message_service.send_message_response(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MessageService' object has no attribute 'send_message_response'. Did you mean: '_send_message_response'?
+2025-03-06 10:09:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:09:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:09:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:09:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:09:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:10:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:10:09 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:10:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:10:09 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:10:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:11:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:11:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:11:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:11:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:11:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:12:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:12:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:12:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:12:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:12:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:13:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:13:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:13:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:13:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:13:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:14:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:14:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:14:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:14:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:14:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:15:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:15:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:15:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:15:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:15:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:16:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:16:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:16:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:16:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:16:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:17:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:17:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:17:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:17:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:17:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:18:10 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:18:10 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:18:10 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:18:10 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:18:10 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:18:46 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 10:18:46 - INFO - MESMain - Starting periodic message service...
+2025-03-06 10:18:46 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 10:18:46 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 10:18:46 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 10:18:46 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 10:18:46 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 10:18:46 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 10:18:46 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 10:18:47 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 10:19:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:19:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:19:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:19:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:19:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:19:57 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:19:57 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrderConclusion' message: {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:19:57 - INFO - service.production_order_handler_service - Completing production order 'PO001' for equipment 'MAQ01'
+2025-03-06 10:19:57 - INFO - service.production_order_service - Completed production order with ID 1
+2025-03-06 10:19:57 - INFO - service.production_order_handler_service - Production order 'PO001' marked as completed for equipment 'MAQ01'
+2025-03-06 10:19:57 - INFO - MQTT.mqtt_message_handler - Successfully handled 'ProductionOrderConclusion'
+2025-03-06 10:19:57 - ERROR - MQTT.mqtt_message_processor - Error handling message: 'MessageService' object has no attribute 'send_message_response'
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_processor.py", line 19, in on_message
+    self.message_handler.handle_message(client, message)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 23, in handle_message
+    handler(client, message)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 67, in _handle_production_order_conclusion
+    self._process_message(
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 43, in _process_message
+    self._send_response(client, message, response_type)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 46, in _send_response
+    self.message_service.send_message_response(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MessageService' object has no attribute 'send_message_response'. Did you mean: '_send_message_response'?
+2025-03-06 10:20:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:20:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:20:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:20:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:20:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:20:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:20:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:21:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:21:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:21:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:21:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:21:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:21:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:21:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:21:51 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.25s, Timeout = 185s
+2025-03-06 10:21:51 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 10:21:51 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 10:21:51 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 10:22:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:22:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:22:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:22:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:22:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:22:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:22:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:23:45 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 10:23:46 - INFO - MESMain - Starting periodic message service...
+2025-03-06 10:23:46 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 10:23:46 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 10:23:46 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 10:23:46 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 10:23:46 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 10:23:46 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 10:23:46 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 10:23:47 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 10:23:52 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:23:52 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrderConclusion' message: {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO001', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 10:23:52 - INFO - service.production_order_handler_service - Completing production order 'PO001' for equipment 'MAQ01'
+2025-03-06 10:23:52 - ERROR - service.production_order_service - Error completing production order: Production order with ID '1' not found or already completed
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_service.py", line 102, in complete_production_order
+    raise NotFoundException(
+exception.Exception.NotFoundException: Production order with ID '1' not found or already completed
+2025-03-06 10:23:52 - ERROR - service.production_order_handler_service - Error processing production order conclusion: Unable to complete production order.
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_service.py", line 102, in complete_production_order
+    raise NotFoundException(
+exception.Exception.NotFoundException: Production order with ID '1' not found or already completed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 80, in process_production_order_conclusion
+    self.production_order_service.complete_production_order(production_order.id)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_service.py", line 110, in complete_production_order
+    raise ServiceException("Unable to complete production order.") from e
+exception.Exception.ServiceException: Unable to complete production order.
+2025-03-06 10:23:52 - ERROR - MQTT.mqtt_message_handler - Error processing 'ProductionOrderConclusion' for jsonType ProductionOrderConclusion: Failed to complete production order
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_service.py", line 102, in complete_production_order
+    raise NotFoundException(
+exception.Exception.NotFoundException: Production order with ID '1' not found or already completed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 80, in process_production_order_conclusion
+    self.production_order_service.complete_production_order(production_order.id)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_service.py", line 110, in complete_production_order
+    raise ServiceException("Unable to complete production order.") from e
+exception.Exception.ServiceException: Unable to complete production order.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 31, in _process_message
+    handler(message)
+  File "C:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\production_order_handler_service.py", line 90, in process_production_order_conclusion
+    raise ServiceException("Failed to complete production order") from e
+exception.Exception.ServiceException: Failed to complete production order
+2025-03-06 10:23:52 - INFO - service.message_service - Sent ProductionOrderConclusionResponse message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionOrderConclusion", "equipmentCode": "MAQ01", "productionOrderCode": "PO001", "targetAmount": 0, "isEquipmentEnabled": false, "error": "Failed to complete production order"}
+2025-03-06 10:24:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:24:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:24:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:24:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:24:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:24:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:24:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:25:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:25:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:25:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:25:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:25:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:25:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:25:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:26:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:26:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:26:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:26:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:26:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:26:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:26:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:26:51 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.25s, Timeout = 185s
+2025-03-06 10:26:51 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 10:26:51 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 10:26:51 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 10:27:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:27:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:27:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:27:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:27:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:27:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:27:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:28:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:28:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:28:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:28:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:28:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:28:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:28:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:29:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:29:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:29:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:29:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:29:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:29:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:29:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:30:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:30:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:30:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:30:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:30:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:30:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:30:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:31:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:31:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:31:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:31:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:31:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:31:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:31:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:32:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:32:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:32:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:32:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:32:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:32:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:32:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:33:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:33:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:33:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:33:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:33:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:33:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:33:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:34:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:34:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:34:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:34:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:34:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:34:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:34:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:35:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:35:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:35:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:35:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:35:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:35:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:35:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:36:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:36:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:36:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:36:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:36:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:36:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:36:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:37:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:37:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:37:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:37:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:37:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:37:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:37:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:38:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:38:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:38:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:38:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:38:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:38:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:38:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:39:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:39:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:39:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:39:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:39:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:39:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:39:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:40:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:40:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:40:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:40:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:40:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:40:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:40:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:41:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:41:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:41:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:41:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:41:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:41:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:41:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:42:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:42:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:42:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:42:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:42:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:42:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:42:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:43:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:43:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:43:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:43:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:43:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:43:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:43:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:44:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:44:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:44:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:44:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:44:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:44:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:44:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:45:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:45:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:45:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:45:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:45:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:45:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:45:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:46:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:46:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:46:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:46:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:46:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:46:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:46:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:47:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:47:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:47:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:47:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:47:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:47:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:47:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:48:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:48:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:48:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:48:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:48:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:48:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:48:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:49:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:49:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:49:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:49:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:49:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:49:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:49:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:50:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:50:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:50:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:50:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:50:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:50:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:50:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:51:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:51:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:51:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:51:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:51:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:51:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:51:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:52:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:52:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:52:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:52:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:52:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:52:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:52:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:53:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:53:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:53:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:53:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:53:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:53:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:53:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:54:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:54:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:54:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:54:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:54:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:54:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:54:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:55:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:55:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:55:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:55:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:55:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:55:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:55:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:56:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:56:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:56:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:56:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:56:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:56:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:56:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:57:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:57:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:57:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:57:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:57:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:57:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:57:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:58:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:58:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:58:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:58:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:58:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:58:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:58:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 10:59:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 10:59:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 10:59:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 10:59:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 10:59:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 10:59:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 10:59:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:00:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:00:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:00:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:00:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:00:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:00:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:00:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:01:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:01:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:01:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:01:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:01:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:01:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:01:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:02:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:02:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:02:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:02:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:02:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:02:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:02:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:03:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:03:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:03:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:03:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:03:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:03:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:03:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:04:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:04:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:04:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:04:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:04:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:04:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:04:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:05:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:05:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:05:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:05:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:05:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:05:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:05:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:06:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:06:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:06:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:06:46 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:06:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:06:46 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:06:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:07:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:07:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:07:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:07:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:07:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:07:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:07:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:08:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:08:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:08:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:08:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:08:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:08:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:08:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:09:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:09:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:09:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:09:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:09:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:09:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:09:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:10:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:10:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:10:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:10:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:10:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:10:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:10:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:11:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:11:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:11:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:11:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:11:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:11:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:11:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:12:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:12:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:12:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:12:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:12:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:12:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:12:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:13:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:13:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:13:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:13:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:13:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:13:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:13:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:14:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:14:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:14:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:14:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:14:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:14:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:14:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:15:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:15:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:15:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:15:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:15:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:15:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:15:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:16:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:16:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:16:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:16:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:16:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:16:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:16:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:17:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:17:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:17:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:17:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:17:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:17:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:17:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:18:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:18:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:18:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:18:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:18:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:18:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:18:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:19:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:19:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:19:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:19:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:19:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:19:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:19:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:20:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:20:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:20:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:20:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:20:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:20:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:20:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:21:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:21:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:21:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:21:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:21:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:21:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:21:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:22:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:22:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:22:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:22:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:22:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:22:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:22:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:23:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:23:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:23:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:23:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:23:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:23:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:23:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:24:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:24:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:24:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:24:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:24:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:24:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:24:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:25:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:25:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:25:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:25:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:25:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:25:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:25:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:26:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:26:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:26:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:26:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:26:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:26:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:26:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:27:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:27:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:27:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:27:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:27:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:27:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:27:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:28:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:28:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:28:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:28:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:28:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:28:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:28:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:29:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:29:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:29:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:29:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:29:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:29:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:29:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:30:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:30:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:30:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:30:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:30:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:30:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:30:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:31:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:31:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:31:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:31:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:31:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:31:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:31:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:32:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:32:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:32:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:32:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:32:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:32:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:32:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:33:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:33:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:33:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:33:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:33:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:33:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:33:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:34:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:34:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:34:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:34:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:34:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:34:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:34:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:35:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:35:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:35:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:35:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:35:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:35:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:35:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:36:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:36:47 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 11:36:47 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 11:36:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:36:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:36:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 188 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:36:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:36:53 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrder', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO002', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 11:36:53 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrder' message: {'jsonType': 'ProductionOrder', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO002', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 11:36:53 - INFO - service.production_order_handler_service - Initializing new production order 'PO002' for equipment 'MAQ01'
+2025-03-06 11:36:53 - INFO - service.production_order_service - Started new production order 'PO002' for equipment ID 1
+2025-03-06 11:36:53 - INFO - service.production_order_handler_service - Started production order 'PO002' for equipment 'MAQ01'
+2025-03-06 11:36:53 - INFO - MQTT.mqtt_message_handler - Successfully handled 'ProductionOrder'
+2025-03-06 11:36:53 - INFO - service.message_service - Sent ProductionOrderResponse message to 'NAU/CRK/GTW003/BE' (Size: 137 bytes): {"jsonType": "ProductionOrder", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "targetAmount": 0, "isEquipmentEnabled": false}
+2025-03-06 11:37:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:37:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:37:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:37:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:37:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:38:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:38:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:38:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:38:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 193 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:38:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:39:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:39:47 - WARNING - service.counter_record_service - No counter records found for equipment output ID '1', returning 0.
+2025-03-06 11:39:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:39:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 194 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 0}]}
+2025-03-06 11:39:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:40:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:40:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:40:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:40:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:41:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:41:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:41:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:41:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:42:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:42:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:42:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:42:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:43:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:43:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:43:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:43:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:44:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:44:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:44:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:44:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:45:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:45:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:45:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:45:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:46:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:46:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:46:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:46:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:47:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:47:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:47:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:47:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:48:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:48:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:48:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:48:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:49:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:49:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:49:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:49:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:50:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:50:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:50:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:50:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:51:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:51:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:51:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:51:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:52:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:52:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:52:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:52:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:53:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:53:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:53:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:53:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:54:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:54:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:54:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:54:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:55:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:55:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:55:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:55:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:56:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:56:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:56:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:56:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:57:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:57:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:57:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:57:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:58:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:58:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:58:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:58:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 11:59:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 11:59:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 11:59:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 11:59:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:00:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:00:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:00:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:00:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:01:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:01:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:01:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:01:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:02:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:02:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:02:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:02:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:03:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:03:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:03:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:03:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:04:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:04:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:04:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:04:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:05:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:05:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:05:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:05:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:06:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:06:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:06:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:06:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:07:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:07:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:07:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:07:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:08:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:08:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:08:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:08:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:09:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:09:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:09:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:09:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:10:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:10:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:10:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:10:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:11:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:11:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:11:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:11:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:12:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:12:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:12:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:12:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:13:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:13:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:13:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:13:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:14:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:14:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:14:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:14:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:15:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:15:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:15:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:15:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:16:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:16:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:16:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:16:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:17:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:17:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:17:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:17:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:18:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:18:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:18:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:18:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:19:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:19:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:19:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:19:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:20:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:20:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:20:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:20:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:21:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:21:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:21:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:21:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:22:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:22:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:22:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:22:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:23:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:23:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:23:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:23:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:24:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:24:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:24:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:24:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:25:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:25:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:25:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:25:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:26:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:26:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:26:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:26:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:27:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:27:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:27:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:27:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:28:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:28:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:28:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:28:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:29:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:29:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:29:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:29:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:30:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:30:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:30:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:30:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:31:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:31:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:31:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:31:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:32:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:32:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:32:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:32:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:33:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:33:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:33:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:33:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:34:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:34:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:34:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:34:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:35:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:35:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:35:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:35:47 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 12:36:47 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 12:36:47 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 12:36:47 - INFO - service.message_service - Sent ProductionCount message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 12:36:47 - INFO - service.message_service - Sent production message for equipment 1.

@@ -37,7 +37,6 @@ class MessageHandler:
                 f"Error processing '{response_type}' for jsonType {message.get('jsonType')}: {e}",
                 exc_info=True,
             )
-            message["error"] = str(e)
 
         finally:
             self._send_response(client, message, response_type)

@@ -42,6 +42,9 @@ class ProductionOrderDAO:
             .first()
         )
 
+    def get_by_code(self, code: str) -> Optional[ProductionOrder]:
+        return self.session.query(ProductionOrder).filter_by(code=code).first()
+
     def save(self, order: ProductionOrder) -> ProductionOrder:
         self.session.add(order)
         self.session.commit()

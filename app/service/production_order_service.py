@@ -2,7 +2,7 @@ from typing import Optional
 
 from database.dao.production_order_dao import ProductionOrderDAO
 from model.production_order import ProductionOrder
-from exception.Exception import NotFoundException, ServiceException
+from exception.Exception import NotFoundException, ServiceException, DatabaseException
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -67,6 +67,18 @@ class ProductionOrderService:
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch active production order.") from e
+
+    def get_production_order_by_code(self, code: str) -> ProductionOrder:
+        try:
+            return self.production_order_dao.get_by_code(code)
+        except NotFoundException as e:
+            logger.warning(f"Production order not found: {code}")
+            raise e
+        except DatabaseException as e:
+            logger.error(f"Database error while fetching production order: {e}")
+            raise ServiceException(
+                "An error occurred while retrieving the production order."
+            ) from e
 
     def start_new_production_order(
         self, equipment_id: int, code: str
