@@ -1,3 +1,5 @@
+from typing import Optional
+
 from database.dao.production_order_dao import ProductionOrderDAO
 from model.production_order import ProductionOrder
 from exception.Exception import NotFoundException, ServiceException
@@ -27,17 +29,44 @@ class ProductionOrderService:
 
     def get_production_order_by_equipment_id_and_status(
         self, equipment_id: int, is_completed: bool
-    ) -> list[ProductionOrder]:
+    ) -> Optional[ProductionOrder]:
         try:
-            return self.production_order_dao.find_by_equipment_id(
-                equipment_id, is_completed
+            production_order = (
+                self.production_order_dao.find_production_order_by_equipment_id(
+                    equipment_id, is_completed
+                )
             )
+
+            if not production_order:
+                logger.warning(
+                    f"No {'completed' if is_completed else 'active'} production order found "
+                    f"for equipment ID {equipment_id}"
+                )
+                return None
+
+            return production_order
+
         except Exception as e:
             logger.error(
-                f"Error fetching production orders for equipment ID '{equipment_id}' with status '{is_completed}': {e}",
+                f"Error fetching production orders for equipment ID '{equipment_id}' "
+                f"with status '{is_completed}': {e}",
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch production orders.") from e
+
+    def get_active_production_order(
+        self, equipment_id: int
+    ) -> Optional[ProductionOrder]:
+        try:
+            return self.production_order_dao.find_production_order_by_equipment_id(
+                equipment_id, False
+            )
+        except Exception as e:
+            logger.error(
+                f"Error fetching active production order for equipment ID '{equipment_id}': {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to fetch active production order.") from e
 
     def start_new_production_order(
         self, equipment_id: int, code: str

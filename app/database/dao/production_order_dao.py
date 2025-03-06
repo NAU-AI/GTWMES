@@ -1,3 +1,4 @@
+from typing import Optional
 from database.connection.db_connection import SessionLocal
 from model.production_order import ProductionOrder
 
@@ -27,6 +28,19 @@ class ProductionOrderDAO:
 
     def find_all(self) -> list[ProductionOrder]:
         return self.session.query(ProductionOrder).all()
+
+    def find_production_order_by_equipment_id(
+        self, equipment_id: int, is_completed: bool
+    ) -> Optional[ProductionOrder]:
+        return (
+            self.session.query(ProductionOrder)
+            .filter(
+                ProductionOrder.equipment_id == equipment_id,
+                ProductionOrder.is_completed == is_completed,
+            )
+            .order_by(ProductionOrder.id.asc())
+            .first()
+        )
 
     def save(self, order: ProductionOrder) -> ProductionOrder:
         self.session.add(order)

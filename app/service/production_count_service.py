@@ -81,7 +81,14 @@ class ProductionCountService:
         production_order = self.production_order_service.get_production_order_by_equipment_id_and_status(
             equipment.id, is_completed=False
         )
-        return production_order.code if production_order else ""
+
+        if not production_order:
+            logger.warning(
+                f"No active production order found for equipment ID {equipment, equipment.id}"
+            )
+            return ""
+
+        return production_order.code
 
     def _get_counters(self, equipment_id: int) -> list:
         try:
