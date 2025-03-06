@@ -10215,3 +10215,14 @@ exception.Exception.ServiceException: Failed to build production count message.
 2025-03-06 17:01:40 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
 2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
 2025-03-06 17:01:40 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 17:02:36 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 17:02:36 - INFO - MESMain - Starting periodic message service...
+2025-03-06 17:02:36 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 17:02:36 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 17:02:36 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 17:02:36 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 17:02:36 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 17:02:36 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 17:02:36 - INFO - service.message_service - Scheduled production message for equipment 8 every 1 minutes.
+2025-03-06 17:02:36 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 17:02:36 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.

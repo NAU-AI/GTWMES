@@ -1,4 +1,5 @@
 from model.equipment import Equipment
+
 from database.connection.db_connection import SessionLocal
 
 
@@ -17,13 +18,15 @@ class EquipmentDAO:
     def find_all(self) -> list[Equipment]:
         return self.session.query(Equipment).all()
 
-    def get_all_equipment(self) -> list[Equipment]:
-        self.session.expire_all()  # Expunge all cached objects in the session
+    def get_all_equipment_refreshed(self) -> list[Equipment]:
+        self.session.expire_all()
         return self.find_all()
 
     def save(self, equipment: Equipment) -> Equipment:
         self.session.add(equipment)
+
         self.session.commit()
+
         self.session.refresh(equipment)
         return equipment
 
@@ -38,6 +41,7 @@ class EquipmentDAO:
             setattr(equipment, key, value)
 
         self.session.commit()
+
         self.session.refresh(equipment)
         return equipment
 
@@ -49,7 +53,9 @@ class EquipmentDAO:
             return False
 
         self.session.delete(equipment)
+
         self.session.commit()
+
         return True
 
     def close(self):
