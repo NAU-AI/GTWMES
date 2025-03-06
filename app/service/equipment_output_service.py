@@ -1,31 +1,58 @@
 from utility.logger import Logger
 from exception.Exception import NotFoundException, ServiceException
 from database.dao.equipment_output_dao import EquipmentOutputDAO
-from database.dao.equipment_dao import EquipmentDAO
 from model.equipment_output import EquipmentOutput
 
 logger = Logger.get_logger(__name__)
 
 
 class EquipmentOutputService:
-    def __init__(
-        self,
-        equipment_output_dao: EquipmentOutputDAO = None,
-        equipment_dao: EquipmentDAO = None,
-    ):
+    def __init__(self, equipment_output_dao: EquipmentOutputDAO = None):
         self.equipment_output_dao = equipment_output_dao or EquipmentOutputDAO()
-        self.equipment_dao = equipment_dao or EquipmentDAO()
 
-    def create_output(self, output: EquipmentOutput) -> EquipmentOutput:
+    def save(self, output: EquipmentOutput) -> EquipmentOutput:
         try:
             saved_output = self.equipment_output_dao.save(output)
             logger.info(
-                f"Created new equipment output '{output.code}' for equipment ID {output.equipment_id}"
+                f"Saved equipment output '{saved_output.code}' with ID {saved_output.id}"
             )
             return saved_output
         except Exception as e:
-            logger.error(f"Error creating equipment output: {e}", exc_info=True)
+            logger.error(f"Error saving equipment output: {e}", exc_info=True)
+            raise ServiceException("Unable to save equipment output.") from e
+
+    def create_output(self, equipment_id: int, output_data: dict) -> EquipmentOutput:
+        try:
+            output = EquipmentOutput(
+                equipment_id=equipment_id, code=output_data["code"]
+            )
+
+            saved_output = self.equipment_output_dao.save(output)
+            logger.info(
+                f"Created new equipment output '{saved_output.code}' for equipment ID {saved_output.equipment_id}"
+            )
+            return saved_output
+
+        except Exception as e:
+            logger.error(
+                f"Error creating equipment output for '{output_data.get('code')}' on equipment ID {equipment_id}: {e}",
+                exc_info=True,
+            )
             raise ServiceException("Unable to create equipment output.") from e
+
+    def find_by_equipment_id_and_code(
+        self, equipment_id: int, code: str
+    ) -> EquipmentOutput:
+        try:
+            return self.equipment_output_dao.find_by_equipment_id_and_code(
+                equipment_id, code
+            )
+        except Exception as e:
+            logger.error(
+                f"Error finding output with equipment ID '{equipment_id}' and code '{code}': {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to find equipment output.") from e
 
     def get_output_by_id(self, output_id: int) -> EquipmentOutput:
         try:
@@ -44,9 +71,6 @@ class EquipmentOutputService:
 
     def get_by_equipment_id(self, equipment_id: int) -> list[EquipmentOutput]:
         try:
-            if not self.equipment_dao.find_by_id(equipment_id):
-                raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
-
             return self.equipment_output_dao.find_by_equipment_id(equipment_id)
         except Exception as e:
             logger.error(
@@ -97,27 +121,3 @@ class EquipmentOutputService:
         except Exception as e:
             logger.error(f"Error deleting equipment output: {e}", exc_info=True)
             raise ServiceException("Unable to delete equipment output.") from e
-
-    def create_outputs_for_equipment(
-        self, equipment_id: int, outputs: list[EquipmentOutput]
-    ) -> list[EquipmentOutput]:
-        try:
-            equipment = self.equipment_dao.find_by_id(equipment_id)
-            if not equipment:
-                raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
-
-            for output in outputs:
-                output.equipment_id = equipment_id
-
-            saved_outputs = self.equipment_output_dao.bulk_save(outputs)
-            logger.info(
-                f"Created {len(outputs)} equipment outputs for equipment ID {equipment_id}"
-            )
-
-            return saved_outputs
-        except Exception as e:
-            logger.error(
-                f"Error creating outputs for equipment '{equipment_id}': {e}",
-                exc_info=True,
-            )
-            raise ServiceException("Unable to create equipment outputs.") from e

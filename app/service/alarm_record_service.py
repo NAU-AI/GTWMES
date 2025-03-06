@@ -81,18 +81,6 @@ class AlarmRecordService:
             logger.error(f"Error updating alarm record: {e}", exc_info=True)
             raise ServiceException("Unable to update alarm record.") from e
 
-    def delete_alarm_record(self, alarm_id: int) -> dict:
-        try:
-            deleted = self.alarm_record_dao.delete(alarm_id)
-            if not deleted:
-                raise NotFoundException(f"Alarm record with ID '{alarm_id}' not found")
-
-            logger.info(f"Deleted alarm record with ID {alarm_id}")
-            return {"message": f"Alarm record with ID {alarm_id} deleted successfully"}
-        except Exception as e:
-            logger.error(f"Error deleting alarm record: {e}", exc_info=True)
-            raise ServiceException("Unable to delete alarm record.") from e
-
     def insert_alarm_by_equipment_id(
         self, equipment_id: int, value: int
     ) -> AlarmRecord:
@@ -116,16 +104,39 @@ class AlarmRecordService:
             )
             raise ServiceException("Unable to insert alarm.") from e
 
-    def delete_counter_record(self, record_id: int) -> bool:
+            raise ServiceException("Unable to delete counter record.") from e
+
+    def create_or_update_alarm(self, variable_id: int, alarm_data: dict) -> AlarmRecord:
         try:
-            deleted = self.counter_record_dao.delete(record_id)
-            if not deleted:
-                raise NotFoundException(
-                    f"Counter record with ID '{record_id}' not found"
+            alarm = self.alarm_record_dao.find_by_variable_id(variable_id)
+
+            if alarm:
+                logger.info(f"Updating existing alarm for variable ID {variable_id}.")
+                alarm.value = 0
+            else:
+                logger.info(f"Creating new alarm for variable ID {variable_id}.")
+                alarm = AlarmRecord(
+                    variable_id=variable_id,
+                    value=0,  # Default value for new alarms
                 )
 
-            logger.info(f"Deleted counter record with ID {record_id}")
-            return True
+            return self.alarm_record_dao.save(alarm)
+
         except Exception as e:
-            logger.error(f"Error deleting counter record: {e}", exc_info=True)
-            raise ServiceException("Unable to delete counter record.") from e
+            logger.error(
+                f"Error creating or updating alarm for variable ID {variable_id}: {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to create or update alarm.") from e
+
+    def delete_alarm_record(self, alarm_id: int) -> dict:
+        try:
+            deleted = self.alarm_record_dao.delete(alarm_id)
+            if not deleted:
+                raise NotFoundException(f"Alarm record with ID '{alarm_id}' not found")
+
+            logger.info(f"Deleted alarm record with ID {alarm_id}")
+            return {"message": f"Alarm record with ID {alarm_id} deleted successfully"}
+        except Exception as e:
+            logger.error(f"Error deleting alarm record: {e}", exc_info=True)
+            raise ServiceException("Unable to delete alarm record.") from e

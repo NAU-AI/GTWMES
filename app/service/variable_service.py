@@ -1,7 +1,7 @@
-from dao.variable_dao import VariableDAO
-from model import Variable
-from app.exception import NotFoundException, ServiceException
-from app.utility.logger import Logger
+from database.dao.variable_dao import VariableDAO
+from model.variable import Variable
+from exception.Exception import NotFoundException, ServiceException
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -81,6 +81,38 @@ class VariableService:
         except Exception as e:
             logger.error(f"Error updating variable '{variable.id}': {e}", exc_info=True)
             raise ServiceException("Unable to update variable.") from e
+
+    def create_or_update_variable(
+        self, equipment_id: int, variable_data: dict, variable_key: str = None
+    ) -> Variable:
+        try:
+            key = variable_key if variable_key else variable_data["key"]
+
+            variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+
+            if variable:
+                logger.info(
+                    f"Updating existing variable '{key}' for equipment ID {equipment_id}."
+                )
+            else:
+                logger.info(
+                    f"Creating new variable '{key}' for equipment ID {equipment_id}."
+                )
+                variable = Variable(equipment_id=equipment_id, key=key)
+
+            variable.db_address = variable_data["dbAddress"]
+            variable.offset_byte = variable_data["offsetByte"]
+            variable.offset_bit = variable_data["offsetBit"]
+            variable.type = variable_data["type"]
+            variable.operation_type = variable_data["operationType"]
+
+            return self.variable_dao.save(variable)
+
+        except Exception as e:
+            logger.error(
+                f"Error creating or updating variable '{key}': {e}", exc_info=True
+            )
+            raise ServiceException("Unable to create or update variable.") from e
 
     def delete_variable(self, variable_id: int) -> bool:
         try:

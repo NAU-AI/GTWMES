@@ -77,27 +77,31 @@ class EquipmentService:
             logger.error(f"Error inserting equipment: {e}", exc_info=True)
             raise ServiceException("Unable to insert new equipment.") from e
 
-    def update_equipment(self, equipment: Equipment) -> Equipment:
+    def create_or_update_equipment(
+        self, code: str, ip: str, p_timer_communication_cycle: int
+    ) -> Equipment:
         try:
-            existing_equipment = self.equipment_dao.find_by_id(equipment.id)
-            if not existing_equipment:
-                raise NotFoundException(f"Equipment with ID '{equipment.id}' not found")
+            equipment = self.equipment_dao.find_by_code(code)
 
-            if equipment.ip is not None:
-                existing_equipment.ip = equipment.ip
-            if equipment.p_timer_communication_cycle is not None:
-                existing_equipment.p_timer_communication_cycle = (
-                    equipment.p_timer_communication_cycle
+            if equipment:
+                logger.info(f"Updating existing equipment '{code}'.")
+                equipment.ip = ip
+                equipment.p_timer_communication_cycle = p_timer_communication_cycle
+                self.equipment_dao.save(equipment)
+            else:
+                logger.info(f"Creating new equipment '{code}'.")
+                equipment = Equipment(
+                    code=code,
+                    ip=ip,
+                    p_timer_communication_cycle=p_timer_communication_cycle,
                 )
+                equipment = self.equipment_dao.save(equipment)
 
-            self.equipment_dao.save(existing_equipment)
-
-            logger.info(f"Updated equipment '{equipment.code}'")
-            return existing_equipment
+            return equipment
 
         except Exception as e:
-            logger.error(f"Error updating equipment: {e}", exc_info=True)
-            raise ServiceException("Unable to update equipment.") from e
+            logger.error(f"Error creating or updating equipment: {e}", exc_info=True)
+            raise ServiceException("Unable to create or update equipment.") from e
 
     def delete_equipment(self, equipment_id: int) -> dict:
         if not equipment_id:

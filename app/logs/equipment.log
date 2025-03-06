@@ -8013,3 +8013,1254 @@ exception.Exception.ServiceException: Failed to complete production order
 2025-03-06 14:29:08 - WARNING - service.production_order_handler_service - Production order 'PO002' was already completed or does not exist for equipment 'MAQ01'.
 2025-03-06 14:29:08 - INFO - MQTT.mqtt_message_handler - Successfully handled 'ProductionOrderConclusion'
 2025-03-06 14:29:08 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 155 bytes): {"jsonType": "ProductionOrderConclusionResponse", "equipmentCode": "MAQ01", "productionOrderCode": "PO002", "targetAmount": 0, "isEquipmentEnabled": false}
+2025-03-06 14:30:00 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:30:00 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:30:00 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:30:00 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:30:00 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:30:00 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:31:00 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:31:00 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:31:00 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:31:00 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:31:00 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:31:00 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:31:38 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 14:31:39 - INFO - MESMain - Starting periodic message service...
+2025-03-06 14:31:39 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 14:31:39 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 14:31:39 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 14:31:39 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 14:31:39 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 14:31:39 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 14:31:39 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 14:31:40 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 14:31:59 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrder', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO003', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 14:31:59 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrder' message: {'jsonType': 'ProductionOrder', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO003', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 14:31:59 - INFO - service.production_order_handler_service - Initializing new production order 'PO003' for equipment 'MAQ01'
+2025-03-06 14:31:59 - INFO - service.production_order_service - Started new production order 'PO003' for equipment ID 1
+2025-03-06 14:31:59 - INFO - service.production_order_handler_service - Started production order 'PO003' for equipment 'MAQ01'
+2025-03-06 14:31:59 - INFO - MQTT.mqtt_message_handler - Successfully handled 'ProductionOrder'
+2025-03-06 14:31:59 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 145 bytes): {"jsonType": "ProductionOrderResponse", "equipmentCode": "MAQ01", "productionOrderCode": "PO003", "targetAmount": 0, "isEquipmentEnabled": false}
+2025-03-06 14:32:21 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO003', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 14:32:21 - INFO - MQTT.mqtt_message_handler - Processing 'ProductionOrderConclusion' message: {'jsonType': 'ProductionOrderConclusion', 'equipmentCode': 'MAQ01', 'productionOrderCode': 'PO003', 'targetAmount': 0, 'isEquipmentEnabled': False}
+2025-03-06 14:32:21 - INFO - service.production_order_handler_service - Completing production order 'PO003' for equipment 'MAQ01'
+2025-03-06 14:32:21 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:32:22 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:32:22 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 195 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "PO003", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:32:22 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:32:22 - INFO - service.production_order_service - Completed production order with ID 3
+2025-03-06 14:32:22 - INFO - service.production_order_handler_service - Production order 'PO003' was successfully marked as completed for equipment 'MAQ01'.
+2025-03-06 14:32:22 - INFO - MQTT.mqtt_message_handler - Successfully handled 'ProductionOrderConclusion'
+2025-03-06 14:32:22 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 155 bytes): {"jsonType": "ProductionOrderConclusionResponse", "equipmentCode": "MAQ01", "productionOrderCode": "PO003", "targetAmount": 0, "isEquipmentEnabled": false}
+2025-03-06 14:32:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:32:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:32:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:32:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:32:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:32:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:33:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:33:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:33:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:33:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:33:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:33:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:34:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:34:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:34:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:34:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:34:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:34:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:34:44 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.24s, Timeout = 185s
+2025-03-06 14:34:44 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 14:34:44 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 14:34:44 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 14:35:16 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 14:35:16 - ERROR - MQTT.mqtt_message_processor - Error handling message: 'EquipmentService' object has no attribute 'update_equipment_variables'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_processor.py", line 19, in on_message
+    self.message_handler.handle_message(client, message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 23, in handle_message
+    handler(client, message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 62, in _handle_configuration
+    self.equipment_service.update_equipment_variables,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'EquipmentService' object has no attribute 'update_equipment_variables'
+2025-03-06 14:35:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:35:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:35:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:35:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:35:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:35:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:36:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:36:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:36:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:36:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:36:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:36:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:37:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:37:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:37:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:37:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:37:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:37:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:38:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:38:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:38:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:38:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:38:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:38:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:39:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:39:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:39:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:39:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:39:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:39:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:40:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:40:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:40:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:40:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:40:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:40:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:41:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:41:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:41:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:41:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:41:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:41:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:42:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:42:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:42:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:42:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:42:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:42:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:43:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:43:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:43:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:43:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:43:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:43:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:44:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:44:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:44:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:44:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:44:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:44:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:45:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:45:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:45:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:45:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:45:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:45:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:46:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:46:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:46:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:46:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:46:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:46:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:47:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:47:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:47:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:47:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:47:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:47:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:48:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:48:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:48:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:48:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:48:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:48:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:49:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:49:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:49:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:49:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:49:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:49:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:50:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:50:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:50:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:50:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:50:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:50:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:51:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:51:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:51:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:51:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:51:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:51:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:52:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:52:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:52:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:52:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:52:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:52:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:53:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:53:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:53:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:53:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:53:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:53:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:54:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:54:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:54:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:54:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:54:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:54:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:55:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:55:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:55:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:55:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:55:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:55:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:56:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:56:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:56:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:56:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:56:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:56:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:57:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:57:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:57:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:57:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:57:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:57:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:58:39 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:58:39 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:58:39 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:58:39 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:58:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:58:39 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 14:59:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 14:59:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 14:59:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 14:59:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 14:59:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 14:59:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:00:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:00:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:00:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:00:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:00:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:00:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:01:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:01:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:01:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:01:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:01:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:01:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:02:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:02:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:02:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:02:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:02:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:02:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:03:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:03:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:03:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:03:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:03:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:03:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:04:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:04:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:04:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:04:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:04:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:04:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:05:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:05:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:05:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:05:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:05:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:05:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:06:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:06:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:06:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:06:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:06:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:06:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:07:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:07:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:07:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:07:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:07:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:07:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:08:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:08:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:08:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:08:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:08:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:08:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:09:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:09:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:09:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:09:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:09:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:09:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:10:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:10:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:10:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:10:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:10:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:10:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:11:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:11:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:11:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:11:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:11:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:11:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:12:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:12:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:12:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:12:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:12:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:12:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:13:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:13:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:13:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:13:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:13:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:13:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:14:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:14:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:14:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:14:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:14:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:14:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:15:40 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:15:40 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:15:40 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:15:40 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:15:40 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:15:40 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:20:04 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:20:04 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:20:04 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:20:04 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:20:04 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:20:04 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:20:04 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:20:04 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:20:04 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:20:05 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:20:09 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:20:09 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:20:09 - ERROR - MQTT.mqtt_message_handler - Error processing 'Configuration' for jsonType Configuration: ConfigurationHandlerService.process_equipment_configuration() missing 1 required positional argument: 'message'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 33, in _process_message
+    handler(message)
+TypeError: ConfigurationHandlerService.process_equipment_configuration() missing 1 required positional argument: 'message'
+2025-03-06 15:20:09 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:21:04 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:21:04 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:21:04 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:21:04 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:21:04 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:21:04 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:22:09 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:22:09 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:22:09 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:22:09 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:22:09 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:22:09 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:22:09 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:22:09 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:22:09 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:22:10 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:22:14 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:22:14 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:22:18 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:22:19 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:22:23 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'targetAmount': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'isEquipmentEnabled': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'equipmentStatus': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'activeTime': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT01': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT02': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT03': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:23 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT04': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:22:26 - ERROR - MQTT.mqtt_message_handler - Error processing 'Configuration' for jsonType Configuration: MessageService.send_message_response() missing 1 required positional argument: 'data'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\configuration_handler_service.py", line 54, in process_equipment_configuration
+    self._send_response(
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\configuration_handler_service.py", line 148, in _send_response
+    self.message_service.send_message_response(client, response)
+TypeError: MessageService.send_message_response() missing 1 required positional argument: 'data'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 33, in _process_message
+    handler(message)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\MQTT\mqtt_message_handler.py", line 64, in <lambda>
+    lambda msg: self.configuration_handler_service.process_equipment_configuration(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\configuration_handler_service.py", line 62, in process_equipment_configuration
+    self._send_response(
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\configuration_handler_service.py", line 148, in _send_response
+    self.message_service.send_message_response(client, response)
+TypeError: MessageService.send_message_response() missing 1 required positional argument: 'data'
+2025-03-06 15:22:26 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:23:09 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:23:09 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:23:09 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:23:09 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:23:09 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:23:09 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:24:46 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:24:46 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:24:46 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:24:46 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:24:46 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:24:46 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:24:46 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:24:46 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:24:46 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:24:47 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:24:52 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:24:52 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:24:57 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:24:58 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:25:00 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'targetAmount': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'isEquipmentEnabled': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'equipmentStatus': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'activeTime': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT01': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT02': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT03': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - ERROR - service.variable_service - Error creating or updating variable 'MAQ2-OUT04': 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\variable_service.py", line 91, in create_or_update_variable
+    variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VariableDAO' object has no attribute 'find_by_equipment_id_and_key'. Did you mean: 'find_by_equipment_id'?
+2025-03-06 15:25:18 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:25:18 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:29:45 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:29:46 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:29:46 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:29:46 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:29:46 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:29:46 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:29:46 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:29:46 - INFO - service.message_service - Scheduled production message for equipment 3 every 60 minutes.
+2025-03-06 15:29:46 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:29:46 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:29:46 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:29:47 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:29:47 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:30:00 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:30:00 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:30:04 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:30:07 - INFO - service.variable_service - Creating new variable 'targetAmount' for equipment ID 4.
+2025-03-06 15:30:07 - INFO - service.variable_service - Creating new variable 'isEquipmentEnabled' for equipment ID 4.
+2025-03-06 15:30:07 - INFO - service.variable_service - Creating new variable 'equipmentStatus' for equipment ID 4.
+2025-03-06 15:30:07 - INFO - service.variable_service - Creating new variable 'activeTime' for equipment ID 4.
+2025-03-06 15:30:07 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT01' for equipment ID 4.
+2025-03-06 15:30:08 - INFO - service.equipment_output_service - Creating new output 'MAQ2-OUT01' for equipment ID 4.
+2025-03-06 15:30:08 - ERROR - service.equipment_output_service - Error creating or updating output 'MAQ2-OUT01': 'db_address' is an invalid keyword argument for EquipmentOutput
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 97, in create_or_update_output
+    output = EquipmentOutput(
+             ^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 571, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 569, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2175, in _declarative_constructor
+    raise TypeError(
+TypeError: 'db_address' is an invalid keyword argument for EquipmentOutput
+2025-03-06 15:30:08 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT02' for equipment ID 4.
+2025-03-06 15:30:08 - INFO - service.equipment_output_service - Creating new output 'MAQ2-OUT02' for equipment ID 4.
+2025-03-06 15:30:08 - ERROR - service.equipment_output_service - Error creating or updating output 'MAQ2-OUT02': 'db_address' is an invalid keyword argument for EquipmentOutput
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 97, in create_or_update_output
+    output = EquipmentOutput(
+             ^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 571, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 569, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2175, in _declarative_constructor
+    raise TypeError(
+TypeError: 'db_address' is an invalid keyword argument for EquipmentOutput
+2025-03-06 15:30:08 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT03' for equipment ID 4.
+2025-03-06 15:30:08 - INFO - service.equipment_output_service - Creating new output 'MAQ2-OUT03' for equipment ID 4.
+2025-03-06 15:30:08 - ERROR - service.equipment_output_service - Error creating or updating output 'MAQ2-OUT03': 'db_address' is an invalid keyword argument for EquipmentOutput
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 97, in create_or_update_output
+    output = EquipmentOutput(
+             ^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 571, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 569, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2175, in _declarative_constructor
+    raise TypeError(
+TypeError: 'db_address' is an invalid keyword argument for EquipmentOutput
+2025-03-06 15:30:08 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT04' for equipment ID 4.
+2025-03-06 15:30:08 - INFO - service.equipment_output_service - Creating new output 'MAQ2-OUT04' for equipment ID 4.
+2025-03-06 15:30:08 - ERROR - service.equipment_output_service - Error creating or updating output 'MAQ2-OUT04': 'db_address' is an invalid keyword argument for EquipmentOutput
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 97, in create_or_update_output
+    output = EquipmentOutput(
+             ^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 571, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 569, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2175, in _declarative_constructor
+    raise TypeError(
+TypeError: 'db_address' is an invalid keyword argument for EquipmentOutput
+2025-03-06 15:30:16 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:30:16 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:30:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:30:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:30:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:30:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:30:46 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:30:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:31:46 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:31:46 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:31:46 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:31:46 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:31:46 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:31:46 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:33:17 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:33:18 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:33:18 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:33:18 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:33:18 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:33:18 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:33:18 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:33:18 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:33:18 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:33:19 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:33:29 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:33:29 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:33:36 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:33:38 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:33:39 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:33:39 - INFO - service.variable_service - Creating new variable 'targetAmount' for equipment ID 5.
+2025-03-06 15:33:39 - INFO - service.variable_service - Creating new variable 'isEquipmentEnabled' for equipment ID 5.
+2025-03-06 15:33:39 - INFO - service.variable_service - Creating new variable 'equipmentStatus' for equipment ID 5.
+2025-03-06 15:33:39 - INFO - service.variable_service - Creating new variable 'activeTime' for equipment ID 5.
+2025-03-06 15:33:40 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT01' for equipment ID 5.
+2025-03-06 15:33:40 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT02' for equipment ID 5.
+2025-03-06 15:33:40 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT03' for equipment ID 5.
+2025-03-06 15:33:40 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT04' for equipment ID 5.
+2025-03-06 15:33:55 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:33:55 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:34:18 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:34:18 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:34:18 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:34:18 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:34:18 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:34:18 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:35:18 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:35:18 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:35:18 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:35:18 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:35:18 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:35:18 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:35:57 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:35:57 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:35:57 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:35:57 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:35:57 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:35:57 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:35:57 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:35:57 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:35:57 - INFO - service.message_service - Scheduled production message for equipment 5 every 60 minutes.
+2025-03-06 15:35:57 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:35:57 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:35:58 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:35:58 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:36:02 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:36:02 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:36:05 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:36:08 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 5.
+2025-03-06 15:36:08 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 5.
+2025-03-06 15:36:08 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 5.
+2025-03-06 15:36:08 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 5.
+2025-03-06 15:36:09 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT01' for equipment ID 5.
+2025-03-06 15:36:09 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT01' for equipment ID 5
+2025-03-06 15:36:09 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT02' for equipment ID 5.
+2025-03-06 15:36:09 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT02' for equipment ID 5
+2025-03-06 15:36:09 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT03' for equipment ID 5.
+2025-03-06 15:36:09 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT03' for equipment ID 5
+2025-03-06 15:36:09 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT04' for equipment ID 5.
+2025-03-06 15:36:09 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT04' for equipment ID 5
+2025-03-06 15:36:12 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:36:12 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:36:57 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:36:57 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:36:57 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:36:57 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:36:57 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 190 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 60, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:36:57 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:38:39 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:38:39 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:38:39 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:38:39 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:38:39 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:38:39 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:38:39 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:38:39 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:38:39 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:38:40 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:38:43 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:38:43 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:38:49 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:38:50 - INFO - service.variable_service - Creating new variable 'targetAmount' for equipment ID 6.
+2025-03-06 15:38:50 - INFO - service.variable_service - Creating new variable 'isEquipmentEnabled' for equipment ID 6.
+2025-03-06 15:38:50 - INFO - service.variable_service - Creating new variable 'equipmentStatus' for equipment ID 6.
+2025-03-06 15:38:50 - INFO - service.variable_service - Creating new variable 'activeTime' for equipment ID 6.
+2025-03-06 15:38:54 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:38:54 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT01' for equipment ID 6.
+2025-03-06 15:38:55 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT01' for equipment ID 6
+2025-03-06 15:38:55 - ERROR - service.equipment_output_service - Error updating equipment output: SQL expression element or literal value expected, got <EquipmentOutput(id=6, code='MAQ2-OUT01', variable_id=23)>.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 803, in _literal_coercion
+    return expr._bind_param(operator, element, type_=bindparam_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 4606, in _bind_param
+    return BindParameter(
+           ^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 2036, in __init__
+    self.type = _compared_to_type.coerce_compared_value(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 1044, in coerce_compared_value
+    _coerced_type = _resolve_value_to_type(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3816, in _resolve_value_to_type
+    raise exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Object <EquipmentOutput(id=6, code='MAQ2-OUT01', variable_id=23)> is not legal as a SQL literal value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 66, in update_output
+    existing_output = self.equipment_output_dao.find_by_id(output_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_output_dao.py", line 34, in find_by_id
+    .filter(EquipmentOutput.id == output_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 453, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\properties.py", line 477, in operate
+    return op(self.__clause_element__(), *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\annotation.py", line 371, in __eq__
+    return self.__element.__class__.__eq__(self, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 1516, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 197, in operate
+    return op_fn(self.expr, op, *other, **addtl_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\default_comparator.py", line 121, in _boolean_compare
+    obj = coercions.expect(
+          ^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 395, in expect
+    resolved = impl._literal_coercion(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 805, in _literal_coercion
+    self._raise_for_expected(element, err=err)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 784, in _raise_for_expected
+    return super()._raise_for_expected(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 518, in _raise_for_expected
+    raise exc.ArgumentError(msg, code=code) from err
+sqlalchemy.exc.ArgumentError: SQL expression element or literal value expected, got <EquipmentOutput(id=6, code='MAQ2-OUT01', variable_id=23)>.
+2025-03-06 15:38:55 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT02' for equipment ID 6.
+2025-03-06 15:38:55 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT02' for equipment ID 6
+2025-03-06 15:38:55 - ERROR - service.equipment_output_service - Error updating equipment output: SQL expression element or literal value expected, got <EquipmentOutput(id=7, code='MAQ2-OUT02', variable_id=24)>.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 803, in _literal_coercion
+    return expr._bind_param(operator, element, type_=bindparam_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 4606, in _bind_param
+    return BindParameter(
+           ^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 2036, in __init__
+    self.type = _compared_to_type.coerce_compared_value(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 1044, in coerce_compared_value
+    _coerced_type = _resolve_value_to_type(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3816, in _resolve_value_to_type
+    raise exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Object <EquipmentOutput(id=7, code='MAQ2-OUT02', variable_id=24)> is not legal as a SQL literal value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 66, in update_output
+    existing_output = self.equipment_output_dao.find_by_id(output_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_output_dao.py", line 34, in find_by_id
+    .filter(EquipmentOutput.id == output_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 453, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\properties.py", line 477, in operate
+    return op(self.__clause_element__(), *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\annotation.py", line 371, in __eq__
+    return self.__element.__class__.__eq__(self, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 1516, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 197, in operate
+    return op_fn(self.expr, op, *other, **addtl_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\default_comparator.py", line 121, in _boolean_compare
+    obj = coercions.expect(
+          ^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 395, in expect
+    resolved = impl._literal_coercion(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 805, in _literal_coercion
+    self._raise_for_expected(element, err=err)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 784, in _raise_for_expected
+    return super()._raise_for_expected(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 518, in _raise_for_expected
+    raise exc.ArgumentError(msg, code=code) from err
+sqlalchemy.exc.ArgumentError: SQL expression element or literal value expected, got <EquipmentOutput(id=7, code='MAQ2-OUT02', variable_id=24)>.
+2025-03-06 15:38:55 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT03' for equipment ID 6.
+2025-03-06 15:38:55 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT03' for equipment ID 6
+2025-03-06 15:38:55 - ERROR - service.equipment_output_service - Error updating equipment output: SQL expression element or literal value expected, got <EquipmentOutput(id=8, code='MAQ2-OUT03', variable_id=25)>.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 803, in _literal_coercion
+    return expr._bind_param(operator, element, type_=bindparam_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 4606, in _bind_param
+    return BindParameter(
+           ^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 2036, in __init__
+    self.type = _compared_to_type.coerce_compared_value(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 1044, in coerce_compared_value
+    _coerced_type = _resolve_value_to_type(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3816, in _resolve_value_to_type
+    raise exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Object <EquipmentOutput(id=8, code='MAQ2-OUT03', variable_id=25)> is not legal as a SQL literal value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 66, in update_output
+    existing_output = self.equipment_output_dao.find_by_id(output_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_output_dao.py", line 34, in find_by_id
+    .filter(EquipmentOutput.id == output_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 453, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\properties.py", line 477, in operate
+    return op(self.__clause_element__(), *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\annotation.py", line 371, in __eq__
+    return self.__element.__class__.__eq__(self, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 1516, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 197, in operate
+    return op_fn(self.expr, op, *other, **addtl_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\default_comparator.py", line 121, in _boolean_compare
+    obj = coercions.expect(
+          ^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 395, in expect
+    resolved = impl._literal_coercion(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 805, in _literal_coercion
+    self._raise_for_expected(element, err=err)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 784, in _raise_for_expected
+    return super()._raise_for_expected(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 518, in _raise_for_expected
+    raise exc.ArgumentError(msg, code=code) from err
+sqlalchemy.exc.ArgumentError: SQL expression element or literal value expected, got <EquipmentOutput(id=8, code='MAQ2-OUT03', variable_id=25)>.
+2025-03-06 15:38:55 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT04' for equipment ID 6.
+2025-03-06 15:38:55 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT04' for equipment ID 6
+2025-03-06 15:38:55 - ERROR - service.equipment_output_service - Error updating equipment output: SQL expression element or literal value expected, got <EquipmentOutput(id=9, code='MAQ2-OUT04', variable_id=26)>.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 803, in _literal_coercion
+    return expr._bind_param(operator, element, type_=bindparam_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 4606, in _bind_param
+    return BindParameter(
+           ^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 2036, in __init__
+    self.type = _compared_to_type.coerce_compared_value(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 1044, in coerce_compared_value
+    _coerced_type = _resolve_value_to_type(value)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py", line 3816, in _resolve_value_to_type
+    raise exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Object <EquipmentOutput(id=9, code='MAQ2-OUT04', variable_id=26)> is not legal as a SQL literal value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\equipment_output_service.py", line 66, in update_output
+    existing_output = self.equipment_output_dao.find_by_id(output_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\database\dao\equipment_output_dao.py", line 34, in find_by_id
+    .filter(EquipmentOutput.id == output_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 453, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\orm\properties.py", line 477, in operate
+    return op(self.__clause_element__(), *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\annotation.py", line 371, in __eq__
+    return self.__element.__class__.__eq__(self, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 1516, in operate
+    return op(self.comparator, *other, **kwargs)  # type: ignore[no-any-return]  # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\operators.py", line 584, in __eq__
+    return self.operate(eq, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\type_api.py", line 197, in operate
+    return op_fn(self.expr, op, *other, **addtl_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\default_comparator.py", line 121, in _boolean_compare
+    obj = coercions.expect(
+          ^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 395, in expect
+    resolved = impl._literal_coercion(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 805, in _literal_coercion
+    self._raise_for_expected(element, err=err)
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 784, in _raise_for_expected
+    return super()._raise_for_expected(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\.venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 518, in _raise_for_expected
+    raise exc.ArgumentError(msg, code=code) from err
+sqlalchemy.exc.ArgumentError: SQL expression element or literal value expected, got <EquipmentOutput(id=9, code='MAQ2-OUT04', variable_id=26)>.
+2025-03-06 15:40:52 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:40:52 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:40:52 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:40:52 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:40:52 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:40:52 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:40:52 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:40:52 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:40:52 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:40:53 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:40:57 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:40:57 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:40:57 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'targetAmount' for equipment ID 7.
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'isEquipmentEnabled' for equipment ID 7.
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'equipmentStatus' for equipment ID 7.
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'activeTime' for equipment ID 7.
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT01' for equipment ID 7.
+2025-03-06 15:40:57 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT01' for equipment ID 7
+2025-03-06 15:40:57 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT02' for equipment ID 7.
+2025-03-06 15:40:58 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT02' for equipment ID 7
+2025-03-06 15:40:58 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT03' for equipment ID 7.
+2025-03-06 15:40:58 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT03' for equipment ID 7
+2025-03-06 15:40:58 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT04' for equipment ID 7.
+2025-03-06 15:40:58 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT04' for equipment ID 7
+2025-03-06 15:40:58 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:40:58 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:40:58 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:40:59 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:43:35 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:43:35 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:43:35 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:43:35 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:43:35 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:43:35 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:43:35 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:43:35 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:43:35 - INFO - service.message_service - Scheduled production message for equipment 7 every 60 minutes.
+2025-03-06 15:43:35 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:43:35 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:43:36 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:43:36 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:43:45 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:43:45 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:43:45 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT01' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT01' for equipment ID 7
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT01' with ID 14
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT02' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT02' for equipment ID 7
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT02' with ID 15
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT03' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT03' for equipment ID 7
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT03' with ID 16
+2025-03-06 15:43:45 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT04' for equipment ID 7.
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT04' for equipment ID 7
+2025-03-06 15:43:45 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT04' with ID 17
+2025-03-06 15:43:45 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:43:45 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:46:31 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:46:31 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:46:31 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:46:31 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:46:31 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:46:31 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:46:31 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:46:31 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:46:31 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:46:32 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:46:38 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:46:38 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:46:38 - INFO - service.equipment_service - Creating new equipment 'MAQ2'.
+2025-03-06 15:46:38 - INFO - service.variable_service - Creating new variable 'targetAmount' for equipment ID 8.
+2025-03-06 15:46:38 - INFO - service.variable_service - Creating new variable 'isEquipmentEnabled' for equipment ID 8.
+2025-03-06 15:46:38 - INFO - service.variable_service - Creating new variable 'equipmentStatus' for equipment ID 8.
+2025-03-06 15:46:38 - INFO - service.variable_service - Creating new variable 'activeTime' for equipment ID 8.
+2025-03-06 15:46:38 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:46:38 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:46:39 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:46:40 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:48:25 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:48:25 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:48:25 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:48:25 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:48:25 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:48:25 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:48:25 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:48:25 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:48:25 - INFO - service.message_service - Scheduled production message for equipment 8 every 60 minutes.
+2025-03-06 15:48:25 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:48:25 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:48:26 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:48:26 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:48:39 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:48:39 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:48:39 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:48:39 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT01' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT01' for equipment ID 8
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT01' with ID 18
+2025-03-06 15:48:39 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT02' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT02' for equipment ID 8
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT02' with ID 19
+2025-03-06 15:48:39 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT03' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT03' for equipment ID 8
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT03' with ID 20
+2025-03-06 15:48:39 - INFO - service.variable_service - Creating new variable 'MAQ2-OUT04' for equipment ID 8.
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Created new equipment output 'MAQ2-OUT04' for equipment ID 8
+2025-03-06 15:48:39 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT04' with ID 21
+2025-03-06 15:48:39 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:48:39 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:49:30 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:49:30 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:49:30 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:49:30 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:49:30 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:49:30 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:49:30 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:49:30 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:49:30 - INFO - service.message_service - Scheduled production message for equipment 8 every 60 minutes.
+2025-03-06 15:49:30 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:49:30 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:49:31 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:49:31 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:49:33 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:49:33 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:49:33 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT01' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT01' with ID 18
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT02' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT02' with ID 19
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT03' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT03' with ID 20
+2025-03-06 15:49:33 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT04' for equipment ID 8.
+2025-03-06 15:49:33 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT04' with ID 21
+2025-03-06 15:49:33 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:49:33 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:49:46 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:49:46 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:49:46 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT01' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT01' with ID 18
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT02' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT02' with ID 19
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT03' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT03' with ID 20
+2025-03-06 15:49:46 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT04' for equipment ID 8.
+2025-03-06 15:49:46 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT04' with ID 21
+2025-03-06 15:50:00 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:50:00 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}
+2025-03-06 15:50:30 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:50:30 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:50:30 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:50:30 - ERROR - service.active_time_record_service - Error fetching latest active time record for equipment ID '1': No active time records found for equipment ID '1'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+2025-03-06 15:50:30 - ERROR - service.active_time_record_service - Error fetching active time record for equipment ID '1': Unable to fetch latest active time record.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 87, in get_active_record_time
+    return self.get_latest_by_equipment_id(equipment_id).active_time
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 83, in get_latest_by_equipment_id
+    raise ServiceException("Unable to fetch latest active time record.") from e
+exception.Exception.ServiceException: Unable to fetch latest active time record.
+2025-03-06 15:50:30 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:50:30 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 189 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:50:30 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:51:30 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:51:30 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:51:30 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:51:30 - ERROR - service.active_time_record_service - Error fetching latest active time record for equipment ID '1': No active time records found for equipment ID '1'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+2025-03-06 15:51:30 - ERROR - service.active_time_record_service - Error fetching active time record for equipment ID '1': Unable to fetch latest active time record.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 87, in get_active_record_time
+    return self.get_latest_by_equipment_id(equipment_id).active_time
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 83, in get_latest_by_equipment_id
+    raise ServiceException("Unable to fetch latest active time record.") from e
+exception.Exception.ServiceException: Unable to fetch latest active time record.
+2025-03-06 15:51:30 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:51:30 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 189 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:51:30 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:52:30 - INFO - service.production_count_service - Building production count message for equipment 'MAQ01'
+2025-03-06 15:52:30 - WARNING - service.production_order_service - No active production order found for equipment ID 1
+2025-03-06 15:52:30 - WARNING - service.production_count_service - No active production order found for equipment ID (<Equipment(id=1, code='MAQ01', ip='111.111.1.111')>, 1)
+2025-03-06 15:52:30 - ERROR - service.active_time_record_service - Error fetching latest active time record for equipment ID '1': No active time records found for equipment ID '1'
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+2025-03-06 15:52:30 - ERROR - service.active_time_record_service - Error fetching active time record for equipment ID '1': Unable to fetch latest active time record.
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 74, in get_latest_by_equipment_id
+    raise NotFoundException(
+exception.Exception.NotFoundException: No active time records found for equipment ID '1'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 87, in get_active_record_time
+    return self.get_latest_by_equipment_id(equipment_id).active_time
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Antonio Melo\Documents\MESCloud\GTW\GTWMES\app\service\active_time_record_service.py", line 83, in get_latest_by_equipment_id
+    raise ServiceException("Unable to fetch latest active time record.") from e
+exception.Exception.ServiceException: Unable to fetch latest active time record.
+2025-03-06 15:52:30 - WARNING - service.production_count_service - Could not fetch equipment status for 'MAQ01', defaulting to 0
+2025-03-06 15:52:30 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 189 bytes): {"jsonType": "ProductionCount", "equipmentCode": "MAQ01", "productionOrderCode": "", "equipmentStatus": 0, "activeTime": 0, "alarms": [], "counters": [{"outputCode": "OUT01", "value": 10}]}
+2025-03-06 15:52:30 - INFO - service.message_service - Sent production message for equipment 1.
+2025-03-06 15:52:36 - ERROR - MQTT.mqtt_heart_beat - ALARM TRIGGERED: Heartbeat timeout for MAQ01. Elapsed = 185.66s, Timeout = 185s
+2025-03-06 15:52:36 - WARNING - service.plc_service - PLC client connection failed.
+2025-03-06 15:52:36 - ERROR - service.plc_service - Failed to connect to PLC. Cannot write alarm data.
+2025-03-06 15:52:36 - WARNING - MQTT.mqtt_heart_beat - Alarm written to PLC for MAQ01: Byte 8, Bit 0, Value 1
+2025-03-06 15:53:04 - INFO - MESMain - Initializing MQTT connection...
+2025-03-06 15:53:04 - INFO - MESMain - Starting periodic message service...
+2025-03-06 15:53:04 - INFO - MQTT.mqtt_message_processor - Started periodic message sending thread.
+2025-03-06 15:53:04 - INFO - MESMain - Starting heartbeat monitoring...
+2025-03-06 15:53:04 - INFO - MQTT.mqtt_heart_beat - Starting heartbeat monitor thread.
+2025-03-06 15:53:04 - INFO - MQTT.mqtt_heart_beat - Heartbeat monitoring started.
+2025-03-06 15:53:04 - INFO - service.message_service - Scheduled production message for equipment 1 every 1 minutes.
+2025-03-06 15:53:04 - INFO - MESMain - Starting MQTT client loop...
+2025-03-06 15:53:04 - INFO - service.message_service - Scheduled production message for equipment 8 every 60 minutes.
+2025-03-06 15:53:04 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ01.
+2025-03-06 15:53:04 - INFO - MQTT.mqtt_heart_beat - Initialized heartbeat tracking for MAQ2.
+2025-03-06 15:53:05 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ01. New cycle = 1 minute(s)
+2025-03-06 15:53:05 - INFO - MQTT.mqtt_heart_beat - Configuration updated for MAQ2. New cycle = 60 minute(s)
+2025-03-06 15:53:10 - INFO - MQTT.mqtt_message_processor - Received message on topic 'NAU/CRK/GTW003/PLC': {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:53:10 - INFO - MQTT.mqtt_message_handler - Processing 'Configuration' message: {'jsonType': 'Configuration', 'equipmentCode': 'MAQ2', 'ip': '192.168.1.10', 'pTimerCommunicationCycle': 60, 'variable': [{'key': 'targetAmount', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'WRITE'}, {'key': 'isEquipmentEnabled', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'BOOL', 'operationType': 'WRITE'}, {'key': 'equipmentStatus', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}, {'key': 'activeTime', 'dbAddress': 8, 'offsetByte': 4, 'offsetBit': 0, 'type': 'uint', 'operationType': 'READ'}], 'output': [{'code': 'MAQ2-OUT01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT02', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT03', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}, {'code': 'MAQ2-OUT04', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ', 'disable': False}], 'alarm': [{'key': 'alarm 01', 'dbAddress': 8, 'offsetByte': 2, 'offsetBit': 0, 'type': 'INT', 'operationType': 'READ'}]}
+2025-03-06 15:53:10 - INFO - service.equipment_service - Updating existing equipment 'MAQ2'.
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'targetAmount' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'isEquipmentEnabled' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'equipmentStatus' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'activeTime' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT01' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT01' with ID 18
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT02' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT02' with ID 19
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT03' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT03' with ID 20
+2025-03-06 15:53:10 - INFO - service.variable_service - Updating existing variable 'MAQ2-OUT04' for equipment ID 8.
+2025-03-06 15:53:10 - INFO - service.equipment_output_service - Saved equipment output 'MAQ2-OUT04' with ID 21
+2025-03-06 15:53:16 - INFO - service.variable_service - Creating new variable 'alarm 01' for equipment ID 8.
+2025-03-06 15:53:17 - INFO - service.alarm_record_service - Creating new alarm for variable ID 43.
+2025-03-06 15:53:19 - INFO - MQTT.mqtt_message_handler - Successfully handled 'Configuration'
+2025-03-06 15:53:19 - INFO - service.message_service - Sent message to 'NAU/CRK/GTW003/BE' (Size: 1201 bytes): {"jsonType": "ConfigurationResponse", "equipmentCode": "MAQ2", "ip": "192.168.1.10", "pTimerCommunicationCycle": 60, "variable": [{"key": "targetAmount", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "WRITE"}, {"key": "isEquipmentEnabled", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "BOOL", "operationType": "WRITE"}, {"key": "equipmentStatus", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}, {"key": "activeTime", "dbAddress": 8, "offsetByte": 4, "offsetBit": 0, "type": "uint", "operationType": "READ"}], "output": [{"code": "MAQ2-OUT01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT02", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT03", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}, {"code": "MAQ2-OUT04", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ", "disable": false}], "alarm": [{"key": "alarm 01", "dbAddress": 8, "offsetByte": 2, "offsetBit": 0, "type": "INT", "operationType": "READ"}]}

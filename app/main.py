@@ -8,13 +8,16 @@ from sqlalchemy.sql import text
 
 class MESMain:
     def __init__(
-        self, message_processor=None, client_manager=None, mqtt_heart_beat=None
+        self,
+        message_processor: MessageProcessor,
+        client_manager: ClientManager,
+        mqtt_heart_beat: MqttHeartbeatMonitor,
     ):
         self.logger = Logger.get_logger(self.__class__.__name__)
 
-        self.mqtt_heart_beat = mqtt_heart_beat or MqttHeartbeatMonitor()
-        self.message_processor = message_processor or MessageProcessor()
-        self.client_manager = client_manager or ClientManager(self.message_processor)
+        self.mqtt_heart_beat = mqtt_heart_beat
+        self.message_processor = message_processor
+        self.client_manager = client_manager
 
     def start(self):
         try:
@@ -36,30 +39,47 @@ class MESMain:
             self.shutdown()
 
         except Exception as e:
-            self.logger.error(f" Unexpected error: {e}", exc_info=True)
+            self.logger.error(f"Unexpected error: {e}", exc_info=True)
             self.shutdown()
 
     def shutdown(self):
-        self.logger.info(" Shutting down application...")
+        self.logger.info("Shutting down application...")
         try:
             self.mqtt_heart_beat.stop_monitoring()
             self.client_manager.disconnect()
             self.logger.info("Shutdown completed successfully.")
         except Exception as e:
-            self.logger.error(f" Error during shutdown: {e}", exc_info=True)
+            self.logger.error(f"Error during shutdown: {e}", exc_info=True)
 
 
-def main():
+def check_database_connection():
     try:
         with SessionLocal() as session:
             session.execute(text("SELECT 1"))
-        mes_service = MESMain()
-        mes_service.start()
     except Exception as e:
         Logger.get_logger(__name__).error(
-            f"Critical startup failure: {e}", exc_info=True
+            f"Critical startup failure: Unable to connect to database: {e}",
+            exc_info=True,
         )
         exit(1)
+
+
+def initialize_mes_service() -> MESMain:
+    message_processor = MessageProcessor()
+    client_manager = ClientManager(message_processor)
+    mqtt_heart_beat = MqttHeartbeatMonitor()
+
+    return MESMain(
+        message_processor=message_processor,
+        client_manager=client_manager,
+        mqtt_heart_beat=mqtt_heart_beat,
+    )
+
+
+def main():
+    check_database_connection()  # Ensures DB is up before proceeding
+    mes_service = initialize_mes_service()
+    mes_service.start()
 
 
 if __name__ == "__main__":

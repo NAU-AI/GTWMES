@@ -3,6 +3,7 @@ from MQTT.protocol import Protocol
 from service.production_order_handler_service import ProductionOrderHandlerService
 from service.message_service import MessageService
 from service.equipment_service import EquipmentService
+from service.configuration_handler_service import ConfigurationHandlerService
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -13,6 +14,7 @@ class MessageHandler:
         self.production_order_handler = ProductionOrderHandlerService()
         self.message_service = MessageService()
         self.equipment_service = EquipmentService()
+        self.configuration_handler_service = ConfigurationHandlerService()
         self.topic_send = os.getenv("TOPIC_SEND")
         self.protocols = Protocol.get_jsonType(self)
 
@@ -59,7 +61,9 @@ class MessageHandler:
         self._process_message(
             client,
             message,
-            self.equipment_service.update_equipment_variables,
+            lambda msg: self.configuration_handler_service.process_equipment_configuration(
+                client, msg
+            ),
             "Configuration",
         )
 
