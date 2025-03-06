@@ -37,6 +37,14 @@ class AlarmRecordDAO:
             .all()
         )
 
+    def find_by_variable_id_and_key(self, variable_id: int, key: str) -> AlarmRecord:
+        return (
+            self.session.query(AlarmRecord)
+            .join(Variable)
+            .filter(AlarmRecord.variable_id == variable_id, Variable.key == key)
+            .first()
+        )
+
     def insert_alarm_by_equipment_id(
         self, equipment_id: int, value: int
     ) -> AlarmRecord:

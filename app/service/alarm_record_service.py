@@ -108,19 +108,31 @@ class AlarmRecordService:
 
     def create_or_update_alarm(self, variable_id: int, alarm_data: dict) -> AlarmRecord:
         try:
-            alarm = self.alarm_record_dao.find_by_variable_id(variable_id)
+            alarm = self.alarm_record_dao.find_by_variable_id_and_key(
+                variable_id, alarm_data["key"]
+            )
 
             if alarm:
-                logger.info(f"Updating existing alarm for variable ID {variable_id}.")
-                alarm.value = 0
+                logger.info(
+                    f"Alarm for variable ID {variable_id} and key '{alarm_data['key']}' already exists. No updates to value."
+                )
             else:
-                logger.info(f"Creating new alarm for variable ID {variable_id}.")
+                logger.info(
+                    f"Creating new alarm for variable ID {variable_id} and key '{alarm_data['key']}'."
+                )
                 alarm = AlarmRecord(
                     variable_id=variable_id,
-                    value=0,  # Default value for new alarms
+                    value=0,
                 )
 
             return self.alarm_record_dao.save(alarm)
+
+        except Exception as e:
+            logger.error(
+                f"Error creating or updating alarm for variable ID {variable_id}: {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to create or update alarm.") from e
 
         except Exception as e:
             logger.error(

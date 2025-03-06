@@ -44,11 +44,18 @@ class ConfigurationHandlerService:
             outputs = message.get("output", [])
             alarms = message.get("alarm", [])
 
-            created_variables = self.create_or_update_variables(equipment.id, variables)
+            created_variables = {}
 
-            self.create_or_update_outputs(equipment.id, outputs, created_variables)
+            if variables:
+                created_variables = self.create_or_update_variables(
+                    equipment.id, variables
+                )
 
-            self.create_or_update_alarms(equipment.id, alarms, created_variables)
+            if outputs:
+                self.create_or_update_outputs(equipment.id, outputs, created_variables)
+
+            if alarms:
+                self.create_or_update_alarms(equipment.id, alarms, created_variables)
 
             logger.info(f"Configuration successfully processed for '{equipment_code}'.")
 
