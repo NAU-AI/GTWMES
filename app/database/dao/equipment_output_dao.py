@@ -3,72 +3,73 @@ from model.equipment_output import EquipmentOutput
 
 
 class EquipmentOutputDAO:
-    def __init__(self):
-        self.session = SessionLocal()
-
     def save(self, output: EquipmentOutput) -> EquipmentOutput:
-        self.session.add(output)
-        self.session.commit()
-        self.session.refresh(output)
-        return output
+        with SessionLocal() as session:
+            session.add(output)
+            session.commit()
+            session.refresh(output)
+            return output
 
-    def update(self, output_id: int, updated_data: dict) -> EquipmentOutput:
-        output = (
-            self.session.query(EquipmentOutput)
-            .filter(EquipmentOutput.id == output_id)
-            .first()
-        )
-        if not output:
-            return None
+    def update(self, output_id: int, updated_data: dict) -> EquipmentOutput | None:
+        with SessionLocal() as session:
+            output = (
+                session.query(EquipmentOutput)
+                .filter(EquipmentOutput.id == output_id)
+                .first()
+            )
+            if not output:
+                return None
 
-        for key, value in updated_data.items():
-            setattr(output, key, value)
+            for key, value in updated_data.items():
+                setattr(output, key, value)
 
-        self.session.commit()
-        self.session.refresh(output)
-        return output
+            session.commit()
+            session.refresh(output)
+            return output
 
-    def find_by_id(self, output_id: int) -> EquipmentOutput:
-        return (
-            self.session.query(EquipmentOutput)
-            .filter(EquipmentOutput.id == output_id)
-            .first()
-        )
+    def find_by_id(self, output_id: int) -> EquipmentOutput | None:
+        with SessionLocal() as session:
+            return (
+                session.query(EquipmentOutput)
+                .filter(EquipmentOutput.id == output_id)
+                .first()
+            )
 
     def find_by_equipment_id(self, equipment_id: int) -> list[EquipmentOutput]:
-        return (
-            self.session.query(EquipmentOutput)
-            .filter(EquipmentOutput.equipment_id == equipment_id)
-            .all()
-        )
+        with SessionLocal() as session:
+            return (
+                session.query(EquipmentOutput)
+                .filter(EquipmentOutput.equipment_id == equipment_id)
+                .all()
+            )
 
     def find_all(self) -> list[EquipmentOutput]:
-        return self.session.query(EquipmentOutput).all()
+        with SessionLocal() as session:
+            return session.query(EquipmentOutput).all()
 
     def find_by_equipment_id_and_code(
         self, equipment_id: int, code: str
-    ) -> EquipmentOutput:
-        return (
-            self.session.query(EquipmentOutput)
-            .filter(
-                EquipmentOutput.equipment_id == equipment_id,
-                EquipmentOutput.code == code,
+    ) -> EquipmentOutput | None:
+        with SessionLocal() as session:
+            return (
+                session.query(EquipmentOutput)
+                .filter(
+                    EquipmentOutput.equipment_id == equipment_id,
+                    EquipmentOutput.code == code,
+                )
+                .first()
             )
-            .first()
-        )
 
     def delete(self, output_id: int) -> bool:
-        output = (
-            self.session.query(EquipmentOutput)
-            .filter(EquipmentOutput.id == output_id)
-            .first()
-        )
-        if not output:
-            return False
+        with SessionLocal() as session:
+            output = (
+                session.query(EquipmentOutput)
+                .filter(EquipmentOutput.id == output_id)
+                .first()
+            )
+            if not output:
+                return False
 
-        self.session.delete(output)
-        self.session.commit()
-        return True
-
-    def close(self):
-        self.session.close()
+            session.delete(output)
+            session.commit()
+            return True

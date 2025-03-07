@@ -4,59 +4,53 @@ from database.connection.db_connection import SessionLocal
 
 
 class EquipmentDAO:
-    def __init__(self):
-        self.session = SessionLocal()
+    def find_by_id(self, equipment_id: int) -> Equipment | None:
+        with SessionLocal() as session:
+            return session.query(Equipment).filter(Equipment.id == equipment_id).first()
 
-    def find_by_id(self, equipment_id: int) -> Equipment:
-        return (
-            self.session.query(Equipment).filter(Equipment.id == equipment_id).first()
-        )
-
-    def find_by_code(self, code: str) -> Equipment:
-        return self.session.query(Equipment).filter(Equipment.code == code).first()
+    def find_by_code(self, code: str) -> Equipment | None:
+        with SessionLocal() as session:
+            return session.query(Equipment).filter(Equipment.code == code).first()
 
     def find_all(self) -> list[Equipment]:
-        return self.session.query(Equipment).all()
+        with SessionLocal() as session:
+            return session.query(Equipment).all()
 
     def get_all_equipment_refreshed(self) -> list[Equipment]:
-        self.session.expire_all()
-        return self.find_all()
+        with SessionLocal() as session:
+            session.expire_all()
+            return session.query(Equipment).all()
 
     def save(self, equipment: Equipment) -> Equipment:
-        self.session.add(equipment)
+        with SessionLocal() as session:
+            session.add(equipment)
+            session.commit()
+            session.refresh(equipment)
+            return equipment
 
-        self.session.commit()
+    def update(self, equipment_id: int, updated_data: dict) -> Equipment | None:
+        with SessionLocal() as session:
+            equipment = (
+                session.query(Equipment).filter(Equipment.id == equipment_id).first()
+            )
+            if not equipment:
+                return None
 
-        self.session.refresh(equipment)
-        return equipment
+            for key, value in updated_data.items():
+                setattr(equipment, key, value)
 
-    def update(self, equipment_id: int, updated_data: dict) -> Equipment:
-        equipment = (
-            self.session.query(Equipment).filter(Equipment.id == equipment_id).first()
-        )
-        if not equipment:
-            return None
-
-        for key, value in updated_data.items():
-            setattr(equipment, key, value)
-
-        self.session.commit()
-
-        self.session.refresh(equipment)
-        return equipment
+            session.commit()
+            session.refresh(equipment)
+            return equipment
 
     def delete(self, equipment_id: int) -> bool:
-        equipment = (
-            self.session.query(Equipment).filter(Equipment.id == equipment_id).first()
-        )
-        if not equipment:
-            return False
+        with SessionLocal() as session:
+            equipment = (
+                session.query(Equipment).filter(Equipment.id == equipment_id).first()
+            )
+            if not equipment:
+                return False
 
-        self.session.delete(equipment)
-
-        self.session.commit()
-
-        return True
-
-    def close(self):
-        self.session.close()
+            session.delete(equipment)
+            session.commit()
+            return True
