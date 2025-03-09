@@ -1,5 +1,6 @@
 import threading
 import time
+import datetime
 from service.equipment_service import EquipmentService
 from service.plc_service import PlcService
 from utility.logger import Logger
@@ -28,9 +29,19 @@ class MqttHeartbeatMonitor:
             self.last_heartbeats[equipment_code] = time.time()
             self.update_alarm_status(equipment_code, 0)
 
+            previous_heartbeat_str = (
+                datetime.datetime.fromtimestamp(previous_heartbeat).strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+                if previous_heartbeat
+                else "None"
+            )
+            new_heartbeat_str = datetime.datetime.fromtimestamp(
+                self.last_heartbeats[equipment_code]
+            ).strftime("%Y-%m-%d %H:%M:%S")
+
             logger.info(
-                f"Heartbeat received for {equipment_code}. "
-                f"Previous: {previous_heartbeat}, New: {self.last_heartbeats[equipment_code]}"
+                f"Heartbeat received for {equipment_code}. Previous: {previous_heartbeat_str}, New: {new_heartbeat_str}"
             )
 
     def start_monitoring(self):
