@@ -13,11 +13,11 @@ class Variable(Base):
     key = Column(String(20), nullable=False, unique=True)
     offset_byte = Column(Integer, nullable=False)
     offset_bit = Column(Integer, nullable=False)
-    db_address = Column(String(20), nullable=False)
+    db_address = Column(Integer, nullable=False)
     type = Column(String(20), nullable=False)
     operation_type = Column(String(10), nullable=False)
 
-    equipment = relationship("Equipment", back_populates="variables")  # ✅ ADD THIS!
+    equipment = relationship("Equipment", back_populates="variables")
 
     outputs = relationship("EquipmentOutput", back_populates="variable")
     active_time_records = relationship(
