@@ -10,6 +10,19 @@ class CounterRecordDAO:
             session.refresh(counter_record)
             return counter_record
 
+    def save_with_output_id(
+        self, equipment_output_id: int, real_value: int
+    ) -> CounterRecord:
+        """Creates and saves a new CounterRecord with equipment_output_id and real_value."""
+        with SessionLocal() as session:
+            counter_record = CounterRecord(
+                equipment_output_id=equipment_output_id, real_value=real_value
+            )
+            session.add(counter_record)
+            session.commit()
+            session.refresh(counter_record)
+            return counter_record
+
     def find_by_equipment_output_id(
         self, equipment_output_id: int
     ) -> list[CounterRecord]:

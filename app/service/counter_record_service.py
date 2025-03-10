@@ -21,9 +21,23 @@ class CounterRecordService:
             logger.error(f"Error creating counter record: {e}", exc_info=True)
             raise ServiceException("Unable to create counter record.") from e
 
+    def save_output_counter_record(
+        self, equipment_output_id: int, real_value: int
+    ) -> CounterRecord:
+        try:
+            return self.counter_record_dao.save_with_output_id(
+                equipment_output_id, real_value
+            )
+        except Exception as e:
+            logger.error(
+                f"Error saving CounterRecord (equipment_output_id={equipment_output_id}, real_value={real_value}): {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Failed to save CounterRecord.") from e
+
     def get_by_output_id(self, output_id: int) -> list[CounterRecord]:
         try:
-            return self.counter_record_dao.find_by_output_id(output_id)
+            return self.counter_record_dao.find_by_equipment_output_id(output_id)
         except Exception as e:
             logger.error(
                 f"Error fetching counter records for output ID '{output_id}': {e}",
@@ -40,7 +54,7 @@ class CounterRecordService:
                 logger.warning(
                     f"No counter records found for equipment output ID '{equipment_output_id}', returning 0."
                 )
-                return 0  # Return 0 if no data exists
+                return 0
             return record.real_value  # Return actual value if found
 
         except Exception as e:
