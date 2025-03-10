@@ -30,7 +30,7 @@ CREATE TABLE variable (
     key VARCHAR(20) NOT NULL,
     offset_byte INTEGER NOT NULL,
     offset_bit INTEGER NOT NULL,
-    db_address VARCHAR(20) NOT NULL,
+    db_address INTEGER NOT NULL,
     type VARCHAR(20) NOT NULL,
     operation_type VARCHAR(10) NOT NULL CHECK (operation_type IN ('READ', 'WRITE'))
 );
