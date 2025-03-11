@@ -32,6 +32,20 @@ class VariableService:
             )
             raise ServiceException("Unable to fetch variables.") from e
 
+    def get_by_equipment_id_and_operation_type(
+        self, equipment_id: int, operation_type: str
+    ) -> list[Variable]:
+        try:
+            return self.variable_dao.find_by_equipment_id_and_operation_type(
+                equipment_id, operation_type
+            )
+        except Exception as e:
+            logger.error(
+                f"Error fetching variables for equipment ID '{equipment_id}' and operation type '{operation_type}': {e}",
+                exc_info=True,
+            )
+            raise ServiceException("Unable to fetch variables.") from e
+
     def get_by_equipment_output_id(self, equipment_output_id: int) -> list[Variable]:
         try:
             return self.variable_dao.find_by_equipment_output_id(equipment_output_id)

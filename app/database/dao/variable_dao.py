@@ -46,6 +46,19 @@ class VariableDAO:
                 .all()
             )
 
+    def find_by_equipment_id_and_operation_type(
+        self, equipment_id: int, operation_type: str
+    ) -> list[Variable]:
+        with SessionLocal() as session:
+            return (
+                session.query(Variable)
+                .filter(
+                    Variable.equipment_id == equipment_id,
+                    Variable.operation_type == operation_type,
+                )
+                .all()
+            )
+
     def find_all(self) -> list[Variable]:
         with SessionLocal() as session:
             return session.query(Variable).all()

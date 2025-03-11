@@ -11,7 +11,7 @@ logger = Logger.get_logger(__name__)
 
 
 class ActiveTimeRecordService:
-    def __init__(self, active_time_record_dao: ActiveTimeRecordDAO = None):
+    def __init__(self, active_time_record_dao=None):
         self.active_time_record_dao = active_time_record_dao or ActiveTimeRecordDAO()
 
     def save_active_time_record(

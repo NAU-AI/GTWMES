@@ -1,7 +1,7 @@
 import json
 import threading
 from service.message_service import MessageService
-from MQTT.mqtt_message_handler import MessageHandler
+from mqtt.mqtt_message_handler import MessageHandler
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
