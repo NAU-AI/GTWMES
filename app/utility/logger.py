@@ -1,9 +1,10 @@
 import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
+from datetime import datetime
 
 LOG_DIR = "logs"
-LOG_FILE = os.path.join(LOG_DIR, "app.log")
+LOG_FILE = os.path.join(LOG_DIR, f"app.{datetime.now().strftime('%Y-%m-%d')}.log")
 
 os.makedirs(LOG_DIR, exist_ok=True)
 
@@ -28,7 +29,7 @@ class Logger:
                 encoding="utf-8",
                 utc=False,
             )
-            file_handler.suffix = "%Y-%m-%d"
+            file_handler.suffix = "%Y-%m-%d"  # Not needed anymore, already in filename
             file_formatter = logging.Formatter(
                 "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
                 datefmt="%Y-%m-%d %H:%M:%S",
