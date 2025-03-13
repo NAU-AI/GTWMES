@@ -4,7 +4,7 @@ from alarm_record_service import AlarmService
 from service.counter_record_service import CounterRecordService
 from equipment_service import EquipmentService
 from service.equipment_output_service import EquipmentOutputService
-from service.PLC.snap7 import (
+from PLC.plc_client import (
     read_bool,
     read_int,
     read_real,
@@ -13,7 +13,7 @@ from service.PLC.snap7 import (
     write_bool,
     write_int,
 )
-from service.PLC.snap7 import plc_connect, plc_disconnect
+from PLC.plc_client import plc_connect, plc_disconnect
 from variable_service import (
     EquipmentVariablesService,
 )
