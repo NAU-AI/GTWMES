@@ -1,10 +1,15 @@
 from snap7 import types, util
 
+def convert_bool(data, item):
+    if "bit" not in item:
+        raise KeyError("Missing 'bit' field for boolean conversion")
+    return bool(data[0] & (1 << item["bit"]))
+
 TYPE_SPECS = {
     "bool": {
         "amount": 1,
         "wordlen": types.S7WLByte,
-        "convert": lambda data, item: bool(data[0] & (1 << item.get("bit", 0)))
+        "convert": convert_bool
     },
     "int": {
         "amount": 2,
