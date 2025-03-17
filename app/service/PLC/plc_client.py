@@ -90,7 +90,10 @@ class PLCClient:
     @require_connection
     def write_bool(self, db_number, byte_offset, bit_offset, value):
         try:
-            data = self.plc.read_area(types.Areas.DB, db_number, byte_offset, 1)
+            if not data:
+                logger.error("No data read from PLC for writing Boolean.")
+                return
+
 
             if value:
                 data[0] |= 1 << bit_offset
