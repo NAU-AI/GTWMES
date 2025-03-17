@@ -1,11 +1,11 @@
 import snap7
 from snap7 import types
-import logging
 from snap7.exceptions import Snap7Exception
+from app.utility.logger import Logger
 from service.PLC.plc_utils import require_connection
 from service.PLC.plc_types import TYPE_SPECS
 
-logger = logging.getLogger(__name__)
+logger = Logger.get_logger(__name__)
 
 
 class PLCClient:

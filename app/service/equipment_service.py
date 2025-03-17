@@ -6,6 +6,7 @@ from database.dao.equipment_dao import EquipmentDAO
 from model.equipment import Equipment
 from typing import Optional
 
+
 logger = Logger.get_logger(__name__)
 
 
