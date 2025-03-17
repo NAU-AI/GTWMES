@@ -28,6 +28,6 @@ CREATE TABLE variable (
     db_address INTEGER NOT NULL,
     type VARCHAR(20) NOT NULL,
     operation_type VARCHAR(10) NOT NULL CHECK (operation_type IN ('READ', 'WRITE')),
-    category VARCHAR(10) CHECK (category IN ('ALARM', 'OUTPUT')),
+    category VARCHAR(10),
     value JSONB
 );

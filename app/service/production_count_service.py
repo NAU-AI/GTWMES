@@ -28,6 +28,7 @@ class ProductionCountService:
             variables = self._get_all_variables(equipment.id)
 
             production_count_dto = self._build_production_count_dto(
+                message_type=message_type,
                 equipment_code=equipment.code,
                 production_order_code=equipment.production_order_code,
                 variables=variables,
@@ -41,8 +42,9 @@ class ProductionCountService:
 
     def _build_production_count_dto(
         self,
+        message_type: str,
         equipment_code: str,
-        production_order_code: str,
+        production_order_code: Optional[str],
         variables: List[VariableDTO],
     ) -> ProductionCountDTO:
         equipment_status = self._get_variable_value(
@@ -50,21 +52,33 @@ class ProductionCountService:
         )
         active_time = self._get_variable_value(variables, "activeTime", default=0)
 
-        alarms = [var.value for var in variables if var.category == "ALARM"]
+        alarm_values = [
+            alarm_variable.value if alarm_variable.value is not None else 0
+            for alarm_variable in variables
+            if alarm_variable.category == "ALARM"
+        ]
 
-        counters = [
-            {"outputCode": var.key, "value": var.value}
-            for var in variables
-            if var.category == "OUTPUT"
+        output_counters = [
+            {
+                "outputCode": output_variable.key,
+                "value": output_variable.value
+                if output_variable.value is not None
+                else 0,
+            }
+            for output_variable in variables
+            if output_variable.category == "OUTPUT"
         ]
 
         return ProductionCountDTO(
+            json_type=message_type,
             equipment_code=equipment_code,
-            production_order_code=production_order_code,
+            production_order_code=production_order_code
+            if production_order_code is not None
+            else "",
             equipment_status=equipment_status,
             active_time=active_time,
-            alarms=alarms,
-            counters=counters,
+            alarms=alarm_values,
+            counters=output_counters,
         )
 
     def _get_equipment_by_code(self, equipment_code: str) -> Equipment:

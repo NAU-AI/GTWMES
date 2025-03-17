@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
 from sqlalchemy.orm import Session
 from database.dao.equipment_dao import EquipmentDAO
 from model.equipment import Equipment
-from typing import List, Optional
+from typing import Optional
 
 logger = Logger.get_logger(__name__)
 

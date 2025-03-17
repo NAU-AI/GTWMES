@@ -150,7 +150,24 @@ class VariableService:
             if not key:
                 raise ValueError("Variable key cannot be empty.")
 
+            required_fields = [
+                "dbAddress",
+                "offsetByte",
+                "offsetBit",
+                "type",
+                "operationType",
+                "category",
+            ]
+            missing_fields = [
+                field for field in required_fields if field not in variable_data
+            ]
+            if missing_fields:
+                raise ValueError(
+                    f"Missing required fields for variable '{key}': {', '.join(missing_fields)}"
+                )
+
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+
             if variable:
                 logger.info(
                     f"Updating existing variable '{key}' for equipment ID {equipment_id}."
@@ -168,13 +185,17 @@ class VariableService:
                 offset_bit=variable_data["offsetBit"],
                 type=variable_data["type"],
                 operation_type=variable_data["operationType"],
+                category=variable_data["category"],
             )
             return self.variable_dao.save(new_variable)
+
         except Exception as e:
             logger.error(
                 f"Error creating or updating variable '{key}': {e}", exc_info=True
             )
-            raise ServiceException("Unable to create or update variable.") from e
+            raise ServiceException(
+                f"Unable to create or update variable '{key}'."
+            ) from e
 
     def update_variable_value(
         self, equipment_id: int, key: str, new_value: dict
