@@ -1,7 +1,7 @@
 import snap7
 from snap7 import types
 from snap7.exceptions import Snap7Exception
-from app.utility.logger import Logger
+from utility.logger import Logger
 from service.PLC.plc_utils import require_connection
 from service.PLC.plc_types import TYPE_SPECS
 

@@ -1,6 +1,6 @@
 import functools
 
-from app.utility.logger import Logger
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
