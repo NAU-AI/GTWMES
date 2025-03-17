@@ -15,7 +15,10 @@ class EquipmentDAO:
         return self.session.query(Equipment).filter_by(code=code).one_or_none()
 
     def find_all(self) -> List[Equipment]:
-        return self.session.query(Equipment).all()
+        equipment_list = self.session.query(Equipment).all()
+        for equipment in equipment_list:
+            self.session.refresh(equipment)
+        return equipment_list
 
     def save(self, equipment: Equipment) -> Equipment:
         try:

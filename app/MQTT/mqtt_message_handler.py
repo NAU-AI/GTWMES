@@ -64,7 +64,7 @@ class MessageHandler:
             client,
             message,
             lambda msg: self.configuration_handler_service.process_equipment_configuration(
-                client, msg
+                client, self.topic_send, msg
             ),
             "Configuration",
         )

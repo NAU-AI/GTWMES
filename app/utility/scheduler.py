@@ -24,9 +24,7 @@ class Scheduler:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
 
-            interval = (
-                equipment.p_timer_communication_cycle or 1
-            ) * 60  # Convert minutes to seconds
+            interval = (equipment.p_timer_communication_cycle or 1) * 60
 
             def wrapper():
                 try:
@@ -71,6 +69,7 @@ class Scheduler:
                 return False
 
             if task_id in self.timers:
+                logging.info(f"Canceling old timer for '{task_id}' before updating.")
                 self.timers[task_id].cancel()
                 del self.timers[task_id]
 

@@ -21,7 +21,7 @@ class ConfigurationHandlerService:
         self.variable_service = variable_service or VariableService(session)
         self.message_service = message_service or MessageService(session)
 
-    def process_equipment_configuration(self, client, message: Dict):
+    def process_equipment_configuration(self, client, topic_send, message: Dict):
         try:
             equipment_code = message.get("equipmentCode")
             ip = message.get("ip")
@@ -47,7 +47,13 @@ class ConfigurationHandlerService:
 
             logger.info(
                 f"Configuration successfully processed for '{equipment_code}' "
-                f"({len(created_variables)} variables)"
+                f"({len(created_variables)} variables). Scheduler updated."
+            )
+
+            self.message_service.update_equipment_schedule(
+                equipment,
+                client,
+                topic_send,
             )
         except Exception as e:
             logger.error(

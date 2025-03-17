@@ -34,22 +34,7 @@ class MessageService:
                 return
 
             for equipment in equipments:
-                task_id = f"equipment_{equipment.id}"
-
-                interval = equipment.p_timer_communication_cycle or 1
-
-                self.scheduler.schedule_task(
-                    task_id=task_id,
-                    equipment=equipment,
-                    action=self.send_production_message,
-                    client=client,
-                    topic_send=topic_send,
-                )
-
-                logger.info(
-                    f"Scheduled production message for equipment {equipment.id} "
-                    f"every {interval} minutes."
-                )
+                self.update_equipment_schedule(equipment, client, topic_send)
 
         except Exception as e:
             logger.error(f"Error executing production count: {e}", exc_info=True)
@@ -106,3 +91,41 @@ class MessageService:
 
         except Exception as e:
             logger.error(f"Error processing received message: {e}", exc_info=True)
+
+    def update_equipment_schedule(self, equipment, client, topic_send):
+        task_id = f"equipment_{equipment.id}"
+
+        if equipment.p_timer_communication_cycle is None:
+            logger.warning(
+                f"Equipment {equipment.code} has no communication cycle defined."
+            )
+            return
+
+        current_metadata = self.scheduler.task_metadata.get(task_id)
+
+        if current_metadata:
+            current_interval = current_metadata["interval"] // 60
+
+            if current_interval != equipment.p_timer_communication_cycle:
+                logger.info(
+                    f"Updating scheduler for {equipment.code} "
+                    f"from {current_interval} to {equipment.p_timer_communication_cycle} minutes."
+                )
+                self.scheduler.cancel_task(task_id)
+
+        self._schedule_equipment_task(equipment, client, topic_send)
+
+    def _schedule_equipment_task(self, equipment, client, topic_send):
+        task_id = f"equipment_{equipment.id}"
+
+        logger.info(
+            f"Scheduling task for {equipment.code} every {equipment.p_timer_communication_cycle} minutes."
+        )
+
+        self.scheduler.schedule_task(
+            task_id=task_id,
+            equipment=equipment,
+            action=self.send_production_message,
+            client=client,
+            topic_send=topic_send,
+        )

@@ -33,16 +33,6 @@ class EquipmentService:
         try:
             return self.equipment_dao.find_all()
         except ProgrammingError as e:
-            logger.warning(f"Unable to fetch equipment due to database error: {e}")
-            return []
-        except Exception as e:
-            logger.error(f"Error fetching all equipment: {e}", exc_info=True)
-            raise ServiceException("Unable to fetch all equipment.") from e
-
-    def get_all_equipment_refreshed(self):
-        try:
-            return self.equipment_dao.find_all()
-        except ProgrammingError as e:
             logger.warning(f"Unable to refresh equipment due to database error: {e}")
             return []
         except Exception as e:
