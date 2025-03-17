@@ -1,56 +1,73 @@
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 from model.equipment import Equipment
-
-from database.connection.db_connection import SessionLocal
+from typing import Optional, List
 
 
 class EquipmentDAO:
-    def find_by_id(self, equipment_id: int) -> Equipment | None:
-        with SessionLocal() as session:
-            return session.query(Equipment).filter(Equipment.id == equipment_id).first()
+    def __init__(self, session: Session):
+        self.session = session
 
-    def find_by_code(self, code: str) -> Equipment | None:
-        with SessionLocal() as session:
-            return session.query(Equipment).filter(Equipment.code == code).first()
+    def find_by_id(self, equipment_id: int) -> Optional[Equipment]:
+        return self.session.get(Equipment, equipment_id)
 
-    def find_all(self) -> list[Equipment]:
-        with SessionLocal() as session:
-            return session.query(Equipment).all()
+    def find_by_code(self, code: str) -> Optional[Equipment]:
+        return self.session.query(Equipment).filter_by(code=code).one_or_none()
 
-    def get_all_equipment_refreshed(self) -> list[Equipment]:
-        with SessionLocal() as session:
-            session.expire_all()
-            return session.query(Equipment).all()
+    def find_all(self) -> List[Equipment]:
+        return self.session.query(Equipment).all()
 
     def save(self, equipment: Equipment) -> Equipment:
-        with SessionLocal() as session:
-            session.add(equipment)
-            session.commit()
-            session.refresh(equipment)
+        try:
+            self.session.add(equipment)
+            self.session.commit()
+            self.session.refresh(equipment)
             return equipment
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise Exception(f"Database error: {e}")
 
-    def update(self, equipment_id: int, updated_data: dict) -> Equipment | None:
-        with SessionLocal() as session:
-            equipment = (
-                session.query(Equipment).filter(Equipment.id == equipment_id).first()
-            )
+    def update(self, equipment_id: int, updated_data: dict) -> Optional[Equipment]:
+        try:
+            equipment = self.find_by_id(equipment_id)
             if not equipment:
                 return None
 
             for key, value in updated_data.items():
-                setattr(equipment, key, value)
+                if hasattr(equipment, key):
+                    setattr(equipment, key, value)
 
-            session.commit()
-            session.refresh(equipment)
+            self.session.commit()
+            self.session.refresh(equipment)
             return equipment
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise Exception(f"Database error: {e}")
 
-    def delete(self, equipment_id: int) -> bool:
-        with SessionLocal() as session:
-            equipment = (
-                session.query(Equipment).filter(Equipment.id == equipment_id).first()
-            )
+    def update_production_order_code(
+        self, equipment_id: int, production_order_code: str
+    ) -> bool:
+        try:
+            equipment = self.find_by_id(equipment_id)
             if not equipment:
                 return False
 
-            session.delete(equipment)
-            session.commit()
+            equipment.production_order_code = production_order_code
+            self.session.commit()
             return True
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise Exception(f"Database error updating production order code: {e}")
+
+    def delete(self, equipment_id: int) -> bool:
+        try:
+            equipment = self.find_by_id(equipment_id)
+            if not equipment:
+                return False
+
+            self.session.delete(equipment)
+            self.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise Exception(f"Database error: {e}")

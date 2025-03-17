@@ -2,10 +2,11 @@ import snap7
 from snap7 import types
 import logging
 from snap7.exceptions import Snap7Exception
-from plc_utils import require_connection
-from plc_types import TYPE_SPECS 
+from service.PLC.plc_utils import require_connection
+from service.PLC.plc_types import TYPE_SPECS
 
 logger = logging.getLogger(__name__)
+
 
 class PLCClient:
     def __init__(self, ip, rack=0, slot=1):
@@ -40,7 +41,7 @@ class PLCClient:
             if not specs:
                 logger.error(f"Unsupported type: {item['type']}")
                 continue
-            
+
             s7_item = types.S7DataItem()
             s7_item.Area = types.Areas.DB
             s7_item.DBNumber = item["db"]
@@ -73,5 +74,5 @@ class PLCClient:
             except (Snap7Exception, ValueError) as e:
                 logger.error(f"Error reading {item}: {e}")
                 results[key] = None
-        
+
         return results

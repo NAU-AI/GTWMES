@@ -1,154 +1,130 @@
-from exception.Exception import (
-    ConflictException,
-    NotFoundException,
-    ServiceException,
-)
-
+from exception.Exception import ConflictException, ServiceException, NotFoundException
 from utility.logger import Logger
-
+from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
+from sqlalchemy.orm import Session
 from database.dao.equipment_dao import EquipmentDAO
-
-from database.dao.equipment_output_dao import EquipmentOutputDAO
 from model.equipment import Equipment
-
+from typing import List, Optional
 
 logger = Logger.get_logger(__name__)
 
 
 class EquipmentService:
-    def __init__(
-        self,
-        equipment_dao: EquipmentDAO = None,
-        equipment_output_dao: EquipmentOutputDAO = None,
-    ):
-        self.equipment_dao = equipment_dao or EquipmentDAO()
-
-        self.equipment_output_dao = equipment_output_dao or EquipmentOutputDAO()
+    def __init__(self, session: Session):
+        self.session = session
+        self.equipment_dao = EquipmentDAO(self.session)
 
     def get_equipment_by_code(self, code: str) -> Equipment:
         if not code:
             raise ValueError("Equipment code cannot be empty")
-
         try:
-            if equipment := self.equipment_dao.find_by_code(code):
-                return equipment
-
-            else:
+            equipment = self.equipment_dao.find_by_code(code)
+            if not equipment:
                 raise NotFoundException(f"Equipment with code '{code}' not found")
-
+            return equipment
         except Exception as e:
             logger.error(
                 f"Error fetching equipment by code '{code}': {e}", exc_info=True
             )
-
             raise ServiceException("Unable to fetch equipment by code.") from e
 
-    def get_equipment_by_id(self, equipment_id: int) -> Equipment:
-        if not equipment_id:
-            raise ValueError("equipment_id cannot be null or empty.")
-
-        try:
-            if equipment := self.equipment_dao.find_by_id(equipment_id):
-                return equipment
-
-            else:
-                raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
-
-        except Exception as e:
-            logger.error(
-                f"Error fetching equipment by ID '{equipment_id}': {e}", exc_info=True
-            )
-
-            raise ServiceException("An unexpected error occurred.") from e
-
-    def get_all_equipment(self) -> list[Equipment]:
+    def get_all_equipment(self):
         try:
             return self.equipment_dao.find_all()
-
+        except ProgrammingError as e:
+            logger.warning(f"Unable to fetch equipment due to database error: {e}")
+            return []
         except Exception as e:
-            logger.error("Error fetching all equipment.", exc_info=True)
-
+            logger.error(f"Error fetching all equipment: {e}", exc_info=True)
             raise ServiceException("Unable to fetch all equipment.") from e
 
-    def get_all_equipment_refreshed(self) -> list[Equipment]:
+    def get_all_equipment_refreshed(self):
         try:
-            return self.equipment_dao.get_all_equipment_refreshed()
-
+            return self.equipment_dao.find_all()
+        except ProgrammingError as e:
+            logger.warning(f"Unable to refresh equipment due to database error: {e}")
+            return []
         except Exception as e:
-            logger.error("Error fetching all equipment.", exc_info=True)
-
-            raise ServiceException("Unable to fetch all equipment.") from e
+            logger.error(f"Error fetching and refreshing equipment: {e}", exc_info=True)
+            raise ServiceException("Unable to fetch and refresh equipment.") from e
 
     def insert_equipment(self, equipment: Equipment) -> Equipment:
         try:
             existing_equipment = self.equipment_dao.find_by_code(equipment.code)
-
             if existing_equipment:
                 raise ConflictException(
                     f"Equipment with code '{equipment.code}' already exists"
                 )
-
             saved_equipment = self.equipment_dao.save(equipment)
-
             logger.info(
                 f"Inserted new equipment '{saved_equipment.code}' with ID {saved_equipment.id}"
             )
-
-            return self.equipment_dao.find_by_id(saved_equipment.id)
-
-        except Exception as e:
-            logger.error(f"Error inserting equipment: {e}", exc_info=True)
-
+            return saved_equipment
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            logger.error(f"Database error inserting equipment: {e}", exc_info=True)
             raise ServiceException("Unable to insert new equipment.") from e
 
     def create_or_update_equipment(
-        self, code: str, ip: str, p_timer_communication_cycle: int
+        self, code: str, ip: str, p_timer_communication_cycle: Optional[int]
     ) -> Equipment:
         try:
-            equipment = self.equipment_dao.find_by_code(code)
-
-            if equipment:
+            existing_equipment = self.equipment_dao.find_by_code(code)
+            if existing_equipment:
                 logger.info(f"Updating existing equipment '{code}'.")
-
-                equipment.ip = ip
-
-                equipment.p_timer_communication_cycle = p_timer_communication_cycle
-
-                self.equipment_dao.save(equipment)
-
-            else:
-                logger.info(f"Creating new equipment '{code}'.")
-
-                equipment = Equipment(
-                    code=code,
-                    ip=ip,
-                    p_timer_communication_cycle=p_timer_communication_cycle,
+                updated_data = {
+                    "ip": ip,
+                    "p_timer_communication_cycle": p_timer_communication_cycle,
+                }
+                updated_equipment = self.equipment_dao.update(
+                    existing_equipment.id, updated_data
                 )
+                return updated_equipment
 
-                equipment = self.equipment_dao.save(equipment)
-
-            return equipment
-
-        except Exception as e:
-            logger.error(f"Error creating or updating equipment: {e}", exc_info=True)
-
+            logger.info(f"Creating new equipment '{code}'.")
+            new_equipment = Equipment(
+                code=code,
+                ip=ip,
+                p_timer_communication_cycle=p_timer_communication_cycle,
+            )
+            return self.equipment_dao.save(new_equipment)
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            logger.error(
+                f"Database error creating or updating equipment: {e}", exc_info=True
+            )
             raise ServiceException("Unable to create or update equipment.") from e
 
-    def delete_equipment(self, equipment_id: int) -> dict:
-        if not equipment_id:
-            raise ValueError("Equipment ID cannot be null or empty.")
-
+    def start_production_order(
+        self, equipment_id: int, production_order_code: str
+    ) -> bool:
         try:
-            deleted = self.equipment_dao.delete(equipment_id)
+            success = self.equipment_dao.update_production_order_code(
+                equipment_id, production_order_code
+            )
+            if success:
+                logger.info(
+                    f"Assigned production order '{production_order_code}' to equipment ID {equipment_id}."
+                )
+            return success
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            logger.error(
+                f"Database error starting production order: {e}", exc_info=True
+            )
+            raise ServiceException("Unable to start production order.") from e
 
-            if not deleted:
-                raise NotFoundException(f"Equipment with ID '{equipment_id}' not found")
-
-            logger.info(f"Deleted equipment with ID {equipment_id}")
-
-            return {"message": f"Equipment with ID {equipment_id} deleted successfully"}
-
-        except Exception as e:
-            logger.error(f"Error deleting equipment: {e}", exc_info=True)
-
-            raise ServiceException("Unable to delete equipment.") from e
+    def complete_production_order(self, equipment_id: int) -> bool:
+        try:
+            success = self.equipment_dao.update_production_order_code(equipment_id, "")
+            if success:
+                logger.info(
+                    f"Completed production order for equipment ID {equipment_id}."
+                )
+            return success
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            logger.error(
+                f"Database error completing production order: {e}", exc_info=True
+            )
+            raise ServiceException("Unable to complete production order.") from e

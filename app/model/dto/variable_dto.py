@@ -1,9 +1,26 @@
-from typing import Any, Optional
-from pydantic import BaseModel, ConfigDict
+from typing import Optional
 
 
-class VariableDto(BaseModel):
-    key: str
-    value: Optional[Any]
+class VariableDTO:
+    def __init__(
+        self,
+        equipment_id: int,
+        category: str,
+        operation_type: str,
+        value: Optional[dict] = None,
+        key: Optional[str] = None,
+    ):
+        self.equipment_id = equipment_id
+        self.category = category
+        self.operation_type = operation_type
+        self.value = value
+        self.key = key
 
-    model_config = ConfigDict(from_attributes=True)
+    def to_dict(self) -> dict:
+        return {
+            "equipmentId": self.equipment_id,
+            "category": self.category,
+            "operationType": self.operation_type,
+            "value": self.value,
+            "key": self.key,
+        }

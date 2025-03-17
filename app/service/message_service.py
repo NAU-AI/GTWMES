@@ -1,20 +1,11 @@
 import json
 
-
+from sqlalchemy.orm import Session
 from utility.scheduler import Scheduler
-
-
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
-
-
 from service.production_count_service import ProductionCountService
-
-
 from service.equipment_service import EquipmentService
-
-
 from utility.logger import Logger
-
 
 logger = Logger.get_logger(__name__)
 
@@ -22,24 +13,16 @@ logger = Logger.get_logger(__name__)
 PRODUCTION_COUNT_MESSAGE_TYPE = "ProductionCount"
 
 
-MAX_MQTT_MESSAGE_SIZE = 128 * 1024  # 128 KB limit for AWS IoT Core
+MAX_MQTT_MESSAGE_SIZE = 128 * 1024
 
 
 class MessageService:
-    def __init__(
-        self,
-        production_count_service: ProductionCountService = None,
-        equipment_service: EquipmentService = None,
-        mqtt_heart_beat: MqttHeartbeatMonitor = None,
-    ):
-        self.production_count_service = (
-            production_count_service or ProductionCountService()
-        )
+    def __init__(self, session: Session):
+        self.session = session
 
-        self.equipment_service = equipment_service or EquipmentService()
-
-        self.mqtt_heart_beat = mqtt_heart_beat or MqttHeartbeatMonitor()
-
+        self.production_count_service = ProductionCountService(session=session)
+        self.equipment_service = EquipmentService(session=session)
+        self.mqtt_heart_beat = MqttHeartbeatMonitor(session=session)
         self.scheduler = Scheduler()
 
     def execute_production_count(self, client, topic_send):
