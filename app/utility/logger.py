@@ -1,10 +1,9 @@
 import logging
-from logging.handlers import TimedRotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 LOG_DIR = BASE_DIR.parent / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -26,13 +25,11 @@ class Logger:
         logger.propagate = False
 
         if not logger.handlers:
-            file_handler = TimedRotatingFileHandler(
+            file_handler = RotatingFileHandler(
                 filename=str(get_log_filename()),
-                when="midnight",
-                interval=1,
+                maxBytes=10 * 1024 * 1024,
                 backupCount=7,
                 encoding="utf-8",
-                utc=False,
             )
 
             file_formatter = logging.Formatter(
