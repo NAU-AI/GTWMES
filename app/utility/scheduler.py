@@ -60,7 +60,7 @@ class Scheduler:
         timer.start()
 
     def update_timer(self, task_id, new_interval_minutes):
-        new_interval = new_interval_minutes * 60  # Convert to seconds
+        new_interval = new_interval_minutes * 60
 
         with self.lock:
             if task_id not in self.task_metadata:
