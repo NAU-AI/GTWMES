@@ -71,6 +71,26 @@ class VariableService:
             )
             raise ServiceException("Unable to fetch variable by key.") from e
 
+    def get_by_equipment_id_and_key(
+        self, equipment_id: int, key: str
+    ) -> Optional[Variable]:
+        if not equipment_id or not key:
+            logger.warning("Invalid parameters: equipment_id and key must be provided.")
+            return None
+
+        variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
+
+        if not variable:
+            logger.info(
+                f"No variable found for equipment_id={equipment_id} and key='{key}'"
+            )
+            return None
+
+        logger.debug(
+            f"Retrieved variable '{key}' for equipment_id={equipment_id}: {variable}"
+        )
+        return variable
+
     def get_variables_by_equipment_id_category_operation_type(
         self, equipment_id: int, category: str, operation_type: str
     ) -> List[VariableDTO]:
@@ -84,7 +104,6 @@ class VariableService:
                     f"No variables found for equipment ID {equipment_id}, category {category}, and operation type {operation_type}."
                 )
 
-            # Create a list of VariableDTOs with the key included
             variable_dtos = [
                 VariableDTO(
                     equipment_id=variable.equipment_id,

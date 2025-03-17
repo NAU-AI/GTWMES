@@ -116,9 +116,11 @@ class MqttHeartbeatMonitor:
 
     def _write_alarm_status(self, equipment_code, status):
         try:
-            self.plc_service.write_alarm(db_address=8, byte=8, bit=0, value=status)
+            self.plc_service.write_alarm_status_by_key(
+                equipment_code=equipment_code, key="Plc_alarm", status=status
+            )
             logger.warning(
-                f"Alarm written to PLC for {equipment_code}: Byte 8, Bit 0, Value {status}"
+                f"Alarm 'Plc_alarm' written to PLC for {equipment_code}: {status}"
             )
         except Exception as e:
             logger.error(
