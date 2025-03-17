@@ -1,14 +1,16 @@
 import logging
-import os
 from logging.handlers import TimedRotatingFileHandler
 from datetime import datetime
+from pathlib import Path
 
-LOG_DIR = "logs"
-os.makedirs(LOG_DIR, exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+LOG_DIR = BASE_DIR.parent / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def get_log_filename():
-    return os.path.join(LOG_DIR, f"app.{datetime.now().strftime('%Y-%m-%d')}.log")
+    return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d')}.log"
 
 
 class Logger:
@@ -25,7 +27,7 @@ class Logger:
 
         if not logger.handlers:
             file_handler = TimedRotatingFileHandler(
-                filename=get_log_filename(),
+                filename=str(get_log_filename()),
                 when="midnight",
                 interval=1,
                 backupCount=7,
