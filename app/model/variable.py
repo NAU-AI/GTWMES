@@ -28,7 +28,8 @@ class Variable(Base):
             "operation_type IN ('READ', 'WRITE')", name="chk_operation_type"
         ),
         CheckConstraint(
-            "category IN ('ALARM', 'OUTPUT') OR category IS NULL", name="chk_category"
+            "category IN ('ALARM', 'OUTPUT', 'EQUIPMENT') OR category IS NULL",
+            name="chk_category",
         ),
     )
 
