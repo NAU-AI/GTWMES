@@ -1,23 +1,12 @@
-from service.production_order_service import ProductionOrderService
-
-from service.equipment_service import EquipmentService
-
-from service.equipment_output_service import EquipmentOutputService
-
-from service.active_time_record_service import ActiveTimeRecordService
-
-from service.alarm_record_service import AlarmRecordService
-
-from service.counter_record_service import CounterRecordService
-
-from service.plc_service import PlcService
-
-from model.equipment import Equipment
-
+from model.dto.production_count_dto import ProductionCountDTO
+from model.dto.variable_dto import VariableDTO
+from sqlalchemy.orm import Session
+from service.variable_service import VariableService
 from exception.Exception import ServiceException, NotFoundException
-
 from utility.logger import Logger
-
+from model.equipment import Equipment
+from service.equipment_service import EquipmentService  # Import the EquipmentService
+from typing import List, Optional
 
 logger = Logger.get_logger(__name__)
 
@@ -25,143 +14,102 @@ logger = Logger.get_logger(__name__)
 class ProductionCountService:
     def __init__(
         self,
-        production_order_service: ProductionOrderService = None,
-        equipment_service: EquipmentService = None,
-        equipment_output_service: EquipmentOutputService = None,
-        active_time_service: ActiveTimeRecordService = None,
-        alarm_service: AlarmRecordService = None,
-        counter_record_service: CounterRecordService = None,
-        plc_service: PlcService = None,
+        session: Session,
+        variable_service: Optional[VariableService] = None,
+        equipment_service: Optional[EquipmentService] = None,
     ):
-        self.production_order_service = (
-            production_order_service or ProductionOrderService()
-        )
-
-        self.equipment_service = equipment_service or EquipmentService()
-
-        self.equipment_output_service = (
-            equipment_output_service or EquipmentOutputService()
-        )
-
-        self.active_time_service = active_time_service or ActiveTimeRecordService()
-
-        self.alarm_service = alarm_service or AlarmRecordService()
-
-        self.counter_record_service = counter_record_service or CounterRecordService()
-
-        self.plc_service = plc_service or PlcService()
+        self.variable_service = variable_service or VariableService(session)
+        self.equipment_service = equipment_service or EquipmentService(session)
 
     def build_production_count(self, equipment_code: str, message_type: str) -> dict:
         try:
-            logger.info(
-                f"Building production count message for equipment '{equipment_code}'"
-            )
+            equipment = self._get_equipment_by_code(equipment_code)
 
-            equipment = self._get_equipment(equipment_code)
+            variables = self._get_all_variables(equipment.id)
 
-            if not equipment:
-                raise NotFoundException(
-                    f"Equipment with code '{equipment_code}' not found"
-                )
-
-            production_order_code = self._get_active_production_order_code(equipment)
-
-            active_time = self.active_time_service.get_active_time_value(equipment.id)
-
-            ###alarms = self.alarm_service.get_by_equipment_id(equipment.id)
-
-            counters = self._get_counters(equipment.id)
-
-            equipment_status = self._get_equipment_status(equipment)
-
-            return self._prepare_message(
-                json_type=message_type,
+            production_count_dto = self._build_production_count_dto(
+                message_type=message_type,
                 equipment_code=equipment.code,
-                production_order_code=production_order_code,
-                equipment_status=equipment_status,
-                active_time=active_time,
-                ##alarms=alarms,
-                counters=counters,
+                production_order_code=equipment.production_order_code,
+                variables=variables,
             )
+
+            return production_count_dto.to_dict()
 
         except Exception as e:
             logger.error(f"Error building production count message: {e}", exc_info=True)
-
             raise ServiceException("Failed to build production count message.") from e
 
-    def _get_equipment(self, equipment_code: str) -> Equipment:
-        try:
-            return self.equipment_service.get_equipment_by_code(equipment_code)
+    def _build_production_count_dto(
+        self,
+        message_type: str,
+        equipment_code: str,
+        production_order_code: Optional[str],
+        variables: List[VariableDTO],
+    ) -> ProductionCountDTO:
+        equipment_status = self._get_variable_value(
+            variables, "equipmentStatus", default=0
+        )
+        active_time = self._get_variable_value(variables, "activeTime", default=0)
 
-        except Exception as e:
-            logger.error(
-                f"Error fetching equipment '{equipment_code}': {e}", exc_info=True
-            )
+        alarm_values = [
+            alarm_variable.value if alarm_variable.value is not None else 0
+            for alarm_variable in variables
+            if alarm_variable.category == "ALARM"
+        ]
 
-            return None
+        output_counters = [
+            {
+                "outputCode": output_variable.key,
+                "value": output_variable.value
+                if output_variable.value is not None
+                else 0,
+            }
+            for output_variable in variables
+            if output_variable.category == "OUTPUT"
+        ]
 
-    def _get_active_production_order_code(self, equipment: Equipment) -> str:
-        production_order = self.production_order_service.get_production_order_by_equipment_id_and_status(
-            equipment.id, is_completed=False
+        return ProductionCountDTO(
+            json_type=message_type,
+            equipment_code=equipment_code,
+            production_order_code=production_order_code
+            if production_order_code is not None
+            else "",
+            equipment_status=equipment_status,
+            active_time=active_time,
+            alarms=alarm_values,
+            counters=output_counters,
         )
 
-        if not production_order:
-            logger.warning(
-                f"No active production order found for equipment ID {equipment, equipment.id}"
+    def _get_equipment_by_code(self, equipment_code: str) -> Equipment:
+        equipment = self.equipment_service.get_equipment_by_code(equipment_code)
+        if not equipment:
+            raise NotFoundException(
+                f"Equipment with code '{equipment_code}' not found."
             )
+        return equipment
 
-            return ""
-
-        return production_order.code
-
-    def _get_counters(self, equipment_id: int) -> list:
-        try:
-            outputs = self.equipment_output_service.get_by_equipment_id(equipment_id)
-
-            counter_records = []
-
-            for output in outputs:
-                counter_value = (
-                    self.counter_record_service.get_last_by_equipment_output_id(
-                        output.id
-                    )
-                )
-
-                counter_records.append(
-                    {
-                        "outputCode": output.code,
-                        "value": counter_value,
-                    }
-                )
-
-            return counter_records
-
-        except Exception as e:
-            logger.error(
-                f"Error fetching counters for equipment ID {equipment_id}: {e}",
-                exc_info=True,
+    def _get_all_variables(self, equipment_id: int) -> List[VariableDTO]:
+        variables = self.variable_service.get_by_equipment_id(equipment_id)
+        if not variables:
+            raise NotFoundException(
+                f"No variables found for equipment ID {equipment_id}."
             )
-
-            return []  # Return an empty list if there's an error
-
-    def _get_equipment_status(self, equipment: Equipment) -> int:
-        try:
-            return self.plc_service.read_equipment_status(equipment.id)
-
-        except Exception:
-            logger.warning(
-                f"Could not fetch equipment status for '{equipment.code}', defaulting to 0"
+        return [
+            VariableDTO(
+                equipment_id=var.equipment_id,
+                category=var.category,
+                operation_type=var.operation_type,
+                value=var.value,
+                key=var.key,
             )
+            for var in variables
+        ]
 
-            return 0
-
-    def _prepare_message(self, **kwargs) -> dict:
-        return {
-            "jsonType": kwargs.get("json_type", ""),
-            "equipmentCode": kwargs.get("equipment_code", ""),
-            "productionOrderCode": kwargs.get("production_order_code", ""),
-            "equipmentStatus": kwargs.get("equipment_status", 0),
-            "activeTime": kwargs.get("active_time", 0),
-            "alarms": kwargs.get("alarms", []),
-            "counters": kwargs.get("counters", []),
-        }
+    def _get_variable_value(
+        self, variables: List[VariableDTO], key: str, default: Optional[int] = 0
+    ) -> int:
+        for variable in variables:
+            if variable.key == key:
+                return variable.value if variable.value is not None else default
+        return default

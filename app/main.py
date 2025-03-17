@@ -1,9 +1,11 @@
+from sqlalchemy import text
+from database.connection.db_connection import get_session
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
 from mqtt.mqtt_message_processor import MessageProcessor
 from mqtt.mqtt_client_manager import ClientManager
 from utility.logger import Logger
-from database.connection.db_connection import SessionLocal
-from sqlalchemy.sql import text
+
+logger = Logger.get_logger(__name__)
 
 
 class MESMain:
@@ -54,10 +56,13 @@ class MESMain:
 
 def check_database_connection():
     try:
-        with SessionLocal() as session:
-            session.execute(text("SELECT 1"))
+        with get_session() as session:
+            result = session.execute(text("SELECT 1"))
+            if result.scalar() != 1:
+                raise Exception("Unable to establish a connection to the database.")
+        logger.info("Database connection successful.")
     except Exception as e:
-        Logger.get_logger(__name__).error(
+        logger.error(
             f"Critical startup failure: Unable to connect to database: {e}",
             exc_info=True,
         )
@@ -65,19 +70,20 @@ def check_database_connection():
 
 
 def initialize_mes_service() -> MESMain:
-    message_processor = MessageProcessor()
-    client_manager = ClientManager(message_processor)
-    mqtt_heart_beat = MqttHeartbeatMonitor()
+    with get_session() as session:
+        message_processor = MessageProcessor(session=session)
+        client_manager = ClientManager(message_processor)
+        mqtt_heart_beat = MqttHeartbeatMonitor(session=session)
 
-    return MESMain(
-        message_processor=message_processor,
-        client_manager=client_manager,
-        mqtt_heart_beat=mqtt_heart_beat,
-    )
+        return MESMain(
+            message_processor=message_processor,
+            client_manager=client_manager,
+            mqtt_heart_beat=mqtt_heart_beat,
+        )
 
 
 def main():
-    check_database_connection()  # Ensures DB is up before proceeding
+    check_database_connection()
     mes_service = initialize_mes_service()
     mes_service.start()
 
