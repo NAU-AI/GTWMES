@@ -21,6 +21,7 @@ class Logger:
 
         logger = logging.getLogger(name)
         logger.setLevel(logging.INFO)
+        logger.propagate = False
 
         if not logger.handlers:
             file_handler = TimedRotatingFileHandler(
@@ -45,7 +46,3 @@ class Logger:
 
         Logger._loggers[name] = logger
         return logger
-
-
-logger = Logger.get_logger(__name__)
-logger.info("Logging system initialized.")

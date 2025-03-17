@@ -43,9 +43,9 @@ class MessageHandler:
             )
 
         finally:
-            self._send_response(client, message, response_type)
+            self._send_response(client, message)
 
-    def _send_response(self, client, message, response_type):
+    def _send_response(self, client, message):
         response_message = self._build_response_message(message)
         self.message_service.send_message_response(
             client, self.topic_send, response_message
