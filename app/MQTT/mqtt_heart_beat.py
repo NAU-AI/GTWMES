@@ -54,7 +54,7 @@ class MqttHeartbeatMonitor:
         def monitor():
             try:
                 while not self.stop_event.is_set():
-                    equipments = self.equipment_service.get_all_equipment_refreshed()
+                    equipments = self.equipment_service.get_all_equipment()
 
                     with self.lock:
                         for equipment in equipments:
@@ -106,6 +106,7 @@ class MqttHeartbeatMonitor:
             f"ALARM TRIGGERED: Heartbeat timeout for {equipment_code}. "
             f"Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
         )
+
         self.update_alarm_status(equipment_code, 1)
 
     def update_alarm_status(self, equipment_code, status):
