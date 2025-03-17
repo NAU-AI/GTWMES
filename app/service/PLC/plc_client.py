@@ -124,8 +124,8 @@ class PLCClient:
     def write_int(self, db_number, byte_offset, value):
         try:
             data = bytearray(2)
-            data[0] = (value >> 8) & 0xFF
-            data[1] = value & 0xFF
+            data[0] = (value >> 8) & 0xFF  # High byte
+            data[1] = value & 0xFF       # Low byte
             self.plc.write_area(types.Areas.DB, db_number, byte_offset, data)
             logger.info(
                 "Integer value at DB %s, Byte %s set to %s",
