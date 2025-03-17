@@ -7,6 +7,7 @@ from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
+
 class PLCClient:
     def __init__(self, ip, rack=0, slot=1):
         self.ip = ip
@@ -90,10 +91,7 @@ class PLCClient:
     @require_connection
     def write_bool(self, db_number, byte_offset, bit_offset, value):
         try:
-            if not data:
-                logger.error("No data read from PLC for writing Boolean.")
-                return
-
+            data = self.plc.read_area(types.Areas.DB, db_number, byte_offset, 1)
 
             if value:
                 data[0] |= 1 << bit_offset
@@ -125,7 +123,7 @@ class PLCClient:
         try:
             data = bytearray(2)
             data[0] = (value >> 8) & 0xFF  # High byte
-            data[1] = value & 0xFF       # Low byte
+            data[1] = value & 0xFF  # Low byte
             self.plc.write_area(types.Areas.DB, db_number, byte_offset, data)
             logger.info(
                 "Integer value at DB %s, Byte %s set to %s",
