@@ -19,12 +19,14 @@ class Scheduler:
             self.task_metadata = {}
             self.lock = threading.Lock()
 
-    def schedule_task(self, task_id, equipment, action, client, topic_send):
+    def schedule_task(
+        self, task_id, equipment, action, client, topic_send, interval=None
+    ):
         with self.lock:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
 
-            interval = (equipment.p_timer_communication_cycle or 1) * 60
+            interval = interval or ((equipment.p_timer_communication_cycle or 1) * 60)
 
             def wrapper():
                 try:
@@ -58,7 +60,6 @@ class Scheduler:
         timer.start()
 
     def update_timer(self, task_id, new_interval_minutes):
-        """Updates an existing task with a new interval (in minutes)."""
         new_interval = new_interval_minutes * 60  # Convert to seconds
 
         with self.lock:
@@ -107,9 +108,7 @@ class Scheduler:
             return True
 
     def _reschedule_task(self, task_id, equipment, action, client, topic_send):
-        interval = (
-            equipment.p_timer_communication_cycle or 1
-        ) * 60  # Convert to seconds
+        interval = (equipment.p_timer_communication_cycle or 1) * 60
 
         def wrapper():
             try:

@@ -1,4 +1,5 @@
 import logging
+from utility.scheduler import Scheduler
 from service.equipment_service import EquipmentService
 from service.PLC.plc_client import PLCClient
 from service.variable_service import VariableService
@@ -18,6 +19,7 @@ class PlcService:
         self.variable_service = variable_service or VariableService(session)
         self.equipment_service = equipment_service or EquipmentService(session)
         self.plc_client_factory = plc_client_factory or PLCClient
+        self.scheduler = Scheduler()
         self.plc_clients = {}
 
     def get_plc_client(self, ip):
@@ -33,9 +35,15 @@ class PlcService:
 
     def read_plc_data(self, equipment_id, equipment_ip):
         plc = self.get_plc_client(equipment_ip)
+
         if not plc.is_connected():
-            logger.warning(f"PLC {equipment_ip} not connected.")
-            return None
+            logger.warning(
+                f"PLC {equipment_ip} not connected. Attempting to reconnect..."
+            )
+            plc.connect()
+            if not plc.is_connected():
+                logger.error(f"Failed to reconnect to PLC {equipment_ip}.")
+                return None
 
         variables = self.variable_service.get_by_equipment_id(equipment_id)
         if not variables:
@@ -53,12 +61,16 @@ class PlcService:
             for var in variables
         ]
 
-        results = plc.read_data_package(data_package)
+        try:
+            results = plc.read_data_package(data_package)
+        except Exception as e:
+            logger.error(f"Error reading PLC data for {equipment_id}: {e}")
+            return None
 
         if results:
             self._process_results(equipment_id, results, variables)
 
-        logger.info("Successfully read PLC data.")
+        logger.info(f"Successfully read PLC data for {equipment_id}.")
         return results
 
     def _process_results(self, equipment_id, results, variables):
@@ -88,3 +100,28 @@ class PlcService:
         logger.info(
             f"Boolean {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}, Bit {bit}"
         )
+
+    def schedule_plc_readings(self):
+        equipments = self.equipment_service.get_all_equipment()
+
+        for equipment in equipments:
+            task_id = f"plc_read_{equipment.id}"
+
+            self.scheduler.schedule_task(
+                task_id=task_id,
+                equipment=equipment,
+                action=self._read_plc_data_task,
+                client=None,
+                topic_send=None,
+                interval=60,
+            )
+
+            logger.info(
+                f"Scheduled PLC data reading for {equipment.code} every 1 minute."
+            )
+
+    def _read_plc_data_task(self, client, topic_send, equipment):
+        try:
+            self.read_plc_data(equipment.id, equipment.ip)
+        except Exception as e:
+            logger.error(f"Error during PLC data reading for {equipment.id}: {e}")
