@@ -90,7 +90,9 @@ class ProductionCountService:
         return equipment
 
     def _get_all_variables(self, equipment_id: int) -> List[VariableDTO]:
-        variables = self.variable_service.get_by_equipment_id(equipment_id)
+        variables = self.variable_service.get_by_equipment_id_and_operation_type(
+            equipment_id, "READ"
+        )
         if not variables:
             raise NotFoundException(
                 f"No variables found for equipment ID {equipment_id}."
