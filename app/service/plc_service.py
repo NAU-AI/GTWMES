@@ -1,4 +1,4 @@
-import logging
+from utility.logger import Logger
 from utility.scheduler import Scheduler
 from service.equipment_service import EquipmentService
 from service.PLC.plc_client import PLCClient
@@ -6,7 +6,7 @@ from service.variable_service import VariableService
 from sqlalchemy.orm import Session
 from snap7.exceptions import Snap7Exception
 
-logger = logging.getLogger(__name__)
+logger = Logger.get_logger(__name__)
 
 
 class PlcService:

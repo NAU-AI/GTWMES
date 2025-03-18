@@ -1,5 +1,7 @@
 import threading
-import logging
+from utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class Scheduler:
@@ -32,7 +34,7 @@ class Scheduler:
                 try:
                     action(client, topic_send, equipment)
                 except Exception as e:
-                    logging.error(
+                    logger.error(
                         f"Error executing scheduled task '{task_id}': {e}",
                         exc_info=True,
                     )
@@ -52,7 +54,7 @@ class Scheduler:
                 "client": client,
                 "topic_send": topic_send,
             }
-            logging.info(f"Scheduled task '{task_id}' every {interval / 60} minutes.")
+            logger.info(f"Scheduled task '{task_id}' every {interval / 60} minutes.")
 
     def _start_timer(self, task_id, wrapper, interval):
         timer = threading.Timer(interval, wrapper)
@@ -64,13 +66,13 @@ class Scheduler:
 
         with self.lock:
             if task_id not in self.task_metadata:
-                logging.warning(
+                logger.warning(
                     f"Task '{task_id}' not found in metadata. Cannot update."
                 )
                 return False
 
             if task_id in self.timers:
-                logging.info(f"Canceling old timer for '{task_id}' before updating.")
+                logger.info(f"Canceling old timer for '{task_id}' before updating.")
                 self.timers[task_id].cancel()
                 del self.timers[task_id]
 
@@ -85,7 +87,7 @@ class Scheduler:
                         metadata["client"], metadata["topic_send"], equipment
                     )
                 except Exception as e:
-                    logging.error(
+                    logger.error(
                         f"Error executing scheduled task '{task_id}': {e}",
                         exc_info=True,
                     )
@@ -102,7 +104,7 @@ class Scheduler:
 
             self._start_timer(task_id, wrapper, new_interval)
 
-            logging.info(
+            logger.info(
                 f"Updated timer for task '{task_id}' with new interval {new_interval / 60} minutes."
             )
             return True
@@ -114,7 +116,7 @@ class Scheduler:
             try:
                 action(client, topic_send, equipment)
             except Exception as e:
-                logging.error(
+                logger.error(
                     f"Error executing scheduled task '{task_id}': {e}",
                     exc_info=True,
                 )
@@ -132,11 +134,11 @@ class Scheduler:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
                 del self.timers[task_id]
-                logging.info(f"Canceled task '{task_id}' but preserved metadata.")
+                logger.info(f"Canceled task '{task_id}' but preserved metadata.")
 
     def cancel_all_tasks(self):
         with self.lock:
             for task_id, timer in self.timers.items():
                 timer.cancel()
             self.timers.clear()
-            logging.info("All tasks have been canceled.")
+            logger.info("All tasks have been canceled.")
