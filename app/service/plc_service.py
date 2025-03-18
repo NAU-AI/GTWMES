@@ -66,11 +66,11 @@ class PlcService:
 
         data_package = [
             {
+                "key": var.key,
+                "type": var.type,
                 "db": var.db_address,
                 "byte": var.offset_byte,
                 "bit": var.offset_bit,
-                "type": var.type,
-                "key": var.key,
             }
             for var in variables
         ]
