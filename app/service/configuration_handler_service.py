@@ -91,22 +91,35 @@ class ConfigurationHandlerService:
                 raise ValueError(f"Variable {variable.key} has no value set.")
             if variable.db_address is None or variable.offset_byte is None:
                 raise ValueError(
-                    f"Variable {variable.key} has invalid DB address or offset."
+                    f"Variable {variable.key} lacks DB address or byte offset."
                 )
 
-            self.plc_service.write_int(
-                equipment.ip, variable.db_address, variable.offset_byte, variable.value
-            )
+            if variable.type.upper() == "BOOL":
+                self.plc_service.write_bool(
+                    equipment.ip,
+                    variable.db_address,
+                    variable.offset_byte,
+                    variable.offset_bit,
+                    bool(variable.value),
+                )
+            elif variable.type.upper() == "INT":
+                self.plc_service.write_int(
+                    equipment.ip,
+                    variable.db_address,
+                    variable.offset_byte,
+                    int(variable.value),
+                )
+            else:
+                raise TypeError(f"Unsupported variable type: {variable.type}")
 
             logger.info(
-                f"Written value {variable.value} to PLC {equipment.ip}, "
+                f"Successfully wrote '{variable.value}' (type {variable.type}) to PLC {equipment.ip}, "
                 f"DB {variable.db_address}, Byte {variable.offset_byte}"
             )
 
         except Exception as e:
             logger.error(
-                f"Failed to write variable '{variable.key}' to PLC {equipment.ip}: {e}",
-                exc_info=True,
+                f"Error writing variable '{variable.key}' to PLC {equipment.ip}: {e}"
             )
 
     def _update_equipment_schedule(self, equipment, client, topic_send):

@@ -26,12 +26,25 @@ class PlcService:
     def get_plc_client(self, ip):
         if ip not in self.plc_clients:
             try:
-                self.plc_clients[ip] = self.plc_client_factory(ip)
-                self.plc_clients[ip].connect()
+                client = self.plc_client_factory(ip)
+                client.connect()
+                self.plc_clients[ip] = client
+                logger.info(f"PLC client connected successfully to {ip}.")
             except Snap7Exception as e:
                 logger.error(f"Failed to connect to PLC {ip}: {e}")
                 return None
         return self.plc_clients[ip]
+
+    def connect_all_plcs(self):
+        equipments = self.equipment_service.get_all_equipment()
+        for equipment in equipments:
+            ip = equipment.ip
+            if ip:
+                client = self.get_plc_client(ip)
+                if client:
+                    logger.info(f"Connected to PLC {ip} on startup.")
+                else:
+                    logger.error(f"Unable to connect to PLC {ip} during startup.")
 
     def disconnect_all(self):
         for client in self.plc_clients.values():
@@ -44,7 +57,9 @@ class PlcService:
             logger.error(f"PLC {equipment_ip} is not connected.")
             return None
 
-        variables = self.variable_service.get_by_equipment_id(equipment_id)
+        variables = self.variable_service.get_by_equipment_id_and_operation_type(
+            equipment_id, "READ"
+        )
         if not variables:
             logger.warning(f"No variables found for equipment {equipment_id}.")
             return None
@@ -102,7 +117,7 @@ class PlcService:
                 f"Boolean {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}, Bit {bit}"
             )
 
-    def write_alarm_status_by_key(self, equipment_code, key, status):
+    def write_alarm_status_by_key(self, equipment_code, key, status: bool):
         try:
             equipment = self.equipment_service.get_equipment_by_code(equipment_code)
             if not equipment:
@@ -126,7 +141,10 @@ class PlcService:
             plc_client = self.get_plc_client(equipment_ip)
             if plc_client:
                 plc_client.write_bool(
-                    alarm_variable.db_address, alarm_variable.offset_byte, value=status
+                    alarm_variable.db_address,
+                    alarm_variable.offset_byte,
+                    alarm_variable.offset_bit,
+                    value=status,
                 )
                 logger.info(
                     f"Alarm written to PLC for {equipment_code} (IP {equipment_ip}): "

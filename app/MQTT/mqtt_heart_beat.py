@@ -107,12 +107,12 @@ class MqttHeartbeatMonitor:
 
         self.update_alarm_status(equipment_code, True)
 
-    def update_alarm_status(self, equipment_code, status):
+    def update_alarm_status(self, equipment_code, status: bool):
         if self.current_alarm_status.get(equipment_code) != status:
             self.current_alarm_status[equipment_code] = status
             self._write_alarm_status(equipment_code, status)
 
-    def _write_alarm_status(self, equipment_code, status):
+    def _write_alarm_status(self, equipment_code, status: bool):
         try:
             self.plc_service.write_alarm_status_by_key(
                 equipment_code=equipment_code, key="PLC_ALARM", status=status

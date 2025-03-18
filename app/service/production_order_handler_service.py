@@ -1,5 +1,7 @@
 from service.equipment_service import EquipmentService
 from service.message_service import MessageService
+from service.variable_service import VariableService
+from service.plc_service import PlcService
 from exception.Exception import NotFoundException, ServiceException
 from utility.logger import Logger
 from sqlalchemy.orm import Session
@@ -12,6 +14,8 @@ class ProductionOrderHandlerService:
         self.session = session
         self.equipment_service = EquipmentService(session)
         self.message_service = MessageService(session)
+        self.variable_service = VariableService(session)
+        self.plc_service = PlcService(session)
 
     def process_production_order_init(self, message: dict):
         try:
@@ -38,6 +42,7 @@ class ProductionOrderHandlerService:
             )
 
             if success:
+                self._save_and_write_plc(equipment, target_amount=3000, enabled=True)
                 logger.info(
                     f"Production order '{production_order_code}' started for equipment '{equipment_code}'"
                 )
@@ -66,6 +71,7 @@ class ProductionOrderHandlerService:
             success = self.equipment_service.complete_production_order(equipment.id)
 
             if success:
+                self._save_and_write_plc(equipment, target_amount=0, enabled=False)
                 logger.info(
                     f"Production order '{production_order_code}' completed for equipment '{equipment_code}'"
                 )
@@ -94,3 +100,38 @@ class ProductionOrderHandlerService:
             return equipment
         else:
             raise NotFoundException(f"Equipment with code '{equipment_code}' not found")
+
+    def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):
+        variable_updates = {
+            "targetAmount": target_amount,
+            "isEquipmentEnabled": enabled,
+        }
+
+        for key, value in variable_updates.items():
+            self.variable_service.update_variable_value(equipment.id, key, value)
+
+        variables = self.variable_service.get_by_equipment_id_and_operation_type(
+            equipment.id, "WRITE"
+        )
+
+        plc_client = self.plc_service.get_plc_client(equipment.ip)
+
+        if not plc_client:
+            logger.error(f"PLC client unavailable for equipment '{equipment.code}'")
+            return
+
+        for variable in variables:
+            if variable.type.upper() == "INT":
+                plc_client.write_int(
+                    variable.db_address, variable.offset_byte, variable.value
+                )
+            elif variable.type.upper() == "BOOL":
+                plc_client.write_bool(
+                    variable.db_address,
+                    variable.offset_byte,
+                    variable.offset_bit,
+                    variable.value,
+                )
+            logger.info(
+                f"Written '{variable.key}' with value '{variable.value}' to PLC for equipment '{equipment.code}'"
+            )
