@@ -125,7 +125,7 @@ class PlcService:
 
             plc_client = self.get_plc_client(equipment_ip)
             if plc_client:
-                plc_client.write_int(
+                plc_client.write_bool(
                     alarm_variable.db_address, alarm_variable.offset_byte, value=status
                 )
                 logger.info(

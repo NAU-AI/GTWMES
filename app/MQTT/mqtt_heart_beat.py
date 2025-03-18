@@ -28,7 +28,7 @@ class MqttHeartbeatMonitor:
         with self.lock:
             previous_heartbeat = self.last_heartbeats.get(equipment_code)
             self.last_heartbeats[equipment_code] = time.time()
-            self.update_alarm_status(equipment_code, 0)
+            self.update_alarm_status(equipment_code, False)
 
             previous_heartbeat_str = (
                 datetime.datetime.fromtimestamp(previous_heartbeat).strftime(
@@ -86,9 +86,7 @@ class MqttHeartbeatMonitor:
         self._check_heartbeat_timeout(equipment_code, last_heartbeat, current_cycle)
 
     def _check_heartbeat_timeout(self, equipment_code, last_heartbeat, current_cycle):
-        timeout = (
-            3 * current_cycle * 60
-        ) + self.GRACE_PERIOD  # Convert minutes to seconds
+        timeout = (3 * current_cycle * 60) + self.GRACE_PERIOD
         elapsed_time = time.time() - last_heartbeat
 
         logger.debug(
@@ -107,7 +105,7 @@ class MqttHeartbeatMonitor:
             f"Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
         )
 
-        self.update_alarm_status(equipment_code, 1)
+        self.update_alarm_status(equipment_code, True)
 
     def update_alarm_status(self, equipment_code, status):
         if self.current_alarm_status.get(equipment_code) != status:
@@ -117,7 +115,7 @@ class MqttHeartbeatMonitor:
     def _write_alarm_status(self, equipment_code, status):
         try:
             self.plc_service.write_alarm_status_by_key(
-                equipment_code=equipment_code, key="Plc_alarm", status=status
+                equipment_code=equipment_code, key="PLC_ALARM", status=status
             )
             logger.warning(
                 f"Alarm 'Plc_alarm' written to PLC for {equipment_code}: {status}"

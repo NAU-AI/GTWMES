@@ -1,5 +1,7 @@
 from typing import Any, List, Optional, Dict
 from sqlalchemy.orm import Session
+from model.equipment import Equipment
+from model.variable import Variable
 from utility.logger import Logger
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
@@ -77,15 +79,35 @@ class ConfigurationHandlerService:
             created_variables[var["key"]] = variable
 
             if variable.operation_type == "WRITE":
-                self._log_variable_write(equipment, variable)
+                self._write_variable_into_plc(equipment, variable)
 
         return created_variables
 
-    def _log_variable_write(self, equipment, variable):
-        logger.info(
-            f"Written value {variable.value} to PLC {equipment.ip}, "
-            f"DB {variable.db_address}, Byte {variable.offset_byte}"
-        )
+    def _write_variable_into_plc(
+        self, equipment: Equipment, variable: Variable
+    ) -> None:
+        try:
+            if variable.value is None:
+                raise ValueError(f"Variable {variable.key} has no value set.")
+            if variable.db_address is None or variable.offset_byte is None:
+                raise ValueError(
+                    f"Variable {variable.key} has invalid DB address or offset."
+                )
+
+            self.plc_service.write_int(
+                equipment.ip, variable.db_address, variable.offset_byte, variable.value
+            )
+
+            logger.info(
+                f"Written value {variable.value} to PLC {equipment.ip}, "
+                f"DB {variable.db_address}, Byte {variable.offset_byte}"
+            )
+
+        except Exception as e:
+            logger.error(
+                f"Failed to write variable '{variable.key}' to PLC {equipment.ip}: {e}",
+                exc_info=True,
+            )
 
     def _update_equipment_schedule(self, equipment, client, topic_send):
         self.message_service.update_equipment_schedule(equipment, client, topic_send)
