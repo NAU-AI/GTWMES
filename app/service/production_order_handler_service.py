@@ -110,8 +110,10 @@ class ProductionOrderHandlerService:
         for key, value in variable_updates.items():
             self.variable_service.update_variable_value(equipment.id, key, value)
 
-        variables = self.variable_service.get_by_equipment_id_and_operation_type(
-            equipment.id, "WRITE"
+        variables = (
+            self.variable_service.get_variables_by_equipment_id_category_operation_type(
+                equipment.id, "EQUIPMENT", "WRITE"
+            )
         )
 
         plc_client = self.plc_service.get_plc_client(equipment.ip)

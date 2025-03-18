@@ -93,7 +93,7 @@ class VariableService:
 
     def get_variables_by_equipment_id_category_operation_type(
         self, equipment_id: int, category: str, operation_type: str
-    ) -> List[VariableDTO]:
+    ) -> List[Variable]:
         try:
             variables = self.variable_dao.find_by_equipment_id_category_operation_type(
                 equipment_id, category, operation_type
@@ -104,22 +104,9 @@ class VariableService:
                     f"No variables found for equipment ID {equipment_id}, category {category}, and operation type {operation_type}."
                 )
 
-            variable_dtos = [
-                VariableDTO(
-                    equipment_id=variable.equipment_id,
-                    category=variable.category,
-                    operation_type=variable.operation_type,
-                    value=variable.value,
-                    key=variable.key,  # Include key in the DTO
-                )
-                for variable in variables
-            ]
-
-            return variable_dtos
-
+            return variables
         except Exception as e:
-            logger.error(f"Error fetching variables: {e}", exc_info=True)
-            raise ServiceException("Unable to fetch variables.") from e
+            raise ServiceException(f"Error retrieving variables: {str(e)}")
 
     def get_all_variables(self) -> List[Variable]:
         try:

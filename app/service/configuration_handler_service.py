@@ -34,6 +34,7 @@ class ConfigurationHandlerService:
                 equipment, message.get("variables", [])
             )
             self._update_equipment_schedule(equipment, client, topic_send)
+            self.plc_service.schedule_plc_readings()
 
             logger.info(
                 f"Configuration successfully processed for '{config['equipment_code']}' "
