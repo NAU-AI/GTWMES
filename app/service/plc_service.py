@@ -138,6 +138,37 @@ class PlcService:
                 f"Failed to write alarm for {equipment_code}: {e}", exc_info=True
             )
 
+    def write_equipment_variables(self, equipment_ip, variables):
+        plc_client = self.plc_connection_manager.get_plc_client(equipment_ip)
+
+        if not plc_client:
+            logger.error(f"PLC client unavailable for equipment at '{equipment_ip}'")
+            return
+
+        for variable in variables:
+            try:
+                if variable.type.upper() == "INT":
+                    plc_client.write_int(
+                        variable.db_address, variable.offset_byte, variable.value
+                    )
+                elif variable.type.upper() == "BOOL":
+                    plc_client.write_bool(
+                        variable.db_address,
+                        variable.offset_byte,
+                        variable.offset_bit,
+                        variable.value,
+                    )
+
+                logger.info(
+                    f"Written '{variable.key}' with value '{variable.value}' to PLC for equipment at '{equipment_ip}'"
+                )
+
+            except Exception as e:
+                logger.error(
+                    f"Failed to write '{variable.key}' to PLC for equipment at '{equipment_ip}': {e}",
+                    exc_info=True,
+                )
+
     def schedule_plc_readings(self):
         equipments = self.equipment_service.get_all_equipment()
         for equipment in equipments:

@@ -102,38 +102,27 @@ class ProductionOrderHandlerService:
             raise NotFoundException(f"Equipment with code '{equipment_code}' not found")
 
     def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):
-        variable_updates = {
-            "targetAmount": target_amount,
-            "isEquipmentEnabled": enabled,
-        }
+        try:
+            variable_updates = {
+                "targetAmount": target_amount,
+                "isEquipmentEnabled": enabled,
+            }
 
-        for key, value in variable_updates.items():
-            self.variable_service.update_variable_value(equipment.id, key, value)
+            for key, value in variable_updates.items():
+                self.variable_service.update_variable_value(equipment.id, key, value)
 
-        variables = (
-            self.variable_service.get_variables_by_equipment_id_category_operation_type(
+            variables = self.variable_service.get_variables_by_equipment_id_category_operation_type(
                 equipment.id, "EQUIPMENT", "WRITE"
             )
-        )
 
-        plc_client = self.plc_service.get_plc_client(equipment.ip)
+            self.plc_service.write_equipment_variables(equipment.ip, variables)
 
-        if not plc_client:
-            logger.error(f"PLC client unavailable for equipment '{equipment.code}'")
-            return
-
-        for variable in variables:
-            if variable.type.upper() == "INT":
-                plc_client.write_int(
-                    variable.db_address, variable.offset_byte, variable.value
-                )
-            elif variable.type.upper() == "BOOL":
-                plc_client.write_bool(
-                    variable.db_address,
-                    variable.offset_byte,
-                    variable.offset_bit,
-                    variable.value,
-                )
             logger.info(
-                f"Written '{variable.key}' with value '{variable.value}' to PLC for equipment '{equipment.code}'"
+                f"Successfully wrote PLC variables for equipment '{equipment.code}'"
+            )
+
+        except Exception as e:
+            logger.error(
+                f"Error saving and writing PLC for '{equipment.code}': {e}",
+                exc_info=True,
             )
