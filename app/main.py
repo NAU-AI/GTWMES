@@ -1,3 +1,4 @@
+import sys
 from sqlalchemy import text
 from database.connection.db_connection import get_session
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
@@ -47,6 +48,9 @@ class MESMain:
             self.client_manager.start_loop()
 
         except KeyboardInterrupt:
+            self.logger.warning(
+                "Keyboard interrupt received. Shutting down gracefully..."
+            )
             self.shutdown()
 
         except Exception as e:
@@ -56,11 +60,20 @@ class MESMain:
     def shutdown(self):
         self.logger.info("Shutting down application...")
         try:
+            self.logger.info("Stopping heartbeat monitoring...")
             self.mqtt_heart_beat.stop_monitoring()
+
+            self.logger.info("Disconnecting MQTT client...")
             self.client_manager.disconnect()
+
+            self.logger.info("Disconnecting PLCs...")
+            self.plc_service.shutdown()
+
             self.logger.info("Shutdown completed successfully.")
         except Exception as e:
             self.logger.error(f"Error during shutdown: {e}", exc_info=True)
+        finally:
+            sys.exit(1)
 
 
 def check_database_connection():
@@ -71,11 +84,11 @@ def check_database_connection():
                 raise Exception("Unable to establish a connection to the database.")
         logger.info("Database connection successful.")
     except Exception as e:
-        logger.error(
+        logger.critical(
             f"Critical startup failure: Unable to connect to database: {e}",
             exc_info=True,
         )
-        exit(1)
+        sys.exit(1)
 
 
 def initialize_mes_service() -> MESMain:

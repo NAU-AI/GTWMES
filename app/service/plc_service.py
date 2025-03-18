@@ -1,7 +1,7 @@
+from service.plc_connection_manager import PlcConnectionManager
 from utility.logger import Logger
 from utility.scheduler import Scheduler
 from service.equipment_service import EquipmentService
-from service.PLC.plc_client import PLCClient
 from service.variable_service import VariableService
 from sqlalchemy.orm import Session
 from snap7.exceptions import Snap7Exception
@@ -15,44 +15,26 @@ class PlcService:
         session: Session,
         variable_service=None,
         equipment_service=None,
-        plc_client_factory=None,
     ):
         self.variable_service = variable_service or VariableService(session)
         self.equipment_service = equipment_service or EquipmentService(session)
-        self.plc_client_factory = plc_client_factory or PLCClient
         self.scheduler = Scheduler()
-        self.plc_clients = {}
-
-    def get_plc_client(self, ip):
-        if ip not in self.plc_clients:
-            try:
-                client = self.plc_client_factory(ip)
-                client.connect()
-                self.plc_clients[ip] = client
-                logger.info(f"PLC client connected successfully to {ip}.")
-            except Snap7Exception as e:
-                logger.error(f"Failed to connect to PLC {ip}: {e}")
-                return None
-        return self.plc_clients[ip]
+        self.plc_connection_manager = PlcConnectionManager()
 
     def connect_all_plcs(self):
         equipments = self.equipment_service.get_all_equipment()
         for equipment in equipments:
-            ip = equipment.ip
-            if ip:
-                client = self.get_plc_client(ip)
-                if client:
-                    logger.info(f"Connected to PLC {ip} on startup.")
-                else:
-                    logger.error(f"Unable to connect to PLC {ip} during startup.")
-
-    def disconnect_all(self):
-        for client in self.plc_clients.values():
-            client.disconnect()
-        self.plc_clients.clear()
+            if equipment.ip:
+                client = self.plc_connection_manager.get_plc_client(equipment.ip)
+                if not client:
+                    logger.error(
+                        f"Unable to connect to PLC {equipment.ip}. Skipping..."
+                    )
+                    continue
+            logger.info(f"Connected to PLC {equipment.ip} on startup.")
 
     def read_plc_data(self, equipment_id, equipment_ip):
-        plc = self.get_plc_client(equipment_ip)
+        plc = self.plc_connection_manager.get_plc_client(equipment_ip)
         if not plc or not plc.is_connected():
             logger.error(f"PLC {equipment_ip} is not connected.")
             return None
@@ -102,19 +84,19 @@ class PlcService:
                 logger.error(f"Error processing result for {key}: {e}", exc_info=True)
 
     def write_int(self, equipment_ip, db, byte, value):
-        plc = self.get_plc_client(equipment_ip)
+        plc = self.plc_connection_manager.get_plc_client(equipment_ip)
         if plc:
             plc.write_int(db, byte, value)
             logger.info(
-                f"Integer {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}"
+                f"Integer {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}."
             )
 
     def write_bool(self, equipment_ip, db, byte, bit, value):
-        plc = self.get_plc_client(equipment_ip)
+        plc = self.plc_connection_manager.get_plc_client(equipment_ip)
         if plc:
             plc.write_bool(db, byte, bit, value)
             logger.info(
-                f"Boolean {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}, Bit {bit}"
+                f"Boolean {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}, Bit {bit}."
             )
 
     def write_alarm_status_by_key(self, equipment_code, key, status: bool):
@@ -138,7 +120,7 @@ class PlcService:
                 logger.error(f"IP address not found for equipment {equipment_code}.")
                 return
 
-            plc_client = self.get_plc_client(equipment_ip)
+            plc_client = self.plc_connection_manager.get_plc_client(equipment_ip)
             if plc_client:
                 plc_client.write_bool(
                     alarm_variable.db_address,
@@ -177,3 +159,7 @@ class PlcService:
             self.read_plc_data(equipment.id, equipment.ip)
         except Exception as e:
             logger.error(f"Error during PLC data reading for {equipment.id}: {e}")
+
+    def shutdown(self):
+        logger.info("Disconnecting all PLCs...")
+        self.plc_connection_manager.disconnect_all()
