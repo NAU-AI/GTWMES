@@ -1,4 +1,6 @@
+
 -- Drop tables if they exist to ensure a clean slate
+
 DROP TABLE IF EXISTS audit_script CASCADE;
 DROP TABLE IF EXISTS variable CASCADE;
 DROP TABLE IF EXISTS equipment CASCADE;
