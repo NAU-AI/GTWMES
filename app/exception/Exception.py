@@ -1,18 +1,18 @@
 class NotFoundException(Exception):
-    pass
+    def __init__(self, message="Resource not found"):
+        super().__init__(message)
 
 
 class ConflictException(Exception):
-    pass
+    def __init__(self, message="Conflict detected"):
+        super().__init__(message)
 
 
 class DatabaseException(Exception):
-    pass
+    def __init__(self, message="Database operation failed"):
+        super().__init__(message)
 
 
 class ServiceException(Exception):
-    pass
-
-
-class ConflictException(Exception):
-    pass
+    def __init__(self, message="Service encountered an error"):
+        super().__init__(message)

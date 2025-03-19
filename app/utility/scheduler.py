@@ -1,5 +1,7 @@
 import threading
-import logging
+from utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class Scheduler:
@@ -19,28 +21,30 @@ class Scheduler:
             self.task_metadata = {}
             self.lock = threading.Lock()
 
-    def schedule_task(self, task_id, equipment, action, client, topic_send):
+    def schedule_task(
+        self, task_id, equipment, action, client, topic_send, interval=None
+    ):
         with self.lock:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
+
+            interval = interval or ((equipment.p_timer_communication_cycle or 1) * 60)
 
             def wrapper():
                 try:
                     action(client, topic_send, equipment)
                 except Exception as e:
-                    logging.error(
+                    logger.error(
                         f"Error executing scheduled task '{task_id}': {e}",
                         exc_info=True,
                     )
 
                 with self.lock:
                     if task_id in self.timers:
-                        interval = equipment.p_timer_communication_cycle
                         self._reschedule_task(
-                            task_id, equipment, action, client, topic_send, interval
+                            task_id, equipment, action, client, topic_send
                         )
 
-            interval = equipment.p_timer_communication_cycle
             self._start_timer(task_id, wrapper, interval)
 
             self.task_metadata[task_id] = {
@@ -50,29 +54,32 @@ class Scheduler:
                 "client": client,
                 "topic_send": topic_send,
             }
-            logging.info(f"Scheduled task '{task_id}' every {interval}s.")
+            logger.info(f"Scheduled task '{task_id}' every {interval / 60} minutes.")
 
     def _start_timer(self, task_id, wrapper, interval):
         timer = threading.Timer(interval, wrapper)
         self.timers[task_id] = timer
         timer.start()
 
-    def update_timer(self, task_id, new_interval):
+    def update_timer(self, task_id, new_interval_minutes):
+        new_interval = new_interval_minutes * 60
+
         with self.lock:
             if task_id not in self.task_metadata:
-                logging.warning(
+                logger.warning(
                     f"Task '{task_id}' not found in metadata. Cannot update."
                 )
                 return False
 
             if task_id in self.timers:
+                logger.info(f"Canceling old timer for '{task_id}' before updating.")
                 self.timers[task_id].cancel()
                 del self.timers[task_id]
 
             metadata = self.task_metadata[task_id]
             equipment = metadata["equipment"]
             self.task_metadata[task_id]["interval"] = new_interval
-            equipment.p_timer_communication_cycle = new_interval
+            equipment.p_timer_communication_cycle = new_interval_minutes
 
             def wrapper():
                 try:
@@ -80,39 +87,36 @@ class Scheduler:
                         metadata["client"], metadata["topic_send"], equipment
                     )
                 except Exception as e:
-                    logging.error(
+                    logger.error(
                         f"Error executing scheduled task '{task_id}': {e}",
                         exc_info=True,
                     )
 
                 with self.lock:
                     if task_id in self.timers:
-                        interval = equipment.p_timer_communication_cycle
                         self._reschedule_task(
                             task_id,
                             equipment,
                             metadata["action"],
                             metadata["client"],
                             metadata["topic_send"],
-                            interval,
                         )
 
-            interval = new_interval
-            self._start_timer(task_id, wrapper, interval)
+            self._start_timer(task_id, wrapper, new_interval)
 
-            logging.info(
-                f"Updated timer for task '{task_id}' with new interval {new_interval}s."
+            logger.info(
+                f"Updated timer for task '{task_id}' with new interval {new_interval / 60} minutes."
             )
             return True
 
-    def _reschedule_task(
-        self, task_id, equipment, action, client, topic_send, interval
-    ):
+    def _reschedule_task(self, task_id, equipment, action, client, topic_send):
+        interval = (equipment.p_timer_communication_cycle or 1) * 60
+
         def wrapper():
             try:
                 action(client, topic_send, equipment)
             except Exception as e:
-                logging.error(
+                logger.error(
                     f"Error executing scheduled task '{task_id}': {e}",
                     exc_info=True,
                 )
@@ -120,12 +124,7 @@ class Scheduler:
             with self.lock:
                 if task_id in self.timers:
                     self._reschedule_task(
-                        task_id,
-                        equipment,
-                        action,
-                        client,
-                        topic_send,
-                        equipment.p_timer_communication_cycle,
+                        task_id, equipment, action, client, topic_send
                     )
 
         self._start_timer(task_id, wrapper, interval)
@@ -135,11 +134,11 @@ class Scheduler:
             if task_id in self.timers:
                 self.timers[task_id].cancel()
                 del self.timers[task_id]
-                logging.info(f"Canceled task '{task_id}' but preserved metadata.")
+                logger.info(f"Canceled task '{task_id}' but preserved metadata.")
 
     def cancel_all_tasks(self):
         with self.lock:
             for task_id, timer in self.timers.items():
                 timer.cancel()
             self.timers.clear()
-            logging.info("All tasks have been canceled.")
+            logger.info("All tasks have been canceled.")

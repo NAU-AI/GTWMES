@@ -1,12 +1,18 @@
 import threading
 import time
-import logging
-
-from database.dao.counting_equipment_dao import CountingEquipmentDAO
+import datetime
+from sqlalchemy.orm import Session
+from service.equipment_service import EquipmentService
 from service.plc_service import PlcService
+from utility.logger import Logger
+
+logger = Logger.get_logger(__name__)
+
 
 class MqttHeartbeatMonitor:
-    def __init__(self, plc_service=None, counting_equipment_dao=None):
+    GRACE_PERIOD = 5
+
+    def __init__(self, session: Session, plc_service=None, equipment_service=None):
         self.last_heartbeats = {}
         self.previous_cycles = {}
         self.current_alarm_status = {}
@@ -15,118 +21,112 @@ class MqttHeartbeatMonitor:
         self.stop_event = threading.Event()
         self.monitor_thread = None
 
-        self.plc_service = plc_service or PlcService()
-        self.counting_equipment_dao = counting_equipment_dao or CountingEquipmentDAO()
+        self.plc_service = plc_service or PlcService(session)
+        self.equipment_service = equipment_service or EquipmentService(session)
 
     def received_heartbeat(self, equipment_code):
         with self.lock:
-            self.update_alarm_status(equipment_code, 0)
             previous_heartbeat = self.last_heartbeats.get(equipment_code)
             self.last_heartbeats[equipment_code] = time.time()
-            logging.info(
-                f"Heartbeat received for {equipment_code}. "
-                f"Previous: {previous_heartbeat}, "
-                f"New: {self.last_heartbeats[equipment_code]}"
+            self.update_alarm_status(equipment_code, False)
+
+            previous_heartbeat_str = (
+                datetime.datetime.fromtimestamp(previous_heartbeat).strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+                if previous_heartbeat
+                else "None"
+            )
+            new_heartbeat_str = datetime.datetime.fromtimestamp(
+                self.last_heartbeats[equipment_code]
+            ).strftime("%Y-%m-%d %H:%M:%S")
+
+            logger.info(
+                f"Heartbeat received for {equipment_code}. Previous: {previous_heartbeat_str}, New: {new_heartbeat_str}"
             )
 
     def start_monitoring(self):
-        if self.monitor_thread is None or not self.monitor_thread.is_alive():
-            logging.info("Starting heartbeat monitor thread.")
+        if self.monitor_thread and self.monitor_thread.is_alive():
+            return
 
-            def monitor():
-                try:
-                    GRACE_PERIOD = 5
+        logger.info("Starting heartbeat monitor thread.")
 
-                    while not self.stop_event.is_set():
-                        equipments = self.counting_equipment_dao.get_all_equipment()
-                        with self.lock:
-                            for equipment in equipments:
-                                equipment_code = equipment.code
-                                current_cycle = equipment.p_timer_communication_cycle
+        def monitor():
+            try:
+                while not self.stop_event.is_set():
+                    equipments = self.equipment_service.get_all_equipment()
 
-                                if equipment_code not in self.last_heartbeats:
-                                    self.last_heartbeats[equipment_code] = time.time()
-                                    self.current_alarm_status[equipment_code] = 0
-                                    logging.info(
-                                        f"Initialized last_heartbeat for {equipment_code}."
-                                    )
-                                    continue
+                    with self.lock:
+                        for equipment in equipments:
+                            self._process_equipment_heartbeat(equipment)
 
-                                last_heartbeat = self.last_heartbeats[equipment_code]
+                    time.sleep(60)
+            except Exception as e:
+                logger.error(
+                    f"Unexpected error in heartbeat monitor: {e}", exc_info=True
+                )
 
-                                self.detect_and_handle_config_changes(
-                                    equipment_code, current_cycle
-                                )
+        self.monitor_thread = threading.Thread(target=monitor, daemon=True)
+        self.monitor_thread.start()
 
-                                self.check_timeout_for_last_heartbeat(
-                                    equipment_code,
-                                    last_heartbeat,
-                                    current_cycle,
-                                    GRACE_PERIOD,
-                                )
-                        time.sleep(1)
-                except Exception as e:
-                    logging.error(
-                        f"Unexpected error in heartbeat monitor: {e}", exc_info=True
-                    )
+        logger.info("Heartbeat monitoring started.")
 
-            self.monitor_thread = threading.Thread(target=monitor, daemon=True)
-            self.monitor_thread.start()
-            logging.info("Heartbeat monitoring started.")
+    def _process_equipment_heartbeat(self, equipment):
+        equipment_code = equipment.code
+        current_cycle = equipment.p_timer_communication_cycle
 
-    def detect_and_handle_config_changes(self, equipment_code, current_cycle):
-        if self.previous_cycles.get(equipment_code) != current_cycle:
-            logging.info(
-                f"Configuration updated for {equipment_code}. "
-                f"New cycle = {current_cycle}s"
-            )
-        self.previous_cycles[equipment_code] = current_cycle
+        if equipment_code not in self.last_heartbeats:
+            self.last_heartbeats[equipment_code] = time.time()
+            self.current_alarm_status[equipment_code] = 0
+            logger.info(f"Initialized heartbeat tracking for {equipment_code}.")
+            return
 
-    def check_timeout_for_last_heartbeat(
-        self, equipment_code, last_heartbeat, current_cycle, GRACE_PERIOD
-    ):
-        timeout = 3 * current_cycle + GRACE_PERIOD
+        last_heartbeat = self.last_heartbeats[equipment_code]
+
+        self._check_heartbeat_timeout(equipment_code, last_heartbeat, current_cycle)
+
+    def _check_heartbeat_timeout(self, equipment_code, last_heartbeat, current_cycle):
+        timeout = (3 * current_cycle * 60) + self.GRACE_PERIOD
         elapsed_time = time.time() - last_heartbeat
-        logging.debug(
-            f"Monitoring {equipment_code}: Elapsed = {elapsed_time:.2f}s, "
-            f"Timeout = {timeout}s"
+
+        logger.debug(
+            f"Monitoring {equipment_code}: Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
         )
+
         if elapsed_time > timeout:
-            self.trigger_alarm(
-                equipment_code, elapsed_time, timeout, "Heartbeat timeout"
-            )
+            self._trigger_alarm(equipment_code, elapsed_time, timeout)
 
-    def trigger_alarm(self, equipment_code, elapsed_time, timeout, reason):
-        if self.current_alarm_status.get(equipment_code, 0) != 1:
-            logging.error(
-                f"ALARM TRIGGERED: {reason} for {equipment_code}. "
-                f"Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
-            )
-            self.update_alarm_status(equipment_code, 1)
+    def _trigger_alarm(self, equipment_code, elapsed_time, timeout):
+        if self.current_alarm_status.get(equipment_code, 0) == 1:
+            return
 
-    def update_alarm_status(self, equipment_code, status):
+        logger.error(
+            f"ALARM TRIGGERED: Heartbeat timeout for {equipment_code}. "
+            f"Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
+        )
+
+        self.update_alarm_status(equipment_code, True)
+
+    def update_alarm_status(self, equipment_code, status: bool):
         if self.current_alarm_status.get(equipment_code) != status:
             self.current_alarm_status[equipment_code] = status
-            self.write_alarm_status(equipment_code, status)
+            self._write_alarm_status(equipment_code, status)
 
-    def write_alarm_status(self, equipment_code, status):
+    def _write_alarm_status(self, equipment_code, status: bool):
         try:
-            byte = 8
-            bit = 0
-            value = status
-
-            self.plc_service._write_alarm(8, byte, bit, value)
-            logging.warning(
-                f"Alarm written to PLC for {equipment_code}: Byte {byte}, Bit {bit}, Value {value}"
+            self.plc_service.write_alarm_status_by_key(
+                equipment_code=equipment_code, key="PLC_ALARM", status=status
+            )
+            logger.warning(
+                f"Alarm 'Plc_alarm' written to PLC for {equipment_code}: {status}"
             )
         except Exception as e:
-            logging.error(
-                f"Failed to write alarm for {equipment_code}: {e}",
-                exc_info=True,
+            logger.error(
+                f"Failed to write alarm for {equipment_code}: {e}", exc_info=True
             )
 
     def stop_monitoring(self):
         if self.monitor_thread and self.monitor_thread.is_alive():
             self.stop_event.set()
             self.monitor_thread.join()
-            logging.info("Heartbeat monitoring stopped.")
+            logger.info("Heartbeat monitoring stopped.")
