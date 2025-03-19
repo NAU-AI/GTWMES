@@ -22,4 +22,4 @@ class Equipment(Base):
     )
 
     def __repr__(self):
-        return "<Equipment(id=%s, code='%s', ip='%s')>" % (self.id, self.code, self.ip)
+        return f"<Equipment(id={self.id}, code='{self.code}', ip='{self.ip}')>"

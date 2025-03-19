@@ -36,7 +36,7 @@ class ProductionOrderHandlerService:
             equipment = self.equipment_service.get_equipment_by_code(equipment_code)
             if not equipment:
                 raise NotFoundException(
-                    "Equipment with code '%s' not found" % equipment_code
+                    "Equipment with code '%s' not found", equipment_code
                 )
 
             success = self.equipment_service.start_production_order(
@@ -117,7 +117,7 @@ class ProductionOrderHandlerService:
             return equipment
         else:
             raise NotFoundException(
-                "Equipment with code '%s' not found" % equipment_code
+                "Equipment with code '%s' not found", equipment_code
             )
 
     def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):

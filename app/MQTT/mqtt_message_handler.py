@@ -59,7 +59,7 @@ class MessageHandler:
         response_data = data.copy()
 
         if "jsonType" in response_data:
-            response_data["jsonType"] = "%sResponse" % response_data["jsonType"]
+            response_data["jsonType"] = f"{response_data['jsonType']}Response"
 
         return response_data
 

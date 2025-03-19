@@ -20,7 +20,7 @@ class EquipmentService:
         try:
             equipment = self.equipment_dao.find_by_code(code)
             if not equipment:
-                raise NotFoundException(f"Equipment with code '{code}' not found")
+                raise NotFoundException("Equipment with code '%s' not found", code)
             return equipment
         except Exception as e:
             logger.error(
@@ -45,19 +45,18 @@ class EquipmentService:
             existing_equipment = self.equipment_dao.find_by_code(equipment.code)
             if existing_equipment:
                 raise ConflictException(
-                    "Equipment with code '{}' already exists".format(equipment.code)
+                    f"Equipment with code '{equipment.code}' already exists"
                 )
 
             saved_equipment = self.equipment_dao.save(equipment)
             logger.info(
-                "Inserted new equipment '%s' with ID %s",
-                saved_equipment.code,
-                saved_equipment.id,
+                f"Inserted new equipment '{saved_equipment.code}' with ID {saved_equipment.id}"
             )
+
             return saved_equipment
         except SQLAlchemyError as e:
             self.session.rollback()
-            logger.error("Database error inserting equipment: %s", e, exc_info=True)
+            logger.error(f"Database error inserting equipment: {e}", exc_info=True)
             raise ServiceException("Unable to insert new equipment.") from e
 
     def create_or_update_equipment(
