@@ -37,7 +37,9 @@ class ProductionCountService:
             return production_count_dto.to_dict()
 
         except Exception as e:
-            logger.error(f"Error building production count message: {e}", exc_info=True)
+            logger.error(
+                "Error building production count message: %s", e, exc_info=True
+            )
             raise ServiceException("Failed to build production count message.") from e
 
     def _build_production_count_dto(
@@ -85,7 +87,7 @@ class ProductionCountService:
         equipment = self.equipment_service.get_equipment_by_code(equipment_code)
         if not equipment:
             raise NotFoundException(
-                f"Equipment with code '{equipment_code}' not found."
+                "Equipment with code '%s' not found.", equipment_code
             )
         return equipment
 
@@ -95,7 +97,7 @@ class ProductionCountService:
         )
         if not variables:
             raise NotFoundException(
-                f"No variables found for equipment ID {equipment_id}."
+                "No variables found for equipment ID %s.", equipment_id
             )
         return [
             VariableDTO(
@@ -109,9 +111,14 @@ class ProductionCountService:
         ]
 
     def _get_variable_value(
-        self, variables: List[VariableDTO], key: str, default: Optional[int] = 0
+        self, variables: List[VariableDTO], key: str, default: int = 0
     ) -> int:
         for variable in variables:
             if variable.key == key:
-                return variable.value if variable.value is not None else default
+                if isinstance(variable.value, (int, float, str)):
+                    return (
+                        int(variable.value) if variable.value is not None else default
+                    )
+                else:
+                    return default
         return default

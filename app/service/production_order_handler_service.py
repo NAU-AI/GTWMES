@@ -28,13 +28,15 @@ class ProductionOrderHandlerService:
                 )
 
             logger.info(
-                f"Initializing production order '{production_order_code}' for equipment '{equipment_code}'"
+                "Initializing production order '%s' for equipment '%s'",
+                production_order_code,
+                equipment_code,
             )
 
             equipment = self.equipment_service.get_equipment_by_code(equipment_code)
             if not equipment:
                 raise NotFoundException(
-                    f"Equipment with code '{equipment_code}' not found"
+                    "Equipment with code '%s' not found" % equipment_code
                 )
 
             success = self.equipment_service.start_production_order(
@@ -44,12 +46,14 @@ class ProductionOrderHandlerService:
             if success:
                 self._save_and_write_plc(equipment, target_amount=3000, enabled=True)
                 logger.info(
-                    f"Production order '{production_order_code}' started for equipment '{equipment_code}'"
+                    "Production order '%s' started for equipment '%s'",
+                    production_order_code,
+                    equipment_code,
                 )
 
         except Exception as e:
             logger.error(
-                f"Error processing production order initialization: {e}", exc_info=True
+                "Error processing production order initialization: %s", e, exc_info=True
             )
             raise ServiceException(
                 "Failed to process production order initialization"
@@ -60,12 +64,22 @@ class ProductionOrderHandlerService:
             equipment_code = message.get("equipmentCode")
             production_order_code = message.get("productionOrderCode")
 
+            if production_order_code is None:
+                raise ValueError("productionOrderCode cannot be None")
+            if equipment_code is None or production_order_code is None:
+                raise ValueError(
+                    "Missing 'equipmentCode' or 'productionOrderCode' in message"
+                )
             self._validate_message(equipment_code, production_order_code)
 
             logger.info(
-                f"Completing production order '{production_order_code}' for equipment '{equipment_code}'"
+                "Completing production order '%s' for equipment '%s'",
+                production_order_code,
+                equipment_code,
             )
 
+            if equipment_code is None:
+                raise ValueError("equipmentCode cannot be None")
             equipment = self._get_equipment(equipment_code)
 
             success = self.equipment_service.complete_production_order(equipment.id)
@@ -73,19 +87,22 @@ class ProductionOrderHandlerService:
             if success:
                 self._save_and_write_plc(equipment, target_amount=0, enabled=False)
                 logger.info(
-                    f"Production order '{production_order_code}' completed for equipment '{equipment_code}'"
+                    "Production order '%s' completed for equipment '%s'",
+                    production_order_code,
+                    equipment_code,
                 )
                 self.message_service.send_production_message(
                     client, topic_send, equipment
                 )
             else:
                 logger.warning(
-                    f"Production order '{production_order_code}' is already completed or does not exist"
+                    "Production order '%s' is already completed or does not exist",
+                    production_order_code,
                 )
 
         except Exception as e:
             logger.error(
-                f"Error processing production order conclusion: {e}", exc_info=True
+                "Error processing production order conclusion: %s", e, exc_info=True
             )
             raise ServiceException("Failed to complete production order") from e
 
@@ -99,7 +116,9 @@ class ProductionOrderHandlerService:
         if equipment := self.equipment_service.get_equipment_by_code(equipment_code):
             return equipment
         else:
-            raise NotFoundException(f"Equipment with code '{equipment_code}' not found")
+            raise NotFoundException(
+                "Equipment with code '%s' not found" % equipment_code
+            )
 
     def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):
         try:
@@ -118,11 +137,13 @@ class ProductionOrderHandlerService:
             self.plc_service.write_equipment_variables(equipment.ip, variables)
 
             logger.info(
-                f"Successfully wrote PLC variables for equipment '{equipment.code}'"
+                "Successfully wrote PLC variables for equipment '%s'", equipment.code
             )
 
         except Exception as e:
             logger.error(
-                f"Error saving and writing PLC for '{equipment.code}': {e}",
+                "Error saving and writing PLC for '%s': %s",
+                equipment.code,
+                e,
                 exc_info=True,
             )

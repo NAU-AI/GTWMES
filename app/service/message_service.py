@@ -37,7 +37,7 @@ class MessageService:
                 self.update_equipment_schedule(equipment, client, topic_send)
 
         except Exception as e:
-            logger.error(f"Error executing production count: {e}", exc_info=True)
+            logger.error("Error executing production count: %s", e, exc_info=True)
 
     def send_production_message(self, client, topic_send, equipment):
         try:
@@ -48,17 +48,19 @@ class MessageService:
 
             if not production_values:
                 logger.warning(
-                    f"No production values generated for equipment {equipment.id}."
+                    "No production values generated for equipment %s.", equipment.id
                 )
                 return
 
             self.send_message_response(client, topic_send, production_values)
 
-            logger.info(f"Sent production message for equipment {equipment.id}.")
+            logger.info("Sent production message for equipment %s.", equipment.id)
 
         except Exception as e:
             logger.error(
-                f"Error sending production message for equipment {equipment.id}: {e}",
+                "Error sending production message for equipment %s: %s",
+                equipment.id,
+                e,
                 exc_info=True,
             )
 
@@ -71,11 +73,14 @@ class MessageService:
             client.publish(topic_send, serialized_message, qos=1)
 
             logger.info(
-                f"Sent message to '{topic_send}' (Size: {message_size} bytes): {serialized_message}"
+                "Sent message to '%s' (Size: %d bytes): %s",
+                topic_send,
+                message_size,
+                serialized_message,
             )
 
         except Exception as e:
-            logger.error(f"Error while sending message response: {e}", exc_info=True)
+            logger.error("Error while sending message response: %s", e, exc_info=True)
 
     def message_received(self, client, topic_send, data):
         try:
@@ -85,19 +90,19 @@ class MessageService:
                 logger.warning("Message ignored: 'equipmentCode' missing.")
                 return
 
-            logger.info(f"Message received for equipmentCode: {equipment_code}")
+            logger.info("Message received for equipmentCode: %s", equipment_code)
 
             self.mqtt_heart_beat.received_heartbeat(equipment_code)
 
         except Exception as e:
-            logger.error(f"Error processing received message: {e}", exc_info=True)
+            logger.error("Error processing received message: %s", e, exc_info=True)
 
     def update_equipment_schedule(self, equipment, client, topic_send):
         task_id = f"equipment_{equipment.id}"
 
         if equipment.p_timer_communication_cycle is None:
             logger.warning(
-                f"Equipment {equipment.code} has no communication cycle defined."
+                "Equipment %s has no communication cycle defined.", equipment.code
             )
             return
 
@@ -108,8 +113,10 @@ class MessageService:
 
             if current_interval != equipment.p_timer_communication_cycle:
                 logger.info(
-                    f"Updating scheduler for {equipment.code} "
-                    f"from {current_interval} to {equipment.p_timer_communication_cycle} minutes."
+                    "Updating scheduler for %s from %d to %d minutes.",
+                    equipment.code,
+                    current_interval,
+                    equipment.p_timer_communication_cycle,
                 )
                 self.scheduler.cancel_task(task_id)
 
@@ -119,7 +126,9 @@ class MessageService:
         task_id = f"equipment_{equipment.id}"
 
         logger.info(
-            f"Scheduling task for {equipment.code} every {equipment.p_timer_communication_cycle} minutes."
+            "Scheduling task for %s every %d minutes.",
+            equipment.code,
+            equipment.p_timer_communication_cycle,
         )
 
         self.scheduler.schedule_task(

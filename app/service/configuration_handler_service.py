@@ -37,12 +37,13 @@ class ConfigurationHandlerService:
             self.plc_service.schedule_plc_readings()
 
             logger.info(
-                f"Configuration successfully processed for '{config['equipment_code']}' "
-                f"({len(created_variables)} variables). Scheduler updated."
+                "Configuration successfully processed for '%s' (%d variables). Scheduler updated.",
+                config["equipment_code"],
+                len(created_variables),
             )
         except Exception as e:
             logger.error(
-                f"Error processing equipment configuration: {e}", exc_info=True
+                "Error processing equipment configuration: %s", e, exc_info=True
             )
 
     def _validate_and_extract_message(self, message: Dict) -> Dict[str, Any]:
@@ -54,7 +55,9 @@ class ConfigurationHandlerService:
             raise ValueError("Missing required fields: 'equipmentCode' or 'ip'.")
 
         logger.info(
-            f"Processing configuration for equipment '{equipment_code}' with IP '{ip}'"
+            "Processing configuration for equipment '%s' with IP '%s'",
+            equipment_code,
+            ip,
         )
 
         return {
@@ -108,19 +111,28 @@ class ConfigurationHandlerService:
                     equipment.ip,
                     variable.db_address,
                     variable.offset_byte,
-                    int(variable.value),
+                    int(variable.value)
+                    if isinstance(variable.value, (int, float, str))
+                    else 0,
                 )
             else:
                 raise TypeError(f"Unsupported variable type: {variable.type}")
 
             logger.info(
-                f"Successfully wrote '{variable.value}' (type {variable.type}) to PLC {equipment.ip}, "
-                f"DB {variable.db_address}, Byte {variable.offset_byte}"
+                "Successfully wrote '%s' (type %s) to PLC %s, DB %s, Byte %s",
+                variable.value,
+                variable.type,
+                equipment.ip,
+                variable.db_address,
+                variable.offset_byte,
             )
 
         except Exception as e:
             logger.error(
-                f"Error writing variable '{variable.key}' to PLC {equipment.ip}: {e}"
+                "Error writing variable '%s' to PLC %s: %s",
+                variable.key,
+                equipment.ip,
+                e,
             )
 
     def _update_equipment_schedule(self, equipment, client, topic_send):

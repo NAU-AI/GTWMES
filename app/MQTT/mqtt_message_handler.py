@@ -23,22 +23,26 @@ class MessageHandler:
     def handle_message(self, client, message):
         json_type = message.get("jsonType")
 
-        if handler := self.protocols.get(json_type):
+        handler = self.protocols.get(json_type)
+        if handler:
             handler(client, message)
         else:
-            logger.warning(f"Unhandled jsonType: {json_type}. Message: {message}")
+            logger.warning("Unhandled jsonType: %s. Message: %s", json_type, message)
 
     def _process_message(self, client, message, handler, response_type):
         try:
-            logger.info(f"Processing '{response_type}' message: {message}")
+            logger.info("Processing '%s' message: %s", response_type, message)
 
             handler(message)
 
-            logger.info(f"Successfully handled '{response_type}'")
+            logger.info("Successfully handled '%s'", response_type)
 
         except Exception as e:
             logger.error(
-                f"Error processing '{response_type}' for jsonType {message.get('jsonType')}: {e}",
+                "Error processing '%s' for jsonType %s: %s",
+                response_type,
+                message.get("jsonType"),
+                e,
                 exc_info=True,
             )
 
@@ -55,7 +59,7 @@ class MessageHandler:
         response_data = data.copy()
 
         if "jsonType" in response_data:
-            response_data["jsonType"] = f"{response_data['jsonType']}Response"
+            response_data["jsonType"] = "%sResponse" % response_data["jsonType"]
 
         return response_data
 

@@ -1,7 +1,10 @@
+import logging
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from model.equipment import Equipment
 from typing import Optional, List
+
+logger = logging.getLogger(__name__)
 
 
 class EquipmentDAO:
@@ -9,7 +12,13 @@ class EquipmentDAO:
         self.session = session
 
     def find_by_id(self, equipment_id: int) -> Optional[Equipment]:
-        return self.session.get(Equipment, equipment_id)
+        try:
+            return self.session.get(Equipment, equipment_id)
+        except SQLAlchemyError as e:
+            logger.error(
+                "Database error while finding variable by ID %d: %s", equipment_id, e
+            )
+            return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
         return self.session.query(Equipment).filter_by(code=code).one_or_none()
@@ -28,7 +37,8 @@ class EquipmentDAO:
             return equipment
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise Exception(f"Database error: {e}")
+            logger.error("Database error while saving equipment: %s", e)
+            raise Exception("Database error occurred.")
 
     def update(self, equipment_id: int, updated_data: dict) -> Optional[Equipment]:
         try:
@@ -45,7 +55,10 @@ class EquipmentDAO:
             return equipment
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise Exception(f"Database error: {e}")
+            logger.error(
+                "Database error while updating equipment ID %d: %s", equipment_id, e
+            )
+            raise Exception("Database error occurred.")
 
     def update_production_order_code(
         self, equipment_id: int, production_order_code: str
@@ -60,7 +73,12 @@ class EquipmentDAO:
             return True
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise Exception(f"Database error updating production order code: {e}")
+            logger.error(
+                "Database error updating production order code for equipment ID %d: %s",
+                equipment_id,
+                e,
+            )
+            raise Exception("Database error occurred.")
 
     def delete(self, equipment_id: int) -> bool:
         try:
@@ -73,4 +91,7 @@ class EquipmentDAO:
             return True
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise Exception(f"Database error: {e}")
+            logger.error(
+                "Database error while deleting equipment ID %d: %s", equipment_id, e
+            )
+            raise Exception("Database error occurred.")

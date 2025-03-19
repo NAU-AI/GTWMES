@@ -16,10 +16,10 @@ class PlcConnectionManager:
                 client = self.plc_client_factory(ip)
                 client.connect()
                 self.plc_clients[ip] = client
-                logger.info(f"PLC client connected successfully to {ip}.")
+                logger.info("PLC client connected successfully to %s.", ip)
             except Snap7Exception as e:
-                logger.error(f"Failed to connect to PLC {ip}: {e}")
-                return None
+                logger.error("Failed to connect to PLC %s: %s", ip, e)
+                raise ConnectionError(f"Failed to connect to PLC {ip}: {e}")
 
         return self.plc_clients[ip]
 
@@ -27,7 +27,7 @@ class PlcConnectionManager:
         for ip, client in self.plc_clients.items():
             try:
                 client.disconnect()
-                logger.info(f"Disconnected from PLC {ip}.")
+                logger.info("Disconnected from PLC %s.", ip)
             except Snap7Exception as e:
-                logger.error(f"Failed to disconnect PLC {ip}: {e}")
+                logger.error("Failed to disconnect PLC %s: %s", ip, e)
         self.plc_clients.clear()

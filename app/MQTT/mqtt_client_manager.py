@@ -3,7 +3,6 @@ import threading
 import time
 import paho.mqtt.client as mqtt
 from dotenv import load_dotenv
-
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -58,11 +57,11 @@ class ClientManager:
     def connect(self):
         try:
             logger.info(
-                f"Connecting to MQTT broker at {self.broker_url}:{self.mqtt_port}"
+                "Connecting to MQTT broker at %s:%s", self.broker_url, self.mqtt_port
             )
             self.client.connect(self.broker_url, self.mqtt_port)
         except Exception as e:
-            logger.error(f"Initial connection failed: {e}. Triggering reconnection.")
+            logger.error("Initial connection failed: %s. Triggering reconnection.", e)
             self.start_reconnect_loop()
 
     def start_reconnect_loop(self):
@@ -81,7 +80,9 @@ class ClientManager:
                     logger.info("Reconnected to MQTT broker.")
                     break
                 except Exception as e:
-                    logger.error(f"Reconnection failed: {e}. Retrying in {delay}s...")
+                    logger.error(
+                        "Reconnection failed: %s. Retrying in %s seconds...", e, delay
+                    )
                     time.sleep(delay)
                     delay = min(delay * self.reconnect_rate, self.max_reconnect_delay)
 
@@ -100,12 +101,12 @@ class ClientManager:
             self.stop_reconnect_loop()
             self.subscribe()
         else:
-            logger.error(f"Connection failed with result code {rc}. Retrying...")
+            logger.error("Connection failed with result code %s. Retrying...", rc)
             self.start_reconnect_loop()
 
     def on_disconnect(self, client, userdata, rc):
         if rc != 0:
-            logger.warning(f"Unexpected disconnection. Reason code: {rc}")
+            logger.warning("Unexpected disconnection. Reason code: %s", rc)
             self.start_reconnect_loop()
         else:
             logger.info("Disconnected from MQTT broker.")
@@ -117,9 +118,9 @@ class ClientManager:
 
         try:
             self.client.subscribe(self.topic_receive, qos=1)
-            logger.info(f"Subscribed to topic: {self.topic_receive}")
+            logger.info("Subscribed to topic: %s", self.topic_receive)
         except Exception as e:
-            logger.error(f"Error during subscription: {e}")
+            logger.error("Error during subscription: %s", e)
 
     def start_loop(self):
         try:
@@ -129,7 +130,7 @@ class ClientManager:
             logger.info("Ctrl+C pressed. Shutting down MQTT client.")
             self.disconnect()
         except Exception as e:
-            logger.error(f"Unexpected error in MQTT client loop: {e}")
+            logger.error("Unexpected error in MQTT client loop: %s", e)
 
     def disconnect(self):
         try:
@@ -139,5 +140,5 @@ class ClientManager:
             logger.info("Successfully disconnected from MQTT broker.")
         except Exception as e:
             logger.error(
-                f"Error occurred during MQTT disconnection: {e}", exc_info=True
+                "Error occurred during MQTT disconnection: %s", e, exc_info=True
             )

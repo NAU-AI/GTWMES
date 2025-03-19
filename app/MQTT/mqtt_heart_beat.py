@@ -42,7 +42,10 @@ class MqttHeartbeatMonitor:
             ).strftime("%Y-%m-%d %H:%M:%S")
 
             logger.info(
-                f"Heartbeat received for {equipment_code}. Previous: {previous_heartbeat_str}, New: {new_heartbeat_str}"
+                "Heartbeat received for %s. Previous: %s, New: %s",
+                equipment_code,
+                previous_heartbeat_str,
+                new_heartbeat_str,
             )
 
     def start_monitoring(self):
@@ -63,7 +66,7 @@ class MqttHeartbeatMonitor:
                     time.sleep(60)
             except Exception as e:
                 logger.error(
-                    f"Unexpected error in heartbeat monitor: {e}", exc_info=True
+                    "Unexpected error in heartbeat monitor: %s", e, exc_info=True
                 )
 
         self.monitor_thread = threading.Thread(target=monitor, daemon=True)
@@ -78,7 +81,7 @@ class MqttHeartbeatMonitor:
         if equipment_code not in self.last_heartbeats:
             self.last_heartbeats[equipment_code] = time.time()
             self.current_alarm_status[equipment_code] = 0
-            logger.info(f"Initialized heartbeat tracking for {equipment_code}.")
+            logger.info("Initialized heartbeat tracking for %s.", equipment_code)
             return
 
         last_heartbeat = self.last_heartbeats[equipment_code]
@@ -90,7 +93,10 @@ class MqttHeartbeatMonitor:
         elapsed_time = time.time() - last_heartbeat
 
         logger.debug(
-            f"Monitoring {equipment_code}: Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
+            "Monitoring %s: Elapsed = %.2fs, Timeout = %ss",
+            equipment_code,
+            elapsed_time,
+            timeout,
         )
 
         if elapsed_time > timeout:
@@ -101,8 +107,10 @@ class MqttHeartbeatMonitor:
             return
 
         logger.error(
-            f"ALARM TRIGGERED: Heartbeat timeout for {equipment_code}. "
-            f"Elapsed = {elapsed_time:.2f}s, Timeout = {timeout}s"
+            "ALARM TRIGGERED: Heartbeat timeout for %s. Elapsed = %.2fs, Timeout = %ss",
+            equipment_code,
+            elapsed_time,
+            timeout,
         )
 
         self.update_alarm_status(equipment_code, True)
@@ -118,11 +126,13 @@ class MqttHeartbeatMonitor:
                 equipment_code=equipment_code, key="PLC_ALARM", status=status
             )
             logger.warning(
-                f"Alarm 'Plc_alarm' written to PLC for {equipment_code}: {status}"
+                "Alarm 'Plc_alarm' written to PLC for %s: %s",
+                equipment_code,
+                status,
             )
         except Exception as e:
             logger.error(
-                f"Failed to write alarm for {equipment_code}: {e}", exc_info=True
+                "Failed to write alarm for %s: %s", equipment_code, e, exc_info=True
             )
 
     def stop_monitoring(self):

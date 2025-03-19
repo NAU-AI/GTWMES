@@ -16,12 +16,14 @@ class MessageProcessor:
     def on_message(self, client, userdata, msg):
         try:
             message = json.loads(msg.payload)
-            logger.info(f"Received message on topic '{msg.topic}': {message}")
+            logger.info("Received message on topic '%s': %s", msg.topic, message)
             self.message_handler.handle_message(client, message)
         except json.JSONDecodeError as e:
-            logger.error(f"Error decoding message payload: {msg.payload}. Error: {e}")
+            logger.error(
+                "Error decoding message payload: %s. Error: %s", msg.payload, e
+            )
         except Exception as e:
-            logger.error(f"Error handling message: {e}", exc_info=True)
+            logger.error("Error handling message: %s", e, exc_info=True)
 
     def start_periodic_messages(self, client, topic):
         try:
@@ -33,4 +35,4 @@ class MessageProcessor:
             periodically_messages_thread.start()
             logger.info("Started periodic message sending thread.")
         except Exception as e:
-            logger.error(f"Error starting periodic message thread: {e}", exc_info=True)
+            logger.error("Error starting periodic message thread: %s", e, exc_info=True)

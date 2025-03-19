@@ -36,4 +36,9 @@ class Variable(Base):
     equipment = relationship("Equipment", back_populates="variables")
 
     def __repr__(self):
-        return f"<Variable(id={self.id}, key='{self.key}', type='{self.type}', category='{self.category}')>"
+        return "<Variable(id=%s, key='%s', type='%s', category='%s')>" % (
+            self.id,
+            self.key,
+            self.type,
+            self.category,
+        )

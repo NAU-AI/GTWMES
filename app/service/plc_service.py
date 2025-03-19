@@ -28,22 +28,22 @@ class PlcService:
                 client = self.plc_connection_manager.get_plc_client(equipment.ip)
                 if not client:
                     logger.error(
-                        f"Unable to connect to PLC {equipment.ip}. Skipping..."
+                        "Unable to connect to PLC %s. Skipping...", equipment.ip
                     )
                     continue
-            logger.info(f"Connected to PLC {equipment.ip} on startup.")
+            logger.info("Connected to PLC %s on startup.", equipment.ip)
 
     def read_plc_data(self, equipment_id, equipment_ip):
         plc = self.plc_connection_manager.get_plc_client(equipment_ip)
         if not plc or not plc.is_connected():
-            logger.error(f"PLC {equipment_ip} is not connected.")
+            logger.error("PLC %s is not connected.", equipment_ip)
             return None
 
         variables = self.variable_service.get_by_equipment_id_and_operation_type(
             equipment_id, "READ"
         )
         if not variables:
-            logger.warning(f"No variables found for equipment {equipment_id}.")
+            logger.warning("No variables found for equipment %s.", equipment_id)
             return None
 
         data_package = [
@@ -61,10 +61,10 @@ class PlcService:
             results = plc.read_data_package(data_package)
             if results:
                 self._process_results(equipment_id, results, variables)
-                logger.info(f"Successfully read PLC data for {equipment_id}.")
+                logger.info("Successfully read PLC data for %s.", equipment_id)
             return results
         except Snap7Exception as e:
-            logger.error(f"Error reading PLC data for {equipment_id}: {e}")
+            logger.error("Error reading PLC data for %s: %s", equipment_id, e)
             return None
 
     def _process_results(self, equipment_id, results, variables):
@@ -76,19 +76,25 @@ class PlcService:
                         equipment_id, variable.key, value
                     )
                     logger.debug(
-                        f"Updated variable '{variable.key}' with value {value}."
+                        "Updated variable '%s' with value %s.", variable.key, value
                     )
                 else:
-                    logger.warning(f"Variable '{key}' not found in database.")
+                    logger.warning("Variable '%s' not found in database.", key)
             except Exception as e:
-                logger.error(f"Error processing result for {key}: {e}", exc_info=True)
+                logger.error(
+                    "Error processing result for %s: %s", key, e, exc_info=True
+                )
 
     def write_int(self, equipment_ip, db, byte, value):
         plc = self.plc_connection_manager.get_plc_client(equipment_ip)
         if plc:
             plc.write_int(db, byte, value)
             logger.info(
-                f"Integer {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}."
+                "Integer %s written to PLC %s, DB %s, Byte %s.",
+                value,
+                equipment_ip,
+                db,
+                byte,
             )
 
     def write_bool(self, equipment_ip, db, byte, bit, value):
@@ -96,14 +102,19 @@ class PlcService:
         if plc:
             plc.write_bool(db, byte, bit, value)
             logger.info(
-                f"Boolean {value} written to PLC {equipment_ip}, DB {db}, Byte {byte}, Bit {bit}."
+                "Boolean %s written to PLC %s, DB %s, Byte %s, Bit %s.",
+                value,
+                equipment_ip,
+                db,
+                byte,
+                bit,
             )
 
     def write_alarm_status_by_key(self, equipment_code, key, status: bool):
         try:
             equipment = self.equipment_service.get_equipment_by_code(equipment_code)
             if not equipment:
-                logger.error(f"Equipment with code {equipment_code} not found.")
+                logger.error("Equipment with code %s not found.", equipment_code)
                 return
 
             alarm_variable = self.variable_service.get_by_equipment_id_and_key(
@@ -111,13 +122,13 @@ class PlcService:
             )
             if not alarm_variable:
                 logger.error(
-                    f"No variable '{key}' found for equipment {equipment_code}."
+                    "No variable '%s' found for equipment %s.", key, equipment_code
                 )
                 return
 
             equipment_ip = equipment.ip
             if not equipment_ip:
-                logger.error(f"IP address not found for equipment {equipment_code}.")
+                logger.error("IP address not found for equipment %s.", equipment_code)
                 return
 
             plc_client = self.plc_connection_manager.get_plc_client(equipment_ip)
@@ -129,20 +140,24 @@ class PlcService:
                     value=status,
                 )
                 logger.info(
-                    f"Alarm written to PLC for {equipment_code} (IP {equipment_ip}): "
-                    f"DB {alarm_variable.db_address}, Byte {alarm_variable.offset_byte}, "
-                    f"Bit {alarm_variable.offset_bit}, Value {status}"
+                    "Alarm written to PLC for %s (IP %s): DB %s, Byte %s, Bit %s, Value %s",
+                    equipment_code,
+                    equipment_ip,
+                    alarm_variable.db_address,
+                    alarm_variable.offset_byte,
+                    alarm_variable.offset_bit,
+                    status,
                 )
         except Exception as e:
             logger.error(
-                f"Failed to write alarm for {equipment_code}: {e}", exc_info=True
+                "Failed to write alarm for %s: %s", equipment_code, e, exc_info=True
             )
 
     def write_equipment_variables(self, equipment_ip, variables):
         plc_client = self.plc_connection_manager.get_plc_client(equipment_ip)
 
         if not plc_client:
-            logger.error(f"PLC client unavailable for equipment at '{equipment_ip}'")
+            logger.error("PLC client unavailable for equipment at '%s'", equipment_ip)
             return
 
         for variable in variables:
@@ -160,12 +175,18 @@ class PlcService:
                     )
 
                 logger.info(
-                    f"Written '{variable.key}' with value '{variable.value}' to PLC for equipment at '{equipment_ip}'"
+                    "Written '%s' with value '%s' to PLC for equipment at '%s'",
+                    variable.key,
+                    variable.value,
+                    equipment_ip,
                 )
 
             except Exception as e:
                 logger.error(
-                    f"Failed to write '{variable.key}' to PLC for equipment at '{equipment_ip}': {e}",
+                    "Failed to write '%s' to PLC for equipment at '%s': %s",
+                    variable.key,
+                    equipment_ip,
+                    e,
                     exc_info=True,
                 )
 
@@ -182,14 +203,14 @@ class PlcService:
                 interval=60,
             )
             logger.info(
-                f"Scheduled PLC data reading for {equipment.code} every 1 minute."
+                "Scheduled PLC data reading for %s every 1 minute.", equipment.code
             )
 
     def _read_plc_data_task(self, client, topic_send, equipment):
         try:
             self.read_plc_data(equipment.id, equipment.ip)
         except Exception as e:
-            logger.error(f"Error during PLC data reading for {equipment.id}: {e}")
+            logger.error("Error during PLC data reading for %s: %s", equipment.id, e)
 
     def shutdown(self):
         logger.info("Disconnecting all PLCs...")

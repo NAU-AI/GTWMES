@@ -18,11 +18,13 @@ class VariableService:
         try:
             variable = self.variable_dao.find_by_id(variable_id)
             if not variable:
-                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
+                raise NotFoundException(
+                    "Variable with ID '%s' not found." % variable_id
+                )
             return variable
         except Exception as e:
             logger.error(
-                f"Error fetching variable by ID '{variable_id}': {e}", exc_info=True
+                "Error fetching variable by ID '%s': %s", variable_id, e, exc_info=True
             )
             raise ServiceException("Unable to fetch variable.") from e
 
@@ -31,7 +33,9 @@ class VariableService:
             return self.variable_dao.find_by_equipment_id(equipment_id)
         except Exception as e:
             logger.error(
-                f"Error fetching variables for equipment ID '{equipment_id}': {e}",
+                "Error fetching variables for equipment ID '%s': %s",
+                equipment_id,
+                e,
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch variables.") from e
@@ -45,7 +49,10 @@ class VariableService:
             )
         except Exception as e:
             logger.error(
-                f"Error fetching variables for equipment ID '{equipment_id}' and operation type '{operation_type}': {e}",
+                "Error fetching variables for equipment ID '%s' and operation type '%s': %s",
+                equipment_id,
+                operation_type,
+                e,
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch variables.") from e
@@ -55,18 +62,22 @@ class VariableService:
             variable = self.variable_dao.find_by_key(equipment_id, key)
             if not variable:
                 raise NotFoundException(
-                    f"Variable with key '{key}' not found for equipment ID '{equipment_id}'."
+                    "Variable with key '%s' not found for equipment ID '%s'."
+                    % (key, equipment_id)
                 )
             return VariableDTO(
                 equipment_id=variable.equipment_id,
-                category=variable.category,
+                category=variable.category or "",
                 operation_type=variable.operation_type,
                 value=variable.value,
                 key=variable.key,
             )
         except Exception as e:
             logger.error(
-                f"Error fetching variable by key '{key}' for equipment ID '{equipment_id}': {e}",
+                "Error fetching variable by key '%s' for equipment ID '%s': %s",
+                key,
+                equipment_id,
+                e,
                 exc_info=True,
             )
             raise ServiceException("Unable to fetch variable by key.") from e
@@ -82,12 +93,17 @@ class VariableService:
 
         if not variable:
             logger.info(
-                f"No variable found for equipment_id={equipment_id} and key='{key}'"
+                "No variable found for equipment_id=%s and key='%s'",
+                equipment_id,
+                key,
             )
             return None
 
         logger.debug(
-            f"Retrieved variable '{key}' for equipment_id={equipment_id}: {variable}"
+            "Retrieved variable '%s' for equipment_id=%s: %s",
+            key,
+            equipment_id,
+            variable,
         )
         return variable
 
@@ -101,7 +117,8 @@ class VariableService:
 
             if not variables:
                 raise NotFoundException(
-                    f"No variables found for equipment ID {equipment_id}, category {category}, and operation type {operation_type}."
+                    "No variables found for equipment ID %s, category %s, and operation type %s."
+                    % (equipment_id, category, operation_type)
                 )
 
             return variables
@@ -112,7 +129,7 @@ class VariableService:
         try:
             return self.variable_dao.find_all()
         except Exception as e:
-            logger.error("Error fetching all variables.", exc_info=True)
+            logger.error("Error fetching all variables: %s", e, exc_info=True)
             raise ServiceException("Unable to fetch variables.") from e
 
     def save_variable(self, variable: Variable) -> Variable:
@@ -122,30 +139,42 @@ class VariableService:
             )
             if existing_variable:
                 raise ConflictException(
-                    f"Variable with key '{variable.key}' already exists for equipment ID '{variable.equipment_id}'."
+                    "Variable with key '%s' already exists for equipment ID '%s'."
+                    % (variable.key, variable.equipment_id)
                 )
 
             saved_variable = self.variable_dao.save(variable)
-            logger.info(
-                f"Created variable '{saved_variable.key}' for equipment ID {saved_variable.equipment_id}."
-            )
+            if saved_variable:
+                logger.info(
+                    "Created variable '%s' for equipment ID %s.",
+                    saved_variable.key,
+                    saved_variable.equipment_id,
+                )
             return saved_variable
         except Exception as e:
-            logger.error(f"Error saving variable '{variable.key}': {e}", exc_info=True)
+            logger.error(
+                "Error saving variable '%s': %s", variable.key, e, exc_info=True
+            )
             raise ServiceException("Unable to save variable.") from e
 
     def update_variable(self, variable_id: int, updated_data: dict) -> Variable:
         try:
             updated_variable = self.variable_dao.update(variable_id, updated_data)
             if not updated_variable:
-                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
+                raise NotFoundException(
+                    "Variable with ID '%s' not found." % variable_id
+                )
 
             logger.info(
-                f"Updated variable '{updated_variable.key}' for equipment ID {updated_variable.equipment_id}."
+                "Updated variable '%s' for equipment ID %s.",
+                updated_variable.key,
+                updated_variable.equipment_id,
             )
             return updated_variable
         except Exception as e:
-            logger.error(f"Error updating variable '{variable_id}': {e}", exc_info=True)
+            logger.error(
+                "Error updating variable '%s': %s", variable_id, e, exc_info=True
+            )
             raise ServiceException("Unable to update variable.") from e
 
     def create_or_update_variable(
@@ -169,19 +198,23 @@ class VariableService:
             ]
             if missing_fields:
                 raise ValueError(
-                    f"Missing required fields for variable '{key}': {', '.join(missing_fields)}"
+                    "Missing required fields for variable '%s': %s",
+                    key,
+                    ", ".join(missing_fields),
                 )
 
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
 
             if variable:
                 logger.info(
-                    f"Updating existing variable '{key}' for equipment ID {equipment_id}."
+                    "Updating existing variable '%s' for equipment ID %s.",
+                    key,
+                    equipment_id,
                 )
                 return self.variable_dao.update(variable.id, variable_data)
 
             logger.info(
-                f"Creating new variable '{key}' for equipment ID {equipment_id}."
+                "Creating new variable '%s' for equipment ID %s.", key, equipment_id
             )
             new_variable = Variable(
                 equipment_id=equipment_id,
@@ -197,10 +230,10 @@ class VariableService:
 
         except Exception as e:
             logger.error(
-                f"Error creating or updating variable '{key}': {e}", exc_info=True
+                "Error creating or updating variable '%s': %s", key, e, exc_info=True
             )
             raise ServiceException(
-                f"Unable to create or update variable '{key}'."
+                "Unable to create or update variable '%s'." % key
             ) from e
 
     def update_variable_value(
@@ -212,16 +245,22 @@ class VariableService:
             )
             if not updated_variable:
                 raise NotFoundException(
-                    f"Variable with key '{key}' for equipment ID '{equipment_id}' not found."
+                    "Variable with key '%s' for equipment ID '%s' not found."
+                    % (key, equipment_id)
                 )
 
             logger.info(
-                f"Updated value for variable '{key}' in equipment ID {equipment_id}."
+                "Updated value for variable '%s' in equipment ID %s.",
+                key,
+                equipment_id,
             )
             return updated_variable
         except Exception as e:
             logger.error(
-                f"Error updating variable '{key}' for equipment ID '{equipment_id}': {e}",
+                "Error updating variable '%s' for equipment ID '%s': %s",
+                key,
+                equipment_id,
+                e,
                 exc_info=True,
             )
             raise ServiceException("Unable to update variable value.") from e
@@ -230,12 +269,14 @@ class VariableService:
         try:
             deleted = self.variable_dao.delete(variable_id)
             if not deleted:
-                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
+                raise NotFoundException(
+                    "Variable with ID '%s' not found." % variable_id
+                )
 
-            logger.info(f"Deleted variable with ID {variable_id}.")
+            logger.info("Deleted variable with ID %s.", variable_id)
             return True
         except Exception as e:
             logger.error(
-                f"Error deleting variable ID {variable_id}: {e}", exc_info=True
+                "Error deleting variable ID %s: %s", variable_id, e, exc_info=True
             )
             raise ServiceException("Unable to delete variable.") from e
