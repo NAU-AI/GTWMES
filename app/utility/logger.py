@@ -9,7 +9,7 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def get_log_filename():
-    return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d')}.log"
+    return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
 
 
 class Logger:
@@ -27,7 +27,7 @@ class Logger:
         if not logger.handlers:
             file_handler = RotatingFileHandler(
                 filename=str(get_log_filename()),
-                maxBytes=10 * 1024 * 1024,
+                maxBytes=5 * 1024 * 1024,
                 backupCount=7,
                 encoding="utf-8",
             )
