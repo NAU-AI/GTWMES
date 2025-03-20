@@ -38,7 +38,7 @@ def createCertificate():
 					certificatePem = data['certificatePem']
 			elif element == 'certificateId':
 					certificateId = data['certificateId']
-							
+
 	with open('public.key', 'w') as outfile:
 			outfile.write(PublicKey)
 	with open('private.key', 'w') as outfile:
