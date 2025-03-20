@@ -111,8 +111,9 @@ class ProductionCountService:
             for var in variables
         ]
 
+    @staticmethod
     def _get_variable_value(
-        self, variables: List[VariableDTO], key: str, default: int = 0
+        variables: List[VariableDTO], key: str, default: int = 0
     ) -> int:
         for variable in variables:
             if variable.key == key:

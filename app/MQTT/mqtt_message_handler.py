@@ -55,7 +55,8 @@ class MessageHandler:
             client, self.topic_send, response_message
         )
 
-    def _build_response_message(self, data: dict) -> dict:
+    @staticmethod
+    def _build_response_message(data: dict) -> dict:
         response_data = data.copy()
 
         if "jsonType" in response_data:
