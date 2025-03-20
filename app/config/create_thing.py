@@ -14,7 +14,6 @@ defaultPolicyName = "ALL2"
 
 
 def createThing():
-    global thingClient
     thingResponse = thingClient.create_thing(thingName=thingName)
     data = json.loads(json.dumps(thingResponse, sort_keys=False, indent=4))
     for element in data:
@@ -26,7 +25,6 @@ def createThing():
 
 
 def createCertificate():
-    global thingClient
     certResponse = thingClient.create_keys_and_certificate(setAsActive=True)
     data = json.loads(json.dumps(certResponse, sort_keys=False, indent=4))
     for element in data:
