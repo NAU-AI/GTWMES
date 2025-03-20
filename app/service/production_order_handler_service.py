@@ -106,7 +106,8 @@ class ProductionOrderHandlerService:
             )
             raise ServiceException("Failed to complete production order") from e
 
-    def _validate_message(self, equipment_code):
+    @staticmethod
+    def _validate_message(equipment_code):
         if not equipment_code:
             raise ValueError(
                 "Missing 'equipmentCode' or 'productionOrderCode' in message"

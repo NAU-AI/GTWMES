@@ -46,7 +46,8 @@ class ConfigurationHandlerService:
                 "Error processing equipment configuration: %s", e, exc_info=True
             )
 
-    def _validate_and_extract_message(self, message: Dict) -> Dict[str, Any]:
+    @staticmethod
+    def _validate_and_extract_message(message: Dict) -> Dict[str, Any]:
         equipment_code = message.get("equipmentCode")
         ip = message.get("ip")
         p_timer_communication_cycle = message.get("pTimerCommunicationCycle")

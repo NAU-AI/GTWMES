@@ -64,7 +64,8 @@ class MessageService:
                 exc_info=True,
             )
 
-    def send_message_response(self, client, topic_send, data):
+    @staticmethod
+    def send_message_response(client, topic_send, data):
         try:
             serialized_message = json.dumps(data, default=str)
 
