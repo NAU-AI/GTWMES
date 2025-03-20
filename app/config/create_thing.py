@@ -4,10 +4,6 @@ import json
 from dotenv import load_dotenv 
 load_dotenv() 
 
-#To create random name for things
-import random
-import string
-
 thingArn = ''
 thingId = ''
 thingName = os.getenv("CLIENT_ID").strip()
