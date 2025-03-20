@@ -2,10 +2,10 @@ import json
 
 from sqlalchemy.orm import Session
 from utility.scheduler import Scheduler
+from utility.logger import Logger
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
 from service.production_count_service import ProductionCountService
 from service.equipment_service import EquipmentService
-from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 

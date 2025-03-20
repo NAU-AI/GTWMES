@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from model.dto.variable_dto import VariableDTO
-from database.dao.variable_dao import VariableDAO
 from model.variable import Variable
+from database.dao.variable_dao import VariableDAO
 from exception.Exception import NotFoundException, ServiceException, ConflictException
 from utility.logger import Logger
 

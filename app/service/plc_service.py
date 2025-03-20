@@ -1,8 +1,8 @@
 from service.plc_connection_manager import PlcConnectionManager
-from utility.logger import Logger
-from utility.scheduler import Scheduler
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
+from utility.logger import Logger
+from utility.scheduler import Scheduler
 from sqlalchemy.orm import Session
 from snap7.exceptions import Snap7Exception
 
