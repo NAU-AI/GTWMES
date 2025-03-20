@@ -1,12 +1,13 @@
-from typing import Any, List, Optional, Dict
-from sqlalchemy.orm import Session
+from typing import Any, Dict, List, Optional
+
 from model.equipment import Equipment
 from model.variable import Variable
-from utility.logger import Logger
 from service.equipment_service import EquipmentService
-from service.variable_service import VariableService
 from service.message_service import MessageService
 from service.plc_service import PlcService
+from service.variable_service import VariableService
+from sqlalchemy.orm import Session
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -112,9 +113,11 @@ class ConfigurationHandlerService:
                     equipment.ip,
                     variable.db_address,
                     variable.offset_byte,
-                    int(variable.value)
-                    if isinstance(variable.value, (int, float, str))
-                    else 0,
+                    (
+                        int(variable.value)
+                        if isinstance(variable.value, (int, float, str))
+                        else 0
+                    ),
                 )
             else:
                 raise TypeError(f"Unsupported variable type: {variable.type}")
