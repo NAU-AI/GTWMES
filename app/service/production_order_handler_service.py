@@ -70,7 +70,7 @@ class ProductionOrderHandlerService:
                 raise ValueError(
                     "Missing 'equipmentCode' or 'productionOrderCode' in message"
                 )
-            self._validate_message(equipment_code, production_order_code)
+            self._validate_message(equipment_code)
 
             logger.info(
                 "Completing production order '%s' for equipment '%s'",
@@ -106,8 +106,8 @@ class ProductionOrderHandlerService:
             )
             raise ServiceException("Failed to complete production order") from e
 
-    def _validate_message(self, equipment_code: str, production_order_code: str):
-        if not equipment_code or not production_order_code:
+    def _validate_message(self, equipment_code):
+        if not equipment_code:
             raise ValueError(
                 "Missing 'equipmentCode' or 'productionOrderCode' in message"
             )

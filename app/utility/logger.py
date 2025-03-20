@@ -27,7 +27,7 @@ class Logger:
         if not logger.handlers:
             file_handler = RotatingFileHandler(
                 filename=str(get_log_filename()),
-                maxBytes=5 * 1024 * 1024,
+                maxBytes=1 * 1024 * 1024,
                 backupCount=7,
                 encoding="utf-8",
             )
