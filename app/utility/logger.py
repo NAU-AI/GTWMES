@@ -9,7 +9,7 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def get_log_filename():
-    return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
+    return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d')}.log"
 
 
 class Logger:
