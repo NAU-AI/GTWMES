@@ -1,10 +1,10 @@
+from exception.Exception import NotFoundException, ServiceException
 from service.equipment_service import EquipmentService
 from service.message_service import MessageService
-from service.variable_service import VariableService
 from service.plc_service import PlcService
-from exception.Exception import NotFoundException, ServiceException
-from utility.logger import Logger
+from service.variable_service import VariableService
 from sqlalchemy.orm import Session
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -115,9 +115,7 @@ class ProductionOrderHandlerService:
     def _get_equipment(self, equipment_code: str):
         if equipment := self.equipment_service.get_equipment_by_code(equipment_code):
             return equipment
-        raise NotFoundException(
-            "Equipment with code '%s' not found", equipment_code
-        )
+        raise NotFoundException("Equipment with code '%s' not found", equipment_code)
 
     def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):
         try:

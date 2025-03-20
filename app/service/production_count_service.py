@@ -1,12 +1,13 @@
+from typing import List, Optional
+
+from exception.Exception import NotFoundException, ServiceException
 from model.dto.production_count_dto import ProductionCountDTO
 from model.dto.variable_dto import VariableDTO
-from sqlalchemy.orm import Session
-from service.variable_service import VariableService
-from exception.Exception import ServiceException, NotFoundException
-from utility.logger import Logger
 from model.equipment import Equipment
 from service.equipment_service import EquipmentService  # Import the EquipmentService
-from typing import List, Optional
+from service.variable_service import VariableService
+from sqlalchemy.orm import Session
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -63,9 +64,9 @@ class ProductionCountService:
         output_counters = [
             {
                 "outputCode": output_variable.key,
-                "value": output_variable.value
-                if output_variable.value is not None
-                else 0,
+                "value": (
+                    output_variable.value if output_variable.value is not None else 0
+                ),
             }
             for output_variable in variables
             if output_variable.category == "OUTPUT"
@@ -74,9 +75,9 @@ class ProductionCountService:
         return ProductionCountDTO(
             json_type=message_type,
             equipment_code=equipment_code,
-            production_order_code=production_order_code
-            if production_order_code is not None
-            else "",
+            production_order_code=(
+                production_order_code if production_order_code is not None else ""
+            ),
             equipment_status=equipment_status,
             active_time=active_time,
             alarms=alarm_values,
