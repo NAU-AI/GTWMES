@@ -119,6 +119,5 @@ class ProductionCountService:
                     return (
                         int(variable.value) if variable.value is not None else default
                     )
-                else:
-                    return default
+                return default
         return default
