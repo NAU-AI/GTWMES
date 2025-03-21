@@ -12,42 +12,51 @@ class EquipmentDAO:
         self.session = session
 
     def find_by_id(self, equipment_id: int) -> Optional[Equipment]:
+        """Find equipment by ID."""
         try:
             return self.session.get(Equipment, equipment_id)
         except SQLAlchemyError as e:
-            logger.error(
-                "Database error while finding variable by ID %d: %s", equipment_id, e
-            )
+            logger.error("Error finding equipment ID %d: %s", equipment_id, e)
             return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
-        return (
-            self.session.query(Equipment)
-            .options(
-                load_only(Equipment.id, Equipment.code, Equipment.production_order_code)
+        """Find equipment by its code (selective fields only)."""
+        try:
+            return (
+                self.session.query(Equipment)
+                .options(
+                    load_only(
+                        Equipment.id, Equipment.code, Equipment.production_order_code
+                    )
+                )
+                .filter_by(code=code)
+                .one_or_none()
             )
-            .filter_by(code=code)
-            .one_or_none()
-        )
+        except SQLAlchemyError as e:
+            logger.error("Error finding equipment by code '%s': %s", code, e)
+            return None
 
     def find_all(self) -> List[Equipment]:
-        equipment_list = self.session.query(Equipment).all()
-        for equipment in equipment_list:
-            self.session.refresh(equipment)
-        return equipment_list
+        """Return all equipment entries."""
+        try:
+            return self.session.query(Equipment).all()
+        except SQLAlchemyError as e:
+            logger.error("Error finding all equipment: %s", e)
+            return []
 
-    def save(self, equipment: Equipment) -> Equipment:
+    def save(self, equipment: Equipment) -> Optional[Equipment]:
+        """Save a new equipment entry."""
         try:
             self.session.add(equipment)
-            self.session.commit()
+            self.session.flush()
             self.session.refresh(equipment)
             return equipment
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error("Database error while saving equipment: %s", e)
-            raise Exception("Database error occurred.")
+            logger.error("Error saving equipment: %s", e)
+            return None
 
     def update(self, equipment_id: int, updated_data: dict) -> Optional[Equipment]:
+        """Update an equipment with new field values."""
         try:
             equipment = self.find_by_id(equipment_id)
             if not equipment:
@@ -57,48 +66,43 @@ class EquipmentDAO:
                 if hasattr(equipment, key):
                     setattr(equipment, key, value)
 
-            self.session.commit()
+            self.session.flush()
             self.session.refresh(equipment)
             return equipment
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error(
-                "Database error while updating equipment ID %d: %s", equipment_id, e
-            )
-            raise Exception("Database error occurred.")
+            logger.error("Error updating equipment ID %d: %s", equipment_id, e)
+            return None
 
     def update_production_order_code(
         self, equipment_id: int, production_order_code: str
     ) -> bool:
+        """Update only the production order code of the equipment."""
         try:
             equipment = self.find_by_id(equipment_id)
             if not equipment:
                 return False
 
             equipment.production_order_code = production_order_code
-            self.session.commit()
+            self.session.flush()
             return True
         except SQLAlchemyError as e:
-            self.session.rollback()
             logger.error(
-                "Database error updating production order code for equipment ID %d: %s",
+                "Error updating production order code for equipment ID %d: %s",
                 equipment_id,
                 e,
             )
-            raise Exception("Database error occurred.")
+            return False
 
     def delete(self, equipment_id: int) -> bool:
+        """Delete an equipment by its ID."""
         try:
             equipment = self.find_by_id(equipment_id)
             if not equipment:
                 return False
 
             self.session.delete(equipment)
-            self.session.commit()
+            self.session.flush()
             return True
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error(
-                "Database error while deleting equipment ID %d: %s", equipment_id, e
-            )
-            raise Exception("Database error occurred.")
+            logger.error("Error deleting equipment ID %d: %s", equipment_id, e)
+            return False
