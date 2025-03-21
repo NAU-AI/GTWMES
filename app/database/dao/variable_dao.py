@@ -12,17 +12,17 @@ class VariableDAO:
         self.session = session
 
     def find_by_id(self, variable_id: int) -> Optional[Variable]:
+        """Find a variable by its ID."""
         try:
             return (
                 self.session.query(Variable).filter(Variable.id == variable_id).first()
             )
         except SQLAlchemyError as e:
-            logger.error(
-                "Database error while finding variable by ID %d: %s", variable_id, e
-            )
+            logger.error("Error finding variable ID %d: %s", variable_id, e)
             return None
 
     def find_by_equipment_id(self, equipment_id: int) -> List[Variable]:
+        """Find all variables for a given equipment."""
         try:
             return (
                 self.session.query(Variable)
@@ -31,13 +31,14 @@ class VariableDAO:
             )
         except SQLAlchemyError as e:
             logger.error(
-                "Database error while finding variables by equipment ID %d: %s",
-                equipment_id,
-                e,
+                "Error finding variables by equipment ID %d: %s", equipment_id, e
             )
             return []
 
-    def find_by_key(self, equipment_id: int, key: str) -> Optional[Variable]:
+    def find_by_equipment_id_and_key(
+        self, equipment_id: int, key: str
+    ) -> Optional[Variable]:
+        """Find a variable by equipment ID and key."""
         try:
             return (
                 self.session.query(Variable)
@@ -46,7 +47,7 @@ class VariableDAO:
             )
         except SQLAlchemyError as e:
             logger.error(
-                "Database error while finding variable by key %s for equipment ID %d: %s",
+                "Error finding variable by key %s and equipment ID %d: %s",
                 key,
                 equipment_id,
                 e,
@@ -56,6 +57,7 @@ class VariableDAO:
     def find_by_equipment_id_and_operation_type(
         self, equipment_id: int, operation_type: str
     ) -> List[Variable]:
+        """Find variables by equipment ID and operation type."""
         try:
             return (
                 self.session.query(Variable)
@@ -67,16 +69,17 @@ class VariableDAO:
             )
         except SQLAlchemyError as e:
             logger.error(
-                "Database error while finding variables for equipment ID %d with operation type %s: %s",
+                "Error finding variables by equipment ID %d and operation type %s: %s",
                 equipment_id,
                 operation_type,
                 e,
             )
             return []
 
-    def find_by_equipment_id_category_operation_type(
+    def find_by_all_filters(
         self, equipment_id: int, category: str, operation_type: str
     ) -> List[Variable]:
+        """Find variables by equipment ID, category, and operation type."""
         try:
             return (
                 self.session.query(Variable)
@@ -89,7 +92,7 @@ class VariableDAO:
             )
         except SQLAlchemyError as e:
             logger.error(
-                "Database error while finding variables for equipment ID %d, category %s, operation type %s: %s",
+                "Error finding variables by equipment ID %d, category %s, operation type %s: %s",
                 equipment_id,
                 category,
                 operation_type,
@@ -98,42 +101,26 @@ class VariableDAO:
             return []
 
     def find_all(self) -> List[Variable]:
+        """Find all variables."""
         try:
             return self.session.query(Variable).all()
         except SQLAlchemyError as e:
-            logger.error("Database error while finding all variables: %s", e)
+            logger.error("Error finding all variables: %s", e)
             return []
 
-    def find_by_equipment_id_and_key(
-        self, equipment_id: int, key: str
-    ) -> Optional[Variable]:
-        try:
-            return (
-                self.session.query(Variable)
-                .filter(Variable.equipment_id == equipment_id, Variable.key == key)
-                .first()
-            )
-        except SQLAlchemyError as e:
-            logger.error(
-                "Database error while finding variable by key %s for equipment ID %d: %s",
-                key,
-                equipment_id,
-                e,
-            )
-            return None
-
     def save(self, variable: Variable) -> Optional[Variable]:
+        """Save a new variable."""
         try:
             self.session.add(variable)
-            self.session.commit()
+            self.session.flush()  # defer commit to service layer
             self.session.refresh(variable)
             return variable
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error("Database error while saving variable: %s", e)
+            logger.error("Error saving variable: %s", e)
             return None
 
     def update(self, variable_id: int, updated_data: dict) -> Optional[Variable]:
+        """Update a variable with new data."""
         try:
             variable = self.find_by_id(variable_id)
             if not variable:
@@ -143,32 +130,29 @@ class VariableDAO:
                 if hasattr(variable, key):
                     setattr(variable, key, value)
 
-            self.session.commit()
+            self.session.flush()
             self.session.refresh(variable)
             return variable
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error(
-                "Database error while updating variable ID %d: %s", variable_id, e
-            )
+            logger.error("Error updating variable ID %d: %s", variable_id, e)
             return None
 
     def update_value_by_key(
         self, equipment_id: int, key: str, new_value: dict
     ) -> Optional[Variable]:
+        """Update a variable’s value by its equipment ID and key."""
         try:
             variable = self.find_by_equipment_id_and_key(equipment_id, key)
             if not variable:
                 return None
 
             variable.value = new_value
-            self.session.commit()
+            self.session.flush()
             self.session.refresh(variable)
             return variable
         except SQLAlchemyError as e:
-            self.session.rollback()
             logger.error(
-                "Database error while updating value for variable with key %s and equipment ID %d: %s",
+                "Error updating value for variable with key %s and equipment ID %d: %s",
                 key,
                 equipment_id,
                 e,
@@ -176,17 +160,15 @@ class VariableDAO:
             return None
 
     def delete(self, variable_id: int) -> bool:
+        """Delete a variable by ID."""
         try:
             variable = self.find_by_id(variable_id)
             if not variable:
                 return False
 
             self.session.delete(variable)
-            self.session.commit()
+            self.session.flush()
             return True
         except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error(
-                "Database error while deleting variable ID %d: %s", variable_id, e
-            )
+            logger.error("Error deleting variable ID %d: %s", variable_id, e)
             return False

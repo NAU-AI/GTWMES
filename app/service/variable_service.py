@@ -62,7 +62,7 @@ class VariableService:
         self, equipment_id: int, category: str, operation_type: str
     ) -> List[VariableDTO]:
         try:
-            variables = self.variable_dao.find_by_equipment_id_category_operation_type(
+            variables = self.variable_dao.find_by_all_filters(
                 equipment_id, category, operation_type
             )
 

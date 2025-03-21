@@ -31,7 +31,7 @@ class MESMain:
             self.client_manager.connect()
 
             self.logger.info("Connecting to PLCs at startup...")
-            ##self.plc_service.connect_all_plcs()
+            self.plc_service.connect_all_plcs()
 
             self.logger.info("Starting PLC periodic data reading...")
             self.plc_service.schedule_plc_readings()
