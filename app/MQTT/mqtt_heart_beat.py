@@ -1,10 +1,11 @@
+import datetime
 import threading
 import time
-import datetime
-from sqlalchemy.orm import Session
+
 from model.dto.equipment_dto import EquipmentDTO
 from service.equipment_service import EquipmentService
 from service.plc_service import PlcService
+from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)

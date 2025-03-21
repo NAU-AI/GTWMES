@@ -1,10 +1,11 @@
 import sys
-from sqlalchemy import text
+
 from database.connection.db_connection import get_session
+from mqtt.mqtt_client_manager import ClientManager
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
 from mqtt.mqtt_message_processor import MessageProcessor
-from mqtt.mqtt_client_manager import ClientManager
 from service.plc_service import PlcService
+from sqlalchemy import text
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -31,7 +32,7 @@ class MESMain:
             self.client_manager.connect()
 
             self.logger.info("Connecting to PLCs at startup...")
-            ##self.plc_service.connect_all_plcs()
+            # self.plc_service.connect_all_plcs()
 
             self.logger.info("Starting PLC periodic data reading...")
             self.plc_service.schedule_plc_readings()

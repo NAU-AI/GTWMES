@@ -1,9 +1,9 @@
 from typing import List, Optional
 
-from model.dto.equipment_dto import EquipmentDTO
-from model.dto.variable import VariableDTO
 from exception.Exception import NotFoundException, ServiceException
+from model.dto.equipment_dto import EquipmentDTO
 from model.dto.production_count_dto import ProductionCountDTO
+from model.dto.variable import VariableDTO
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
 from sqlalchemy.orm import Session
