@@ -25,73 +25,37 @@ class MessageHandler:
 
         handler = self.protocols.get(json_type)
         if handler:
-            handler(client, message)
+            self._process_message(client, message, handler, json_type)
         else:
             logger.warning("Unhandled jsonType: %s. Message: %s", json_type, message)
 
-    def _process_message(self, client, message, handler, response_type):
+    def _process_message(self, client, message, handler, message_type: str):
         try:
-            logger.info("Processing '%s' message: %s", response_type, message)
-
-            handler(message)
-
-            logger.info("Successfully handled '%s'", response_type)
-
+            logger.info("Processing '%s' message: %s", message_type, message)
+            handler(client, message)
+            logger.info("Successfully handled '%s'", message_type)
         except Exception as e:
             logger.error(
                 "Error processing '%s' for jsonType %s: %s",
-                response_type,
+                message_type,
                 message.get("jsonType"),
                 e,
                 exc_info=True,
             )
 
-        finally:
-            self._send_response(client, message)
-
-    def _send_response(self, client, message):
-        response_message = self._build_response_message(message)
-        self.message_service.send_message_response(
-            client, self.topic_send, response_message
-        )
-
-    @staticmethod
-    def _build_response_message(data: dict) -> dict:
-        response_data = data.copy()
-
-        if "jsonType" in response_data:
-            response_data["jsonType"] = f"{response_data['jsonType']}Response"
-
-        return response_data
-
     def _handle_configuration(self, client, message):
-        self._process_message(
-            client,
-            message,
-            lambda msg: self.configuration_handler_service.process_equipment_configuration(
-                client, self.topic_send, msg
-            ),
-            "Configuration",
+        self.configuration_handler_service.process_equipment_configuration(
+            client, self.topic_send, message
         )
 
     def _handle_production_order_init(self, client, message):
-        self._process_message(
-            client,
-            message,
-            self.production_order_handler.process_production_order_init,
-            "ProductionOrder",
+        self.production_order_handler.process_production_order_init(
+            client, self.topic_send, message
         )
 
     def _handle_production_order_conclusion(self, client, message):
-        self._process_message(
-            client,
-            message,
-            lambda msg: self.production_order_handler.process_production_order_conclusion(
-                client,
-                self.topic_send,
-                msg,
-            ),
-            "ProductionOrderConclusion",
+        self.production_order_handler.process_production_order_conclusion(
+            client, self.topic_send, message
         )
 
     def _handle_received_message(self, client, message):

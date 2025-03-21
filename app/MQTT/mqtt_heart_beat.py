@@ -2,6 +2,7 @@ import threading
 import time
 import datetime
 from sqlalchemy.orm import Session
+from model.dto.equipment_dto import EquipmentDTO
 from service.equipment_service import EquipmentService
 from service.plc_service import PlcService
 from utility.logger import Logger
@@ -74,7 +75,7 @@ class MqttHeartbeatMonitor:
 
         logger.info("Heartbeat monitoring started.")
 
-    def _process_equipment_heartbeat(self, equipment):
+    def _process_equipment_heartbeat(self, equipment: EquipmentDTO):
         equipment_code = equipment.code
         current_cycle = equipment.p_timer_communication_cycle
 

@@ -1,6 +1,7 @@
 import json
 
 from sqlalchemy.orm import Session
+from mqtt.constants.json_type import PRODUCTION_COUNT
 from utility.scheduler import Scheduler
 from utility.logger import Logger
 from mqtt.mqtt_heart_beat import MqttHeartbeatMonitor
@@ -8,9 +9,6 @@ from service.production_count_service import ProductionCountService
 from service.equipment_service import EquipmentService
 
 logger = Logger.get_logger(__name__)
-
-
-PRODUCTION_COUNT_MESSAGE_TYPE = "ProductionCount"
 
 
 MAX_MQTT_MESSAGE_SIZE = 128 * 1024
@@ -39,11 +37,13 @@ class MessageService:
         except Exception as e:
             logger.error("Error executing production count: %s", e, exc_info=True)
 
-    def send_production_message(self, client, topic_send, equipment):
+    def send_production_message(
+        self, client, topic_send, equipment, message_type=PRODUCTION_COUNT
+    ):
         try:
             production_values = self.production_count_service.build_production_count(
                 equipment_code=equipment.code,
-                message_type=PRODUCTION_COUNT_MESSAGE_TYPE,
+                message_type=message_type,
             )
 
             if not production_values:

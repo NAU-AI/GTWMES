@@ -1,7 +1,7 @@
 from typing import Any, List, Optional, Dict
 from sqlalchemy.orm import Session
-from model.equipment import Equipment
-from model.variable import Variable
+from model.dto.equipment_dto import EquipmentDTO
+from model.dto.variable import VariableDTO
 from utility.logger import Logger
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
@@ -89,7 +89,7 @@ class ConfigurationHandlerService:
         return created_variables
 
     def _write_variable_into_plc(
-        self, equipment: Equipment, variable: Variable
+        self, equipment: EquipmentDTO, variable: VariableDTO
     ) -> None:
         try:
             if variable.value is None:

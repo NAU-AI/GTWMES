@@ -1,3 +1,7 @@
+from mqtt.constants.json_type import (
+    PRODUCTION_ORDER_CONCLUSION_RESPONSE,
+    PRODUCTION_ORDER_RESPONSE,
+)
 from exception.Exception import NotFoundException, ServiceException
 from service.equipment_service import EquipmentService
 from service.message_service import MessageService
@@ -17,7 +21,7 @@ class ProductionOrderHandlerService:
         self.variable_service = VariableService(session)
         self.plc_service = PlcService(session)
 
-    def process_production_order_init(self, message: dict):
+    def process_production_order_init(self, client, topic_send, message: dict):
         try:
             equipment_code = message.get("equipmentCode")
             production_order_code = message.get("productionOrderCode")
@@ -50,6 +54,10 @@ class ProductionOrderHandlerService:
                     production_order_code,
                     equipment_code,
                 )
+
+            self.message_service.send_production_message(
+                client, topic_send, equipment, PRODUCTION_ORDER_RESPONSE
+            )
 
         except Exception as e:
             logger.error(
@@ -92,7 +100,7 @@ class ProductionOrderHandlerService:
                     equipment_code,
                 )
                 self.message_service.send_production_message(
-                    client, topic_send, equipment
+                    client, topic_send, equipment, PRODUCTION_ORDER_CONCLUSION_RESPONSE
                 )
             else:
                 logger.warning(

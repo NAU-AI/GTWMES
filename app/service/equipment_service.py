@@ -1,4 +1,6 @@
-from exception.Exception import ConflictException, ServiceException, NotFoundException
+from model.dto.equipment_dto import EquipmentDTO
+from model.converter.equipment_converter import EquipmentConverter
+from exception.Exception import ServiceException, NotFoundException
 from utility.logger import Logger
 from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
 from sqlalchemy.orm import Session
@@ -14,23 +16,24 @@ class EquipmentService:
         self.session = session
         self.equipment_dao = EquipmentDAO(self.session)
 
-    def get_equipment_by_code(self, code: str) -> Equipment:
+    def get_equipment_by_code(self, code: str) -> EquipmentDTO:
         if not code:
             raise ValueError("Equipment code cannot be empty")
         try:
             equipment = self.equipment_dao.find_by_code(code)
             if not equipment:
                 raise NotFoundException("Equipment with code '%s' not found", code)
-            return equipment
+            return EquipmentConverter.to_dto(equipment)
         except Exception as e:
             logger.error(
                 "Error fetching equipment by code '%s': %s", code, e, exc_info=True
             )
             raise ServiceException("Unable to fetch equipment by code.") from e
 
-    def get_all_equipment(self):
+    def get_all_equipment(self) -> list[EquipmentDTO]:
         try:
-            return self.equipment_dao.find_all()
+            equipment_list = self.equipment_dao.find_all()
+            return EquipmentConverter.to_dto_list(equipment_list)
         except ProgrammingError as e:
             logger.warning("Unable to refresh equipment due to database error: %s", e)
             return []
@@ -40,28 +43,9 @@ class EquipmentService:
             )
             raise ServiceException("Unable to fetch and refresh equipment.") from e
 
-    def insert_equipment(self, equipment: Equipment) -> Equipment:
-        try:
-            existing_equipment = self.equipment_dao.find_by_code(equipment.code)
-            if existing_equipment:
-                raise ConflictException(
-                    f"Equipment with code '{equipment.code}' already exists"
-                )
-
-            saved_equipment = self.equipment_dao.save(equipment)
-            logger.info(
-                f"Inserted new equipment '{saved_equipment.code}' with ID {saved_equipment.id}"
-            )
-
-            return saved_equipment
-        except SQLAlchemyError as e:
-            self.session.rollback()
-            logger.error(f"Database error inserting equipment: {e}", exc_info=True)
-            raise ServiceException("Unable to insert new equipment.") from e
-
     def create_or_update_equipment(
         self, code: str, ip: str, p_timer_communication_cycle: Optional[int]
-    ) -> Equipment:
+    ) -> EquipmentDTO:
         try:
             existing_equipment = self.equipment_dao.find_by_code(code)
             if existing_equipment:
@@ -73,7 +57,7 @@ class EquipmentService:
                 updated_equipment = self.equipment_dao.update(
                     existing_equipment.id, updated_data
                 )
-                return updated_equipment
+                return EquipmentConverter.to_dto(updated_equipment)
 
             logger.info("Creating new equipment '%s'.", code)
             new_equipment = Equipment(
@@ -81,7 +65,8 @@ class EquipmentService:
                 ip=ip,
                 p_timer_communication_cycle=p_timer_communication_cycle,
             )
-            return self.equipment_dao.save(new_equipment)
+            saved_equipment = self.equipment_dao.save(new_equipment)
+            return EquipmentConverter.to_dto(saved_equipment)
         except SQLAlchemyError as e:
             self.session.rollback()
             logger.error(

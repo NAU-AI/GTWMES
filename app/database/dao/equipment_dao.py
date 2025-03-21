@@ -1,5 +1,5 @@
 import logging
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, load_only
 from sqlalchemy.exc import SQLAlchemyError
 from model.equipment import Equipment
 from typing import Optional, List
@@ -21,7 +21,14 @@ class EquipmentDAO:
             return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
-        return self.session.query(Equipment).filter_by(code=code).one_or_none()
+        return (
+            self.session.query(Equipment)
+            .options(
+                load_only(Equipment.id, Equipment.code, Equipment.production_order_code)
+            )
+            .filter_by(code=code)
+            .one_or_none()
+        )
 
     def find_all(self) -> List[Equipment]:
         equipment_list = self.session.query(Equipment).all()

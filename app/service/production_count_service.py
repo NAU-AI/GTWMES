@@ -1,10 +1,10 @@
 from typing import List, Optional
 
+from model.dto.equipment_dto import EquipmentDTO
+from model.dto.variable import VariableDTO
 from exception.Exception import NotFoundException, ServiceException
 from model.dto.production_count_dto import ProductionCountDTO
-from model.dto.variable_dto import VariableDTO
-from model.equipment import Equipment
-from service.equipment_service import EquipmentService  # Import the EquipmentService
+from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
 from sqlalchemy.orm import Session
 from utility.logger import Logger
@@ -84,32 +84,23 @@ class ProductionCountService:
             counters=output_counters,
         )
 
-    def _get_equipment_by_code(self, equipment_code: str) -> Equipment:
-        equipment = self.equipment_service.get_equipment_by_code(equipment_code)
-        if not equipment:
+    def _get_equipment_by_code(self, equipment_code: str) -> EquipmentDTO:
+        equipment_dto = self.equipment_service.get_equipment_by_code(equipment_code)
+        if not equipment_dto:
             raise NotFoundException(
                 "Equipment with code '%s' not found.", equipment_code
             )
-        return equipment
+        return equipment_dto
 
     def _get_all_variables(self, equipment_id: int) -> List[VariableDTO]:
-        variables = self.variable_service.get_by_equipment_id_and_operation_type(
+        variable_dtos = self.variable_service.get_by_equipment_id_and_operation_type(
             equipment_id, "READ"
         )
-        if not variables:
+        if not variable_dtos:
             raise NotFoundException(
                 "No variables found for equipment ID %s.", equipment_id
             )
-        return [
-            VariableDTO(
-                equipment_id=var.equipment_id,
-                category=var.category,
-                operation_type=var.operation_type,
-                value=var.value,
-                key=var.key,
-            )
-            for var in variables
-        ]
+        return variable_dtos
 
     @staticmethod
     def _get_variable_value(
