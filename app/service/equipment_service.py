@@ -1,12 +1,13 @@
-from model.dto.equipment_dto import EquipmentDTO
-from model.converter.equipment_converter import EquipmentConverter
-from exception.Exception import ServiceException, NotFoundException
-from utility.logger import Logger
-from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
-from sqlalchemy.orm import Session
-from database.dao.equipment_dao import EquipmentDAO
-from model.equipment import Equipment
 from typing import Optional
+
+from database.dao.equipment_dao import EquipmentDAO
+from exception.Exception import NotFoundException, ServiceException
+from model.converter.equipment_converter import EquipmentConverter
+from model.dto.equipment_dto import EquipmentDTO
+from model.equipment import Equipment
+from sqlalchemy.exc import ProgrammingError, SQLAlchemyError
+from sqlalchemy.orm import Session
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
