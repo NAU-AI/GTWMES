@@ -112,10 +112,12 @@ class VariableDAO:
         """Save a new variable."""
         try:
             self.session.add(variable)
-            self.session.flush()  # defer commit to service layer
+            self.session.flush()
             self.session.refresh(variable)
+            self.session.commit()
             return variable
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error saving variable: %s", e)
             return None
 
@@ -132,8 +134,10 @@ class VariableDAO:
 
             self.session.flush()
             self.session.refresh(variable)
+            self.session.commit()
             return variable
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error updating variable ID %d: %s", variable_id, e)
             return None
 
@@ -149,8 +153,10 @@ class VariableDAO:
             variable.value = new_value
             self.session.flush()
             self.session.refresh(variable)
+            self.session.commit()
             return variable
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error(
                 "Error updating value for variable with key %s and equipment ID %d: %s",
                 key,
@@ -168,7 +174,9 @@ class VariableDAO:
 
             self.session.delete(variable)
             self.session.flush()
+            self.session.commit()
             return True
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error deleting variable ID %d: %s", variable_id, e)
             return False

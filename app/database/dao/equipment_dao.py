@@ -45,13 +45,14 @@ class EquipmentDAO:
             return []
 
     def save(self, equipment: Equipment) -> Optional[Equipment]:
-        """Save a new equipment entry."""
         try:
             self.session.add(equipment)
             self.session.flush()
             self.session.refresh(equipment)
+            self.session.commit()
             return equipment
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error saving equipment: %s", e)
             return None
 
@@ -68,8 +69,10 @@ class EquipmentDAO:
 
             self.session.flush()
             self.session.refresh(equipment)
+            self.session.commit()
             return equipment
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error updating equipment ID %d: %s", equipment_id, e)
             return None
 
@@ -84,8 +87,10 @@ class EquipmentDAO:
 
             equipment.production_order_code = production_order_code
             self.session.flush()
+            self.session.commit()
             return True
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error(
                 "Error updating production order code for equipment ID %d: %s",
                 equipment_id,
@@ -102,7 +107,9 @@ class EquipmentDAO:
 
             self.session.delete(equipment)
             self.session.flush()
+            self.session.commit()
             return True
         except SQLAlchemyError as e:
+            self.session.rollback()
             logger.error("Error deleting equipment ID %d: %s", equipment_id, e)
             return False

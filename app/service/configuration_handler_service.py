@@ -76,15 +76,33 @@ class ConfigurationHandlerService:
 
     def _process_variables(self, equipment, variables: List[Dict]) -> Dict[str, Any]:
         created_variables = {}
+        incoming_keys = {var["key"] for var in variables}
+
+        existing_variables_dto = (
+            self.variable_service.get_by_equipment_id_and_operation_type(
+                equipment.id, "WRITE"
+            )
+        )
+        existing_variables_map = {var.key: var for var in existing_variables_dto}
+        existing_keys = set(existing_variables_map.keys())
 
         for var in variables:
+            key = var["key"]
             variable = self.variable_service.create_or_update_variable(
                 equipment.id, var
             )
-            created_variables[var["key"]] = variable
+            created_variables[key] = variable
 
             if variable.operation_type == "WRITE":
                 self._write_variable_into_plc(equipment, variable)
+
+        keys_to_delete = existing_keys - incoming_keys
+        for key in keys_to_delete:
+            var_to_delete = existing_variables_map[key]
+            self.variable_service.delete_variable(var_to_delete.id)
+            logger.info(
+                f"Deleted variable '{key}' for equipment ID {equipment.id} as it was not in the incoming list."
+            )
 
         return created_variables
 

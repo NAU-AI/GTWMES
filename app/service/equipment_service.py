@@ -66,7 +66,10 @@ class EquipmentService:
                 p_timer_communication_cycle=p_timer_communication_cycle,
             )
             saved_equipment = self.equipment_dao.save(new_equipment)
+            if not saved_equipment:
+                raise ServiceException(f"Failed to create equipment '{code}'.")
             return EquipmentConverter.to_dto(saved_equipment)
+
         except SQLAlchemyError as e:
             self.session.rollback()
             logger.error(
