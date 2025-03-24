@@ -1,8 +1,8 @@
+from exception.Exception import NotFoundException, ServiceException
 from MQTT.constants.json_type import (
     PRODUCTION_ORDER_CONCLUSION_RESPONSE,
     PRODUCTION_ORDER_RESPONSE,
 )
-from exception.Exception import NotFoundException, ServiceException
 from service.equipment_service import EquipmentService
 from service.message_service import MessageService
 from service.plc_service import PlcService
