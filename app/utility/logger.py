@@ -1,5 +1,5 @@
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 from datetime import datetime
 from pathlib import Path
 
@@ -10,6 +10,24 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 def get_log_filename():
     return LOG_DIR / f"app.{datetime.now().strftime('%Y-%m-%d')}.log"
+
+
+class CustomTimedRotatingFileHandler(TimedRotatingFileHandler):
+    def __init__(
+        self, filename, when="midnight", interval=1, backupCount=7, encoding=None
+    ):
+        super().__init__(
+            filename=str(LOG_DIR / "app.log"),
+            when=when,
+            interval=interval,
+            backupCount=backupCount,
+            encoding=encoding,
+        )
+        self.suffix = "%Y-%m-%d"
+
+    def rotation_filename(self, default_name):
+        timestamp = datetime.now().strftime(self.suffix)
+        return str(LOG_DIR / f"app.{timestamp}.log")
 
 
 class Logger:
@@ -25,9 +43,9 @@ class Logger:
         logger.propagate = False
 
         if not logger.handlers:
-            file_handler = RotatingFileHandler(
-                filename=str(get_log_filename()),
-                maxBytes=1 * 1024 * 1024,
+            file_handler = CustomTimedRotatingFileHandler(
+                filename=str(LOG_DIR / "app.log"),
+                when="midnight",
                 backupCount=7,
                 encoding="utf-8",
             )
