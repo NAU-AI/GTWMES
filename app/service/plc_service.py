@@ -26,8 +26,15 @@ class PlcService:
         for equipment in equipments:
             if equipment.ip:
                 logger.info("Attempting to connect to PLC at %s...", equipment.ip)
-                self.plc_connection_manager.get_plc_client(equipment.ip)
-                logger.info("Connected to PLC %s on startup.", equipment.ip)
+                try:
+                    self.plc_connection_manager.get_plc_client(equipment.ip)
+                    logger.info("Connected to PLC %s on startup.", equipment.ip)
+                except Exception as e:
+                    logger.error(
+                        "Failed to connect to PLC %s. Will retry in background. Error: %s",
+                        equipment.ip,
+                        e,
+                    )
 
     def read_plc_data(self, equipment_id, equipment_ip):
         plc = self.plc_connection_manager.get_plc_client(equipment_ip)
