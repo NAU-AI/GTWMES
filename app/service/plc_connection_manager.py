@@ -30,8 +30,6 @@ class PlcConnectionManager:
                     time.sleep(5)
         return self.plc_clients[ip]
 
-        return self.plc_clients[ip]
-
     def disconnect_all(self):
         for ip, client in self.plc_clients.items():
             try:
