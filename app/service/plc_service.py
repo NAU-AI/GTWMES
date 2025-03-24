@@ -25,13 +25,9 @@ class PlcService:
         equipments = self.equipment_service.get_all_equipment()
         for equipment in equipments:
             if equipment.ip:
-                client = self.plc_connection_manager.get_plc_client(equipment.ip)
-                if not client:
-                    logger.error(
-                        "Unable to connect to PLC %s. Skipping...", equipment.ip
-                    )
-                    continue
-            logger.info("Connected to PLC %s on startup.", equipment.ip)
+                logger.info("Attempting to connect to PLC at %s...", equipment.ip)
+                self.plc_connection_manager.get_plc_client(equipment.ip)
+                logger.info("Connected to PLC %s on startup.", equipment.ip)
 
     def read_plc_data(self, equipment_id, equipment_ip):
         plc = self.plc_connection_manager.get_plc_client(equipment_ip)
