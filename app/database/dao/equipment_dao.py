@@ -1,8 +1,9 @@
 import logging
-from sqlalchemy.orm import Session, load_only
-from sqlalchemy.exc import SQLAlchemyError
+from typing import List, Optional
+
 from model.equipment import Equipment
-from typing import Optional, List
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, load_only
 
 logger = logging.getLogger(__name__)
 
