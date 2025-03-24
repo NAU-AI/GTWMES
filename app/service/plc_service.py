@@ -1,10 +1,10 @@
-from service.plc_connection_manager import PlcConnectionManager
 from service.equipment_service import EquipmentService
+from service.plc_connection_manager import PlcConnectionManager
 from service.variable_service import VariableService
+from snap7.exceptions import Snap7Exception
+from sqlalchemy.orm import Session
 from utility.logger import Logger
 from utility.scheduler import Scheduler
-from sqlalchemy.orm import Session
-from snap7.exceptions import Snap7Exception
 
 logger = Logger.get_logger(__name__)
 
@@ -25,13 +25,9 @@ class PlcService:
         equipments = self.equipment_service.get_all_equipment()
         for equipment in equipments:
             if equipment.ip:
-                client = self.plc_connection_manager.get_plc_client(equipment.ip)
-                if not client:
-                    logger.error(
-                        "Unable to connect to PLC %s. Skipping...", equipment.ip
-                    )
-                    continue
-            logger.info("Connected to PLC %s on startup.", equipment.ip)
+                logger.info("Attempting to connect to PLC at %s...", equipment.ip)
+                self.plc_connection_manager.get_plc_client(equipment.ip)
+                logger.info("Connected to PLC %s on startup.", equipment.ip)
 
     def read_plc_data(self, equipment_id, equipment_ip):
         plc = self.plc_connection_manager.get_plc_client(equipment_ip)

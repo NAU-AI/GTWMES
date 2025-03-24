@@ -1,8 +1,10 @@
+import time
+
 import snap7
+from service.PLC.plc_types import TYPE_SPECS
+from service.PLC.plc_utils import require_connection
 from snap7 import types, util
 from snap7.exceptions import Snap7Exception
-from service.PLC.plc_utils import require_connection
-from service.PLC.plc_types import TYPE_SPECS
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -16,11 +18,18 @@ class PLCClient:
         self.plc = snap7.client.Client()
 
     def connect(self):
-        try:
-            self.plc.connect(self.ip, self.rack, self.slot)
-            logger.info("Connected to PLC at %s", self.ip)
-        except Snap7Exception as e:
-            logger.error("Error connecting to PLC: %s", e)
+        while True:
+            try:
+                self.plc.connect(self.ip, self.rack, self.slot)
+                logger.info("Connected to PLC at %s", self.ip)
+                break
+            except (Snap7Exception, RuntimeError) as e:
+                logger.error(
+                    "Error connecting to PLC %s: %s. Retrying in 5 seconds...",
+                    self.ip,
+                    e,
+                )
+                time.sleep(5)
 
     def disconnect(self):
         try:

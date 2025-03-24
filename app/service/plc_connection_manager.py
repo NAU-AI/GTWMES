@@ -1,3 +1,5 @@
+import time
+
 from service.PLC.plc_client import PLCClient
 from snap7.exceptions import Snap7Exception
 from utility.logger import Logger
@@ -12,15 +14,20 @@ class PlcConnectionManager:
 
     def get_plc_client(self, ip: str) -> PLCClient:
         if ip not in self.plc_clients:
-            try:
-                client = self.plc_client_factory(ip)
-                client.connect()
-                self.plc_clients[ip] = client
-                logger.info("PLC client connected successfully to %s.", ip)
-            except Snap7Exception as e:
-                logger.error("Failed to connect to PLC %s: %s", ip, e)
-                raise ConnectionError(f"Failed to connect to PLC {ip}: {e}")
-
+            while True:
+                try:
+                    client = self.plc_client_factory(ip)
+                    client.connect()
+                    self.plc_clients[ip] = client
+                    logger.info("PLC client connected successfully to %s.", ip)
+                    break
+                except Snap7Exception as e:
+                    logger.error(
+                        "Failed to connect to PLC %s: %s. Retrying in 5 seconds...",
+                        ip,
+                        e,
+                    )
+                    time.sleep(5)
         return self.plc_clients[ip]
 
     def disconnect_all(self):
