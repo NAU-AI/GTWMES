@@ -1,9 +1,10 @@
 import time
+
 import snap7
+from service.PLC.plc_types import TYPE_SPECS
+from service.PLC.plc_utils import require_connection
 from snap7 import types, util
 from snap7.exceptions import Snap7Exception
-from service.PLC.plc_utils import require_connection
-from service.PLC.plc_types import TYPE_SPECS
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)

@@ -1,4 +1,5 @@
 import time
+
 from service.PLC.plc_client import PLCClient
 from snap7.exceptions import Snap7Exception
 from utility.logger import Logger
