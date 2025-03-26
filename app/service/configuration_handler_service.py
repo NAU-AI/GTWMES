@@ -103,7 +103,7 @@ class ConfigurationHandlerService:
             var_to_delete = existing_variables_map[key]
             self.variable_service.delete_variable(var_to_delete.id)
             logger.info(
-                "Deleted variable '%s' for equipment ID %s as it was not in the incoming list.",
+                "Deleted variable '%s' for equipment ID %.",
                 key,
                 equipment.id,
             )

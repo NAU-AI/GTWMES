@@ -76,7 +76,8 @@ class VariableService:
             return VariableConverter.to_dto_list(variables)
         except Exception as e:
             logger.error(
-                "Error retrieving variables for equipment ID %s, category %s, and operation type %s: %s",
+                "Error retrieving variables for equipment ID %s, category %s, and "
+                "operation type %s: %s",
                 equipment_id,
                 category,
                 operation_type,
