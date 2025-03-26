@@ -1,7 +1,7 @@
 import json
 import threading
 
-from MQTT.mqtt_message_handler import MessageHandler
+from mqtt_communication.mqtt_message_handler import MessageHandler
 from service.message_service import MessageService
 from sqlalchemy.orm import Session
 from utility.logger import Logger

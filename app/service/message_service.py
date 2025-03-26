@@ -1,7 +1,7 @@
 import json
 
-from MQTT.constants.json_type import PRODUCTION_COUNT
-from MQTT.mqtt_heart_beat import MqttHeartbeatMonitor
+from mqtt_communication.constants.json_type import PRODUCTION_COUNT
+from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
 from service.equipment_service import EquipmentService
 from service.production_count_service import ProductionCountService
 from sqlalchemy.orm import Session

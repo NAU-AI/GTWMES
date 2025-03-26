@@ -1,5 +1,5 @@
 from exception.Exception import NotFoundException, ServiceException
-from MQTT.constants.json_type import (
+from mqtt_communication.constants.json_type import (
     PRODUCTION_ORDER_CONCLUSION_RESPONSE,
     PRODUCTION_ORDER_RESPONSE,
 )
