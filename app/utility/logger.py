@@ -55,7 +55,6 @@ class Logger:
     @staticmethod
     def _compress_log(source: str, dest: str):
         """Compress log files after rotation."""
-        with open(source, "rb") as f_in:
-            with gzip.open(dest, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
+        with open(source, "rb") as f_in, gzip.open(dest, "wb") as f_out:
+            shutil.copyfileobj(f_in, f_out)
         Path(source).unlink()
