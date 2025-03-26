@@ -30,7 +30,8 @@ class MessageHandler:
         else:
             logger.warning("Unhandled jsonType: %s. Message: %s", json_type, message)
 
-    def _process_message(self, client, message, handler, message_type: str):
+    @staticmethod
+    def _process_message(client, message, handler, message_type: str):
         try:
             logger.info("Processing '%s' message: %s", message_type, message)
             handler(client, message)
