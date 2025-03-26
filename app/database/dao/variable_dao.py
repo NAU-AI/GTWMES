@@ -93,7 +93,8 @@ class VariableDAO:
             )
         except SQLAlchemyError as e:
             logger.error(
-                "Error finding variables by equipment ID %d, category %s, operation type %s: %s",
+                "Error finding variables by equipment ID %d, category %s, "
+                "operation type %s: %s",
                 equipment_id,
                 category,
                 operation_type,

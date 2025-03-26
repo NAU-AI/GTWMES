@@ -38,7 +38,8 @@ class ConfigurationHandlerService:
             self.plc_service.schedule_plc_readings()
 
             logger.info(
-                "Configuration successfully processed for '%s' (%d variables). Scheduler updated.",
+                "Configuration successfully processed for '%s' (%d variables). "
+                "Scheduler updated.",
                 config["equipment_code"],
                 len(created_variables),
             )

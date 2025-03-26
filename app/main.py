@@ -55,7 +55,7 @@ class MESMain:
             self.shutdown()
 
         except Exception as e:
-            self.logger.error(f"Unexpected error: {e}", exc_info=True)
+            self.logger.error("Unexpected error: %s", e, exc_info=True)
             self.shutdown()
 
     def shutdown(self):

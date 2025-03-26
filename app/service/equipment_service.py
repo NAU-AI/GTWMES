@@ -23,7 +23,7 @@ class EquipmentService:
         try:
             equipment = self.equipment_dao.find_by_code(code)
             if not equipment:
-                raise NotFoundException("Equipment with code '%s' not found", code)
+                raise NotFoundException(f"Equipment with code '{code}' not found")
             return EquipmentConverter.to_dto(equipment)
         except Exception as e:
             logger.error(
