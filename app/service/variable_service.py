@@ -107,9 +107,8 @@ class VariableService:
             ]
             if missing_fields:
                 raise ValueError(
-                    f"Missing required fields for variable '{key}': {
-                        ', '.join(missing_fields)
-                    }"
+                    f"Missing required fields for variable '{key}': "
+                    f"{', '.join(missing_fields)}"
                 )
 
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
