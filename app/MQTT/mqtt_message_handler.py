@@ -44,20 +44,20 @@ class MessageHandler:
                 exc_info=True,
             )
 
-    def _handle_configuration(self, client, message):
+    def handle_configuration(self, client, message):
         self.configuration_handler_service.process_equipment_configuration(
             client, self.topic_send, message
         )
 
-    def _handle_production_order_init(self, client, message):
+    def handle_production_order_init(self, client, message):
         self.production_order_handler.process_production_order_init(
             client, self.topic_send, message
         )
 
-    def _handle_production_order_conclusion(self, client, message):
+    def handle_production_order_conclusion(self, client, message):
         self.production_order_handler.process_production_order_conclusion(
             client, self.topic_send, message
         )
 
-    def _handle_received_message(self, client, message):
+    def handle_received_message(self, client, message):
         self.message_service.message_received(client, self.topic_send, message)

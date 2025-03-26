@@ -31,7 +31,8 @@ class PlcService:
                     logger.info("Connected to PLC %s on startup.", equipment.ip)
                 except Exception as e:
                     logger.error(
-                        "Failed to connect to PLC %s. Will retry in background. Error: %s",
+                        "Failed to connect to PLC %s. Will retry in background. "
+                        "Error: %s",
                         equipment.ip,
                         e,
                     )

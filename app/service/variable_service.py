@@ -59,7 +59,7 @@ class VariableService:
         )
         return VariableConverter.to_dto(variable)
 
-    def get_variables_by_equipment_id_category_operation_type(
+    def get_by_equipment_id_category_operation_type(
         self, equipment_id: int, category: str, operation_type: str
     ) -> List[VariableDTO]:
         try:
@@ -69,15 +69,22 @@ class VariableService:
 
             if not variables:
                 raise NotFoundException(
-                    "No variables found for equipment ID %s, category %s, and operation type %s.",
-                    equipment_id,
-                    category,
-                    operation_type,
+                    f"No variables found for equipment ID {equipment_id}, "
+                    f"category {category}, and operation type {operation_type}."
                 )
 
             return VariableConverter.to_dto_list(variables)
         except Exception as e:
-            raise ServiceException(f"Error retrieving variables: {str(e)}")
+            logger.error(
+                "Error retrieving variables for equipment ID %s, category %s, and "
+                "operation type %s: %s",
+                equipment_id,
+                category,
+                operation_type,
+                e,
+                exc_info=True,
+            )
+            raise ServiceException(f"Error retrieving variables: {str(e)}") from e
 
     def create_or_update_variable(
         self, equipment_id: int, variable_data: dict, variable_key: Optional[str] = None
@@ -100,7 +107,9 @@ class VariableService:
             ]
             if missing_fields:
                 raise ValueError(
-                    f"Missing required fields for variable '{key}': {', '.join(missing_fields)}"
+                    f"Missing required fields for variable '{key}': {
+                        ', '.join(missing_fields)
+                    }"
                 )
 
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
@@ -144,16 +153,19 @@ class VariableService:
             )
             if not updated_variable:
                 raise NotFoundException(
-                    f"Variable with key '{key}' for equipment ID '{equipment_id}' not found."
+                    f"Variable with key '{key}' for equipment ID '{equipment_id}' "
+                    f"not found."
                 )
-
             logger.info(
                 f"Updated value for variable '{key}' in equipment ID {equipment_id}."
             )
             return VariableConverter.to_dto(updated_variable)
         except Exception as e:
             logger.error(
-                f"Error updating variable '{key}' for equipment ID '{equipment_id}': {e}",
+                "Error updating variable '%s' for equipment ID '%s': %s",
+                key,
+                equipment_id,
+                e,
                 exc_info=True,
             )
             raise ServiceException("Unable to update variable value.") from e

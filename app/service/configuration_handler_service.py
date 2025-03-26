@@ -38,7 +38,8 @@ class ConfigurationHandlerService:
             self.plc_service.schedule_plc_readings()
 
             logger.info(
-                "Configuration successfully processed for '%s' (%d variables). Scheduler updated.",
+                "Configuration successfully processed for '%s' (%d variables). "
+                "Scheduler updated.",
                 config["equipment_code"],
                 len(created_variables),
             )
@@ -102,7 +103,9 @@ class ConfigurationHandlerService:
             var_to_delete = existing_variables_map[key]
             self.variable_service.delete_variable(var_to_delete.id)
             logger.info(
-                f"Deleted variable '{key}' for equipment ID {equipment.id} as it was not in the incoming list."
+                "Deleted variable '%s' for equipment ID %d.",
+                key,
+                equipment.id,
             )
 
         return created_variables

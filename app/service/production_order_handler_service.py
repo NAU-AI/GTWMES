@@ -40,7 +40,7 @@ class ProductionOrderHandlerService:
             equipment = self.equipment_service.get_equipment_by_code(equipment_code)
             if not equipment:
                 raise NotFoundException(
-                    "Equipment with code '%s' not found", equipment_code
+                    f"Equipment with code '{equipment_code}' not found"
                 )
 
             success = self.equipment_service.start_production_order(
@@ -124,7 +124,7 @@ class ProductionOrderHandlerService:
     def _get_equipment(self, equipment_code: str):
         if equipment := self.equipment_service.get_equipment_by_code(equipment_code):
             return equipment
-        raise NotFoundException("Equipment with code '%s' not found", equipment_code)
+        raise NotFoundException(f"Equipment with code '{equipment_code}' not found")
 
     def _save_and_write_plc(self, equipment, target_amount: int, enabled: bool):
         try:
@@ -136,8 +136,10 @@ class ProductionOrderHandlerService:
             for key, value in variable_updates.items():
                 self.variable_service.update_variable_value(equipment.id, key, value)
 
-            variables = self.variable_service.get_variables_by_equipment_id_category_operation_type(
-                equipment.id, "EQUIPMENT", "WRITE"
+            variables = (
+                self.variable_service.get_by_equipment_id_category_operation_type(
+                    equipment.id, "EQUIPMENT", "WRITE"
+                )
             )
 
             self.plc_service.write_equipment_variables(equipment.ip, variables)

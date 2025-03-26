@@ -1,6 +1,8 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
+import gzip
+import shutil
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR.parent / "logs"
@@ -24,12 +26,14 @@ class Logger:
                 filename=str(LOG_DIR / "app.log"),
                 when="midnight",
                 interval=1,
-                backupCount=7,
+                backupCount=30,
                 encoding="utf-8",
                 utc=False,
             )
 
             file_handler.suffix = "%Y-%m-%d"
+            file_handler.namer = lambda name: f"{name}.gz"
+            file_handler.rotator = Logger._compress_log
 
             formatter = logging.Formatter(
                 "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
@@ -45,3 +49,12 @@ class Logger:
 
         Logger._loggers[name] = logger
         return logger
+
+    from typing import BinaryIO
+
+    @staticmethod
+    def _compress_log(source: str, dest: str):
+        """Compress log files after rotation."""
+        with open(source, "rb") as f_in, gzip.open(dest, "wb") as f_out:
+            shutil.copyfileobj(f_in, f_out)
+        Path(source).unlink()

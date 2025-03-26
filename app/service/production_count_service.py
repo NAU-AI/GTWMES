@@ -1,8 +1,8 @@
 from typing import List, Optional
 
+from exception.Exception import NotFoundException, ServiceException
 from model.dto.equipment_dto import EquipmentDTO
 from model.dto.variable import VariableDTO
-from exception.Exception import NotFoundException, ServiceException
 from model.dto.production_count_dto import ProductionCountDTO
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
@@ -88,7 +88,7 @@ class ProductionCountService:
         equipment_dto = self.equipment_service.get_equipment_by_code(equipment_code)
         if not equipment_dto:
             raise NotFoundException(
-                "Equipment with code '%s' not found.", equipment_code
+                f"Equipment with code '{equipment_code}' not found."
             )
         return equipment_dto
 
@@ -98,7 +98,7 @@ class ProductionCountService:
         )
         if not variable_dtos:
             raise NotFoundException(
-                "No variables found for equipment ID %s.", equipment_id
+                f"No variables found for equipment ID {equipment_id}."
             )
         return variable_dtos
 
