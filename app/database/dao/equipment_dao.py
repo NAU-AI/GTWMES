@@ -17,14 +17,16 @@ class EquipmentDAO:
         try:
             return self.session.get(Equipment, equipment_id)
         except SQLAlchemyError as e:
+            self.session.rollback()  # Rollback the session on error
             logger.error("Error finding equipment ID %d: %s", equipment_id, e)
             return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
-        """Simple and safe method."""
+        """Find equipment by code."""
         try:
             return self.session.query(Equipment).filter_by(code=code).one_or_none()
         except SQLAlchemyError as e:
+            self.session.rollback()  # Rollback the session on error
             logger.error("Error finding equipment by code '%s': %s", code, e)
             return None
 

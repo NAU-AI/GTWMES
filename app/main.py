@@ -1,14 +1,15 @@
 import sys
-
-from database.connection.db_connection import get_session
+from sqlalchemy import text
+from utility.logger import Logger
+from database.connection.db_connection import DatabaseConnection
 from mqtt_communication.mqtt_client_manager import ClientManager
 from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
 from mqtt_communication.mqtt_message_processor import MessageProcessor
 from service.plc_service import PlcService
-from sqlalchemy import text
-from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
+
+db_connection = DatabaseConnection()
 
 
 class MESMain:
@@ -20,7 +21,6 @@ class MESMain:
         plc_service: PlcService,
     ):
         self.logger = Logger.get_logger(self.__class__.__name__)
-
         self.mqtt_heart_beat = mqtt_heart_beat
         self.message_processor = message_processor
         self.client_manager = client_manager
@@ -78,22 +78,13 @@ class MESMain:
 
 
 def check_database_connection():
-    try:
-        with get_session() as session:
-            result = session.execute(text("SELECT 1"))
-            if result.scalar() != 1:
-                raise Exception("Unable to establish a connection to the database.")
-        logger.info("Database connection successful.")
-    except Exception as e:
-        logger.critical(
-            f"Critical startup failure: Unable to connect to database: {e}",
-            exc_info=True,
-        )
+    if not db_connection.check_connection():
+        logger.critical("Critical startup failure: Unable to connect to the database.")
         sys.exit(1)
 
 
 def initialize_mes_service() -> MESMain:
-    with get_session() as session:
+    with db_connection.get_session() as session:
         message_processor = MessageProcessor(session=session)
         client_manager = ClientManager(message_processor)
         mqtt_heart_beat = MqttHeartbeatMonitor(session=session)
