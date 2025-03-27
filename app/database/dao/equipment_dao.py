@@ -21,7 +21,12 @@ class EquipmentDAO:
             return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
-        return self.session.query(Equipment).filter_by(code=code).one_or_none()
+        """Simple and safe method."""
+        try:
+            return self.session.query(Equipment).filter_by(code=code).one_or_none()
+        except SQLAlchemyError as e:
+            logger.error("Error finding equipment by code '%s': %s", code, e)
+            return None
 
     def find_all(self) -> List[Equipment]:
         """Return all equipment entries."""
