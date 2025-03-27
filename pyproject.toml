@@ -6,7 +6,7 @@ authors = [
     {name = "geral@nauai.pt"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "sqlalchemy (>=2.0.40,<3.0.0)",
     "dependency-injector (>=4.46.0,<5.0.0)",
