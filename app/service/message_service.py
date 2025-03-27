@@ -4,7 +4,6 @@ from mqtt_communication.constants.json_type import PRODUCTION_COUNT
 from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
 from service.equipment_service import EquipmentService
 from service.production_count_service import ProductionCountService
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 from utility.scheduler import Scheduler
 
@@ -14,12 +13,15 @@ MAX_MQTT_MESSAGE_SIZE = 128 * 1024
 
 
 class MessageService:
-    def __init__(self, session: Session):
-        self.session = session
-
-        self.production_count_service = ProductionCountService(session=session)
-        self.equipment_service = EquipmentService(session=session)
-        self.mqtt_heart_beat = MqttHeartbeatMonitor(session=session)
+    def __init__(
+        self,
+        equipment_service: EquipmentService,
+        production_count_service: ProductionCountService,
+        mqtt_heart_beat: MqttHeartbeatMonitor,
+    ):
+        self.equipment_service = equipment_service
+        self.production_count_service = production_count_service
+        self.mqtt_heart_beat = mqtt_heart_beat
         self.scheduler = Scheduler()
 
     def execute_production_count(self, client, topic_send):

@@ -6,7 +6,6 @@ from model.dto.variable import VariableDTO
 from model.dto.production_count_dto import ProductionCountDTO
 from service.equipment_service import EquipmentService
 from service.variable_service import VariableService
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -15,12 +14,11 @@ logger = Logger.get_logger(__name__)
 class ProductionCountService:
     def __init__(
         self,
-        session: Session,
-        variable_service: Optional[VariableService] = None,
-        equipment_service: Optional[EquipmentService] = None,
+        variable_service: VariableService,
+        equipment_service: EquipmentService,
     ):
-        self.variable_service = variable_service or VariableService(session)
-        self.equipment_service = equipment_service or EquipmentService(session)
+        self.variable_service = variable_service
+        self.equipment_service = equipment_service
 
     def build_production_count(self, equipment_code: str, message_type: str) -> dict:
         try:

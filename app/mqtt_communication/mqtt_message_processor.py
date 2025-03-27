@@ -3,16 +3,17 @@ import threading
 
 from mqtt_communication.mqtt_message_handler import MessageHandler
 from service.message_service import MessageService
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
 
 class MessageProcessor:
-    def __init__(self, session: Session, message_handler=None, message_service=None):
-        self.message_handler = message_handler or MessageHandler(session)
-        self.message_service = message_service or MessageService(session)
+    def __init__(
+        self, message_handler: MessageHandler, message_service: MessageService
+    ):
+        self.message_handler = message_handler
+        self.message_service = message_service
 
     def on_message(self, client, userdata, msg):
         try:

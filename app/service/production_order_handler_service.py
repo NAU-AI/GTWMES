@@ -7,19 +7,23 @@ from service.equipment_service import EquipmentService
 from service.message_service import MessageService
 from service.plc_service import PlcService
 from service.variable_service import VariableService
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
 
 class ProductionOrderHandlerService:
-    def __init__(self, session: Session):
-        self.session = session
-        self.equipment_service = EquipmentService(session)
-        self.message_service = MessageService(session)
-        self.variable_service = VariableService(session)
-        self.plc_service = PlcService(session)
+    def __init__(
+        self,
+        equipment_service: EquipmentService,
+        message_service: MessageService,
+        variable_service: VariableService,
+        plc_service: PlcService,
+    ):
+        self.equipment_service = equipment_service
+        self.message_service = message_service
+        self.variable_service = variable_service
+        self.plc_service = plc_service
 
     def process_production_order_init(self, client, topic_send, message: dict):
         try:

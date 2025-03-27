@@ -1,19 +1,15 @@
 import threading
 import time
 import datetime
-from sqlalchemy.orm import Session
 from model.dto.equipment_dto import EquipmentDTO
-from service.equipment_service import EquipmentService
-from service.plc_service import PlcService
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
+GRACE_PERIOD = 5
 
 
 class MqttHeartbeatMonitor:
-    GRACE_PERIOD = 5
-
-    def __init__(self, session: Session, plc_service=None, equipment_service=None):
+    def __init__(self, equipment_service, plc_service):
         self.last_heartbeats = {}
         self.previous_cycles = {}
         self.current_alarm_status = {}
@@ -22,8 +18,8 @@ class MqttHeartbeatMonitor:
         self.stop_event = threading.Event()
         self.monitor_thread = None
 
-        self.plc_service = plc_service or PlcService(session)
-        self.equipment_service = equipment_service or EquipmentService(session)
+        self.equipment_service = equipment_service
+        self.plc_service = plc_service
 
     def received_heartbeat(self, equipment_code):
         with self.lock:
@@ -90,7 +86,7 @@ class MqttHeartbeatMonitor:
         self._check_heartbeat_timeout(equipment_code, last_heartbeat, current_cycle)
 
     def _check_heartbeat_timeout(self, equipment_code, last_heartbeat, current_cycle):
-        timeout = (3 * current_cycle * 60) + self.GRACE_PERIOD
+        timeout = (3 * current_cycle * 60) + GRACE_PERIOD
         elapsed_time = time.time() - last_heartbeat
 
         logger.debug(

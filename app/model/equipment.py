@@ -18,7 +18,10 @@ class Equipment(Base):
     )
 
     variables = relationship(
-        "Variable", back_populates="equipment", cascade="all, delete-orphan"
+        "Variable",
+        back_populates="equipment",
+        cascade="all, delete-orphan",
+        lazy="joined",  # Eagerly load variables in the same query
     )
 
     def __repr__(self):

@@ -2,7 +2,6 @@ from service.equipment_service import EquipmentService
 from service.plc_connection_manager import PlcConnectionManager
 from service.variable_service import VariableService
 from snap7.exceptions import Snap7Exception
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 from utility.scheduler import Scheduler
 
@@ -11,13 +10,10 @@ logger = Logger.get_logger(__name__)
 
 class PlcService:
     def __init__(
-        self,
-        session: Session,
-        variable_service=None,
-        equipment_service=None,
+        self, equipment_service: EquipmentService, variable_service: VariableService
     ):
-        self.variable_service = variable_service or VariableService(session)
-        self.equipment_service = equipment_service or EquipmentService(session)
+        self.equipment_service = equipment_service
+        self.variable_service = variable_service
         self.scheduler = Scheduler()
         self.plc_connection_manager = PlcConnectionManager()
 

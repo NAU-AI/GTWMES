@@ -5,16 +5,14 @@ from exception.Exception import NotFoundException, ServiceException
 from model.converter.variable_converter import VariableConverter
 from model.dto.variable import VariableDTO
 from model.variable import Variable
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
 
 class VariableService:
-    def __init__(self, session: Session, variable_dao: Optional[VariableDAO] = None):
-        self.session = session
-        self.variable_dao = variable_dao or VariableDAO(session)
+    def __init__(self, variable_dao: VariableDAO):
+        self.variable_dao = variable_dao
 
     def get_by_equipment_id_and_operation_type(
         self, equipment_id: int, operation_type: str

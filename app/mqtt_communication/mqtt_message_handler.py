@@ -1,23 +1,23 @@
 import os
 
 from mqtt_communication.protocol import Protocol
-from service.configuration_handler_service import ConfigurationHandlerService
-from service.equipment_service import EquipmentService
-from service.message_service import MessageService
-from service.production_order_handler_service import ProductionOrderHandlerService
-from sqlalchemy.orm import Session
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
 
 class MessageHandler:
-    def __init__(self, session: Session):
-        self.session = session
-        self.production_order_handler = ProductionOrderHandlerService(session)
-        self.message_service = MessageService(session)
-        self.equipment_service = EquipmentService(session)
-        self.configuration_handler_service = ConfigurationHandlerService(session)
+    def __init__(
+        self,
+        production_order_handler,
+        message_service,
+        equipment_service,
+        configuration_handler_service,
+    ):
+        self.production_order_handler = production_order_handler
+        self.message_service = message_service
+        self.equipment_service = equipment_service
+        self.configuration_handler_service = configuration_handler_service
         self.topic_send = os.getenv("TOPIC_SEND")
         self.protocols = Protocol.get_jsonType(self)
 

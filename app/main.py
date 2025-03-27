@@ -1,29 +1,23 @@
 import sys
-from sqlalchemy import text
-from utility.logger import Logger
 from database.connection.db_connection import DatabaseConnection
-from mqtt_communication.mqtt_client_manager import ClientManager
-from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
-from mqtt_communication.mqtt_message_processor import MessageProcessor
-from service.plc_service import PlcService
+from utility.logger import Logger
+from service.service_container import ServiceContainer
 
 logger = Logger.get_logger(__name__)
-
-db_connection = DatabaseConnection()
 
 
 class MESMain:
     def __init__(
         self,
-        message_processor: MessageProcessor,
-        client_manager: ClientManager,
-        mqtt_heart_beat: MqttHeartbeatMonitor,
-        plc_service: PlcService,
+        message_processor,
+        client_manager,
+        mqtt_heart_beat,
+        plc_service,
     ):
         self.logger = Logger.get_logger(self.__class__.__name__)
-        self.mqtt_heart_beat = mqtt_heart_beat
         self.message_processor = message_processor
         self.client_manager = client_manager
+        self.mqtt_heart_beat = mqtt_heart_beat
         self.plc_service = plc_service
 
     def start(self):
@@ -77,30 +71,32 @@ class MESMain:
             sys.exit(1)
 
 
-def check_database_connection():
+def check_database_connection(db_connection: DatabaseConnection):
     if not db_connection.check_connection():
         logger.critical("Critical startup failure: Unable to connect to the database.")
         sys.exit(1)
 
 
-def initialize_mes_service() -> MESMain:
-    with db_connection.get_session() as session:
-        message_processor = MessageProcessor(session=session)
-        client_manager = ClientManager(message_processor)
-        mqtt_heart_beat = MqttHeartbeatMonitor(session=session)
-        plc_service = PlcService(session=session)
-
-        return MESMain(
-            message_processor=message_processor,
-            client_manager=client_manager,
-            mqtt_heart_beat=mqtt_heart_beat,
-            plc_service=plc_service,
-        )
-
-
 def main():
-    check_database_connection()
-    mes_service = initialize_mes_service()
+    # Initialize the DI container
+    container = ServiceContainer()
+
+    # Check database connection
+    check_database_connection(container.db_connection())
+
+    # Resolve dependencies
+    message_processor = container.message_processor()
+    client_manager = container.client_manager()
+    mqtt_heart_beat = container.mqtt_heart_beat()
+    plc_service = container.plc_service()
+
+    # Initialize and start the MES service
+    mes_service = MESMain(
+        message_processor=message_processor,
+        client_manager=client_manager,
+        mqtt_heart_beat=mqtt_heart_beat,
+        plc_service=plc_service,
+    )
     mes_service.start()
 
 
