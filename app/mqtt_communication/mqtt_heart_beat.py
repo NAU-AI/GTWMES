@@ -1,6 +1,7 @@
+import datetime
 import threading
 import time
-import datetime
+
 from model.dto.equipment_dto import EquipmentDTO
 from utility.logger import Logger
 

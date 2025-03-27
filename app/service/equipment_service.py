@@ -20,7 +20,8 @@ class EquipmentService:
             equipment = self.equipment_dao.find_by_code(code)
             if not equipment:
                 raise NotFoundException(f"Equipment with code '{code}' not found")
-            return self._convert_to_dto([equipment])[0]  # Convert single object to DTO
+            # Convert single object to DTO
+            return self._convert_to_dto([equipment])[0]
         except Exception as e:
             logger.error(
                 "Error fetching equipment by code '%s': %s", code, e, exc_info=True

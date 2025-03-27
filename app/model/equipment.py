@@ -1,7 +1,8 @@
 from typing import Optional
-from sqlalchemy import Integer, String
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+
 from database.connection.db_connection import Base
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class Equipment(Base):

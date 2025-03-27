@@ -1,9 +1,10 @@
-from contextlib import contextmanager
-from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session
-from sqlalchemy import create_engine, text
-import os
-from dotenv import load_dotenv
 import logging
+import os
+from contextlib import contextmanager
+
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 
 load_dotenv()
 
@@ -19,7 +20,8 @@ class DatabaseConnection:
         pool_size = int(os.getenv("DB_POOL_SIZE", 10))
         max_overflow = int(os.getenv("DB_MAX_OVERFLOW", 20))
         pool_timeout = int(os.getenv("DB_POOL_TIMEOUT", 30))
-        pool_recycle = int(os.getenv("DB_POOL_RECYCLE", 1800))  # Recycle every 30 mins
+        # Recycle every 30 mins
+        pool_recycle = int(os.getenv("DB_POOL_RECYCLE", 1800))
 
         self.engine = create_engine(
             self.database_url,

@@ -1,18 +1,18 @@
-from dependency_injector import containers, providers
 from database.connection.db_connection import DatabaseConnection
 from database.dao.equipment_dao import EquipmentDAO
 from database.dao.variable_dao import VariableDAO
-from service.equipment_service import EquipmentService
-from service.variable_service import VariableService
-from service.message_service import MessageService
-from service.plc_service import PlcService
-from service.production_count_service import ProductionCountService
-from service.production_order_handler_service import ProductionOrderHandlerService
-from service.configuration_handler_service import ConfigurationHandlerService
+from dependency_injector import containers, providers
 from mqtt_communication.mqtt_client_manager import ClientManager
 from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
 from mqtt_communication.mqtt_message_handler import MessageHandler
 from mqtt_communication.mqtt_message_processor import MessageProcessor
+from service.configuration_handler_service import ConfigurationHandlerService
+from service.equipment_service import EquipmentService
+from service.message_service import MessageService
+from service.plc_service import PlcService
+from service.production_count_service import ProductionCountService
+from service.production_order_handler_service import ProductionOrderHandlerService
+from service.variable_service import VariableService
 
 
 class ServiceContainer(containers.DeclarativeContainer):

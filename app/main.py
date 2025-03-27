@@ -1,7 +1,8 @@
 import sys
+
 from database.connection.db_connection import DatabaseConnection
-from utility.logger import Logger
 from service.service_container import ServiceContainer
+from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
