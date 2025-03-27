@@ -1,9 +1,9 @@
+import gzip
 import logging
+import os
+import shutil
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
-import gzip
-import shutil
-import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = Path(os.getenv("LOG_DIR", BASE_DIR.parent / "logs"))
