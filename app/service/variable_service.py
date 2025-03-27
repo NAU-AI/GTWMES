@@ -147,7 +147,7 @@ class VariableService:
                 exc_info=True,
             )
             raise ServiceException(
-                "Unable to create or update variable '%s'." % key
+                f"Unable to create or update variable '{key}'."
             ) from e
 
     def update_variable_value(
