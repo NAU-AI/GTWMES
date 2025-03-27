@@ -181,7 +181,7 @@ class VariableService:
         try:
             deleted = self.variable_dao.delete(variable_id)
             if not deleted:
-                raise NotFoundException("Variable with ID '%s' not found.", variable_id)
+                raise NotFoundException(f"Variable ID '{variable_id}' not found.")
 
             logger.info("Deleted variable with ID %s.", variable_id)
             return True
