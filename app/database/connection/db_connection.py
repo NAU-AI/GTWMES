@@ -1,9 +1,10 @@
-from contextlib import contextmanager
-from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session
-from sqlalchemy import create_engine, text
-import os
-from dotenv import load_dotenv
 import logging
+import os
+from contextlib import contextmanager
+
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 
 load_dotenv()
 
