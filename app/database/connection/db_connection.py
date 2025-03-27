@@ -16,12 +16,10 @@ class DatabaseConnection:
     def __init__(self):
         self.database_url = self._build_database_url()
 
-        # Pool parameters from environment variables with default fallbacks
-        pool_size = int(os.getenv("DB_POOL_SIZE", 10))
-        max_overflow = int(os.getenv("DB_MAX_OVERFLOW", 20))
-        pool_timeout = int(os.getenv("DB_POOL_TIMEOUT", 30))
-        # Recycle every 30 mins
-        pool_recycle = int(os.getenv("DB_POOL_RECYCLE", 1800))
+        pool_size = int(os.getenv("DB_POOL_SIZE", "10"))
+        max_overflow = int(os.getenv("DB_MAX_OVERFLOW", "20"))
+        pool_timeout = int(os.getenv("DB_POOL_TIMEOUT", "30"))
+        pool_recycle = int(os.getenv("DB_POOL_RECYCLE", "1800"))
 
         self.engine = create_engine(
             self.database_url,
@@ -32,7 +30,6 @@ class DatabaseConnection:
             echo=False,
         )
 
-        # Important: Set expire_on_commit=False
         self.Session = scoped_session(
             sessionmaker(bind=self.engine, expire_on_commit=False)
         )

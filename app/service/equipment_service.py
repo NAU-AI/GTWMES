@@ -110,7 +110,8 @@ class EquipmentService:
             )
             raise ServiceException("Unable to complete production order.") from e
 
-    def _convert_to_dto(self, equipment_list: List[Equipment]) -> List[EquipmentDTO]:
+    @staticmethod
+    def _convert_to_dto(equipment_list: List[Equipment]) -> List[EquipmentDTO]:
         """Convert a list of Equipment objects to a list of EquipmentDTOs."""
         equipment_dto_list = []
         for equipment in equipment_list:

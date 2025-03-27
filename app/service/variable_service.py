@@ -36,7 +36,11 @@ class VariableService:
         self, equipment_id: int, key: str
     ) -> Optional[VariableDTO]:
         if not equipment_id or not key:
-            logger.warning("Invalid parameters: equipment_id and key must be provided.")
+            logger.warning(
+                "Invalid parameters: equipment_id=%s and key=%s must be provided.",
+                equipment_id,
+                key,
+            )
             return None
 
         variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
@@ -67,15 +71,16 @@ class VariableService:
 
             if not variables:
                 raise NotFoundException(
-                    f"No variables found for equipment ID {equipment_id}, "
-                    f"category {category}, and operation type {operation_type}."
+                    "No variables found for equipment ID %s, category %s, and operation type %s.",
+                    equipment_id,
+                    category,
+                    operation_type,
                 )
 
             return VariableConverter.to_dto_list(variables)
         except Exception as e:
             logger.error(
-                "Error retrieving variables for equipment ID %s, category %s, and "
-                "operation type %s: %s",
+                "Error retrieving variables for equipment ID %s, category %s, and operation type %s: %s",
                 equipment_id,
                 category,
                 operation_type,
@@ -105,21 +110,24 @@ class VariableService:
             ]
             if missing_fields:
                 raise ValueError(
-                    f"Missing required fields for variable '{key}': "
-                    f"{', '.join(missing_fields)}"
+                    f"Missing required fields for variable '{key}': {', '.join(missing_fields)}"
                 )
 
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
 
             if variable:
                 logger.info(
-                    f"Updating existing variable '{key}' for equipment ID {equipment_id}."
+                    "Updating existing variable '%s' for equipment ID %s.",
+                    key,
+                    equipment_id,
                 )
                 updated_variable = self.variable_dao.update(variable.id, variable_data)
                 return VariableConverter.to_dto(updated_variable)
 
             logger.info(
-                f"Creating new variable '{key}' for equipment ID {equipment_id}."
+                "Creating new variable '%s' for equipment ID %s.",
+                key,
+                equipment_id,
             )
             new_variable = Variable(
                 equipment_id=equipment_id,
@@ -135,10 +143,13 @@ class VariableService:
 
         except Exception as e:
             logger.error(
-                f"Error creating or updating variable '{key}': {e}", exc_info=True
+                "Error creating or updating variable '%s': %s",
+                key,
+                e,
+                exc_info=True,
             )
             raise ServiceException(
-                f"Unable to create or update variable '{key}'."
+                "Unable to create or update variable '%s'." % key
             ) from e
 
     def update_variable_value(
@@ -150,11 +161,12 @@ class VariableService:
             )
             if not updated_variable:
                 raise NotFoundException(
-                    f"Variable with key '{key}' for equipment ID '{equipment_id}' "
-                    f"not found."
+                    f"Variable with key '{key}' for equipment ID '{equipment_id}' not found."
                 )
             logger.info(
-                f"Updated value for variable '{key}' in equipment ID {equipment_id}."
+                "Updated value for variable '%s' in equipment ID %s.",
+                key,
+                equipment_id,
             )
             return VariableConverter.to_dto(updated_variable)
         except Exception as e:
@@ -171,12 +183,15 @@ class VariableService:
         try:
             deleted = self.variable_dao.delete(variable_id)
             if not deleted:
-                raise NotFoundException(f"Variable with ID '{variable_id}' not found.")
+                raise NotFoundException("Variable with ID '%s' not found.", variable_id)
 
-            logger.info(f"Deleted variable with ID {variable_id}.")
+            logger.info("Deleted variable with ID %s.", variable_id)
             return True
         except Exception as e:
             logger.error(
-                f"Error deleting variable ID {variable_id}: {e}", exc_info=True
+                "Error deleting variable ID %s: %s",
+                variable_id,
+                e,
+                exc_info=True,
             )
             raise ServiceException("Unable to delete variable.") from e
