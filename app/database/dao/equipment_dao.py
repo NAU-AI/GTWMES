@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from model.equipment import Equipment
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session, load_only
+from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
@@ -21,21 +21,7 @@ class EquipmentDAO:
             return None
 
     def find_by_code(self, code: str) -> Optional[Equipment]:
-        """Find equipment by its code (selective fields only)."""
-        try:
-            return (
-                self.session.query(Equipment)
-                .options(
-                    load_only(
-                        Equipment.id, Equipment.code, Equipment.production_order_code
-                    )
-                )
-                .filter_by(code=code)
-                .one_or_none()
-            )
-        except SQLAlchemyError as e:
-            logger.error("Error finding equipment by code '%s': %s", code, e)
-            return None
+        return self.session.query(Equipment).filter_by(code=code).one_or_none()
 
     def find_all(self) -> List[Equipment]:
         """Return all equipment entries."""
