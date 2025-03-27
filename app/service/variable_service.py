@@ -70,22 +70,20 @@ class VariableService:
             )
 
             if not variables:
-                raise NotFoundException(
-                    "No variables found for equipment ID %s, category %s, and operation type %s.",
-                    equipment_id,
-                    category,
-                    operation_type,
+                message = (
+                    f"No variables found for equipment ID {equipment_id}, "
+                    f"category {category}, and operation type {operation_type}."
                 )
-
+                raise NotFoundException(message)
             return VariableConverter.to_dto_list(variables)
+
         except Exception as e:
+            message = (
+                "Error retrieving variables for equipment ID %s, "
+                "category %s, and operation type %s: %s"
+            )
             logger.error(
-                "Error retrieving variables for equipment ID %s, category %s, and operation type %s: %s",
-                equipment_id,
-                category,
-                operation_type,
-                e,
-                exc_info=True,
+                message, equipment_id, category, operation_type, e, exc_info=True
             )
             raise ServiceException(f"Error retrieving variables: {str(e)}") from e
 
@@ -110,7 +108,7 @@ class VariableService:
             ]
             if missing_fields:
                 raise ValueError(
-                    f"Missing required fields for variable '{key}': {', '.join(missing_fields)}"
+                    f"Missing required fields '{key}': {', '.join(missing_fields)}"
                 )
 
             variable = self.variable_dao.find_by_equipment_id_and_key(equipment_id, key)
@@ -161,7 +159,7 @@ class VariableService:
             )
             if not updated_variable:
                 raise NotFoundException(
-                    f"Variable with key '{key}' for equipment ID '{equipment_id}' not found."
+                    f"Key '{key}', equipment ID '{equipment_id}' not found."
                 )
             logger.info(
                 "Updated value for variable '%s' in equipment ID %s.",
