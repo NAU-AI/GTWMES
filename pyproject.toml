@@ -1,0 +1,25 @@
+[project]
+name = "gateway"
+version = "0.1.0"
+description = "The Gateway is a middleware application responsible for managing the communication between Programmable Logic Controllers (PLCs) and our other software applications. It ensures reliable, secure, and efficient data exchange, acting as an intermediary to abstract PLC protocols and streamline integration with our broader system ecosystem."
+authors = [
+    {name = "geral@nauai.pt"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "sqlalchemy (>=2.0.40,<3.0.0)",
+    "dependency-injector (>=4.46.0,<5.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^7.1.2"
+pytest = "^8.3.5"
+

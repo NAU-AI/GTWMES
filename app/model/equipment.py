@@ -1,7 +1,8 @@
 from typing import Optional
-from sqlalchemy import Integer, String
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+
 from database.connection.db_connection import Base
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class Equipment(Base):
@@ -18,7 +19,10 @@ class Equipment(Base):
     )
 
     variables = relationship(
-        "Variable", back_populates="equipment", cascade="all, delete-orphan"
+        "Variable",
+        back_populates="equipment",
+        cascade="all, delete-orphan",
+        lazy="joined",  # Eagerly load variables in the same query
     )
 
     def __repr__(self):
