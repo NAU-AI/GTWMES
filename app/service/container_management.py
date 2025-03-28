@@ -1,7 +1,7 @@
-from dependency_injector import containers, providers
 from database.connection.db_connection import DatabaseConnection
 from database.dao.equipment_dao import EquipmentDAO
 from database.dao.variable_dao import VariableDAO
+from dependency_injector import containers, providers
 from mqtt_communication.mqtt_client_manager import ClientManager
 from mqtt_communication.mqtt_heart_beat import MqttHeartbeatMonitor
 from mqtt_communication.mqtt_message_handler import MessageHandler
