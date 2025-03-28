@@ -1,7 +1,7 @@
 import sys
 
+from service.container_management import ContainerManagement
 from database.connection.db_connection import DatabaseConnection
-from service.service_container import ServiceContainer
 from utility.logger import Logger
 
 logger = Logger.get_logger(__name__)
@@ -80,7 +80,7 @@ def check_database_connection(db_connection: DatabaseConnection):
 
 def main():
     # Initialize the DI container
-    container = ServiceContainer()
+    container = ContainerManagement()
 
     # Check database connection
     check_database_connection(container.db_connection())

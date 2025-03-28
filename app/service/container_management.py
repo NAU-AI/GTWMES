@@ -15,7 +15,7 @@ from service.production_order_handler_service import ProductionOrderHandlerServi
 from service.variable_service import VariableService
 
 
-class ServiceContainer(containers.DeclarativeContainer):
+class ContainerManagement(containers.DeclarativeContainer):
     """Dependency Injection Container for the application."""
 
     # Database connection
